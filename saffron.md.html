@@ -1,0 +1,161 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Untitled Document.md</title><style></style></head><body id="preview">
+<h1><a id="Saffron_Integration_0"></a>Saffron Integration</h1>
+<h2><a id="1_Media_Converter_2"></a>1. Media Converter</h2>
+<ul>
+<li>~10/30</li>
+<li>Support ProRes 422 codec</li>
+<li>Audio layout options
+<ul>
+<li>2 streams to 1 aac, 6 streams to aac 5.1</li>
+<li>1/2 wav files to 1 aac, 1/6 wav files to 5.1</li>
+</ul>
+</li>
+<li><a href="https://wiki.saffrondigital.com/display/NI01/Supported+Ingest+Formats">https://wiki.saffrondigital.com/display/NI01/Supported+Ingest+Formats</a></li>
+</ul>
+<h2><a id="2_AS3_10"></a>2. AS3</h2>
+<ul>
+<li>~10/30</li>
+<li>SS + PR
+<ul>
+<li>Saffron subtitles<pre><code>// https://wiki.saffrondigital.com/display/NI01/Required+Profiles
+&lt;!-- Created with NeuLion Streaming Platform 
+BEGIN_NEULION_SUBS
+{
+    &quot;subtitles&quot;: [{
+        &quot;name&quot;: &quot;French&quot;,
+        &quot;language&quot;: &quot;fra&quot;,
+        &quot;ttml_location&quot;: &quot;subtitles_fra.ttml&quot;
+        &quot;webvtt_location&quot;: &quot;subtitles_fra.vtt&quot;
+    }, {
+        &quot;name&quot;: &quot;English&quot;,
+        &quot;language&quot;: &quot;eng&quot;,
+        &quot;ttml_location&quot;: &quot;subtitles_eng.ttml&quot;
+        &quot;webvtt_location&quot;: &quot;subtitles_eng.vtt&quot;
+    }]
+}
+END_NEULION_SUBS
+--&gt;
+</code></pre>
+</li>
+<li><a href="https://tribeca-s.akamaihd.net/ondemand/d9b8a0d2-c8f4-4c1b-be04-4539b725a681/c2192f2c-d883-4936-aede-406dc57da70a_ns.ism/Manifest">https://tribeca-s.akamaihd.net/ondemand/d9b8a0d2-c8f4-4c1b-be04-4539b725a681/c2192f2c-d883-4936-aede-406dc57da70a_ns.ism/Manifest</a></li>
+</ul>
+</li>
+<li>HLS + PR
+<ul>
+<li>Master m3u8 add:<pre><code>// http://tribeca-a.akamaihd.net/d9b8a0d2-c8f4-4c1b-be04-4539b725a681/3ee063a8-32bc-4894-a17d-769036ae4c32.m3u8
+#EXT-X-SDPLAYREADY:WRMHEADER=8gIAAAEAAQDoAjwAVwBSAE0ASABFAEEARABFAFIAIAB2AGUAcgBzAGkAbwBuAD0AIgA0AC4AMAAuADAALgAwACIAIAB4AG0AbABuAHMAPQAiAGgAdAB0AHAAOgAvAC8AcwBjAGgAZQBtAGEAcwAuAG0AaQBjAHIAbwBzAG8AZgB0AC4AYwBvAG0ALwBEAFIATQAvADIAMAAwADcALwAwADMALwBQAGwAYQB5AFIAZQBhAGQAeQBIAGUAYQBkAGUAcgAiAD4APABEAEEAVABBAD4APABQAFIATwBUAEUAQwBUAEkATgBGAE8APgA8AEsARQBZAEwARQBOAD4AMQA2ADwALwBLAEUAWQBMAEUATgA+ADwAQQBMAEcASQBEAD4AQQBFAFMAQwBUAFIAPAAvAEEATABHAEkARAA+ADwALwBQAFIATwBUAEUAQwBUAEkATgBGAE8APgA8AEsASQBEAD4ATABCAGIATwBqAGQAawBTAC8AawBHAHUAYwBzAHQAcgA3AGwAUQBJAGMAUQA9AD0APAAvAEsASQBEAD4APABEAFMAXwBJAEQAPgBjAC8ANwB3AGkAcwA2AHUAbQAwAFMAVwBlAEoAZgBGAGYAcQBlAGUAdwBRAD0APQA8AC8ARABTAF8ASQBEAD4APABMAEEAXwBVAFIATAA+AGgAdAB0AHAAcwA6AC8ALwBwAHIAbwBkAC0AbABpAGMAZQBuAHMAaQBuAGcALgBzAGQALQBuAGcAcAAuAG4AZQB0AC8AbABpAGMAZQBuAHMAaQBuAGcALwByAGkAZwBoAHQAcwBtAGEAbgBhAGcAZQByAC4AYQBzAG0AeAA8AC8ATABBAF8AVQBSAEwAPgA8AEMASABFAEMASwBTAFUATQA+AGwAWABDAE8ARgB3AFcATgBLADkATQA9ADwALwBDAEgARQBDAEsAUwBVAE0APgA8AC8ARABBAFQAQQA+ADwALwBXAFIATQBIAEUAQQBEAEUAUgA+AA==
+#EXT_X-SDCRYPTO: SAMPLE-AES
+#EXT-X-SDCRYPTO: SAMPLE-AES
+#EXT-X-VERSION:4
+</code></pre>
+</li>
+<li>SBR m3u8 add:<pre><code>// http://tribeca-a.akamaihd.net/d9b8a0d2-c8f4-4c1b-be04-4539b725a681/ec0c44dc6765460fbf390295fa307967.m3u8
+#EXT_X-SDCRYPTO: SAMPLE-AES
+</code></pre>
+</li>
+</ul>
+</li>
+<li>Packager
+<ul>
+<li>SS</li>
+<li>Support adding additional audios and subtitles to existing program</li>
+</ul>
+</li>
+<li>Integrate with key server
+<ul>
+<li>Done, need more tests</li>
+</ul>
+</li>
+</ul>
+<h2><a id="3_Player_SDK_55"></a>3. Player SDK</h2>
+<ul>
+<li>
+<p>~11/30</p>
+</li>
+<li>
+<p>Provide to Saffron the current player SDK of iOS/Android for evaluation</p>
+</li>
+<li>
+<p>Android</p>
+<ul>
+<li><strong>Integrate with DLM</strong></li>
+<li>DASH + Widevine
+<ul>
+<li>including download playback</li>
+</ul>
+</li>
+<li>DASH + PlayReady (FireTV, need check)
+<ul>
+<li><strong>Integrate with PlayReady porting kit</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>iOS</p>
+<ul>
+<li>Streaming
+<ul>
+<li>HLS + FairPlay</li>
+</ul>
+</li>
+<li>Download
+<ul>
+<li><strong>Integrate with DLM</strong></li>
+<li>HLS + PlayReady (iOS 9, Saffron provide porting kit)
+<ul>
+<li><strong>Integrate with PlayReady porting kit</strong></li>
+</ul>
+</li>
+<li>HLS + FairPlay (iOS 10)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>HTML5</p>
+<ul>
+<li>Protocol vs DRM</li>
+</ul>
+<table class="table table-striped table-bordered">
+<thead>
+<tr>
+<th style="text-align:center">Platform</th>
+<th style="text-align:center">DRM - Streaming</th>
+<th style="text-align:center">ABS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Chrome</td>
+<td style="text-align:center">Widevine</td>
+<td style="text-align:center">DASH</td>
+</tr>
+<tr>
+<td style="text-align:center">Firefox</td>
+<td style="text-align:center">Widevine</td>
+<td style="text-align:center">DASH</td>
+</tr>
+<tr>
+<td style="text-align:center">IE11/Edge</td>
+<td style="text-align:center">PlayReady</td>
+<td style="text-align:center">DASH</td>
+</tr>
+<tr>
+<td style="text-align:center">Safari</td>
+<td style="text-align:center">Fairplay</td>
+<td style="text-align:center">HLS</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>DASH CC Support</li>
+<li>HLS Additional audio/subtitle supports</li>
+</ul>
+</li>
+<li>
+<p>Integrate with license server</p>
+</li>
+</ul>
+
+</body></html>
