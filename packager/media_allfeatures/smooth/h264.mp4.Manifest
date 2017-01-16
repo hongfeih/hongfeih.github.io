@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<SmoothStreamingMedia MajorVersion="2" MinorVersion="0" Duration="1532740000">
+    <StreamIndex Type="video" Subtype="H264" Name="video" Chunks="77" QualityLevels="2" MaxWidth="1280" MaxHeight="720" DisplayWidth="1280" DisplayHeight="720" Url="QualityLevels({bitrate})/Fragments(video={start time})">
+        <QualityLevel Index="0" Bitrate="1600000" MaxWidth="960" MaxHeight="540" CodecPrivateData="00000001674d401f966201e022fdc200000300c800002ed51e3062240000000168ee3c80" FourCC="H264" />
+        <QualityLevel Index="1" Bitrate="3000000" MaxWidth="1280" MaxHeight="720" CodecPrivateData="00000001674d4020966200a00b742000000c800002ed51e30622400000000168ee3c80" FourCC="H264" />
+        <c t="0" d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="19686333" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="19686334" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="19686333" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="19686333" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="20020000" />
+        <c d="12012000" />
+    </StreamIndex>
+    <StreamIndex Type="audio" Subtype="AACL" Name="audio" Chunks="31" QualityLevels="1" Url="QualityLevels({bitrate})/Fragments(audio={start time})" Language="eng" Index="0">
+        <QualityLevel Index="0" Bitrate="188000" CodecPrivateData="1210" SamplingRate="44100" Channels="2" BitsPerSample="16" PacketSize="4" AudioTag="255" FourCC="AACL" />
+        <c t="0" d="49922902" />
+        <c d="49922903" />
+        <c d="49922902" />
+        <c d="50155103" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="32972335" />
+    </StreamIndex>
+    <StreamIndex Type="audio" Subtype="AACL" Name="h264_eng1" Chunks="31" QualityLevels="1" Url="QualityLevels({bitrate})/Fragments(h264_eng1={start time})" Language="eng" Index="1">
+        <QualityLevel Index="0" Bitrate="188000" CodecPrivateData="1210" SamplingRate="44100" Channels="2" BitsPerSample="16" PacketSize="4" AudioTag="255" FourCC="AACL" />
+        <c t="0" d="49922902" />
+        <c d="49922903" />
+        <c d="49922902" />
+        <c d="50155103" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="50155102" />
+        <c d="49922902" />
+        <c d="49922903" />
+        <c d="32972335" />
+    </StreamIndex>
+    <StreamIndex Type="subtitle" Name="h264_eng1.ss.mp4" Chunks="0" QualityLevels="0" Language="eng" Id="0" Location="h264_eng1.ss.mp4.ttml">
+        <QualityLevel Index="0" Bitrate="0" FourCC="TTML" />
+        <c n="0" t="0" d="0" />
+    </StreamIndex>
+    <StreamIndex Type="subtitle" Name="h264_eng2.ss.mp4" Chunks="0" QualityLevels="0" Language="eng" Id="1" Location="h264_eng2.ss.mp4.ttml">
+        <QualityLevel Index="0" Bitrate="0" FourCC="TTML" />
+        <c n="0" t="0" d="0" />
+    </StreamIndex>
+    <StreamIndex Type="subtitle" Name="h264_fra1.ss.mp4" Chunks="0" QualityLevels="0" Language="fra" Id="2" Location="h264_fra1.ss.mp4.ttml">
+        <QualityLevel Index="0" Bitrate="0" FourCC="TTML" />
+        <c n="0" t="0" d="0" />
+    </StreamIndex>
+    <StreamIndex Type="subtitle" Name="h264_fra2.ss.mp4" Chunks="0" QualityLevels="0" Language="fra" Id="3" Location="h264_fra2.ss.mp4.ttml">
+        <QualityLevel Index="0" Bitrate="0" FourCC="TTML" />
+        <c n="0" t="0" d="0" />
+    </StreamIndex>
+    <Protection>
+        <ProtectionHeader SystemID="9A04F079-9840-4286-AB92-E65BE0885F95">WAIAAAEAAQBOAjwAVwBSAE0ASABFAEEARABFAFIAIAB4AG0AbABuAHMAPQAiAGgAdAB0AHAAOgAvAC8AcwBjAGgAZQBtAGEAcwAuAG0AaQBjAHIAbwBzAG8AZgB0AC4AYwBvAG0ALwBEAFIATQAvADIAMAAwADcALwAwADMALwBQAGwAYQB5AFIAZQBhAGQAeQBIAGUAYQBkAGUAcgAiACAAdgBlAHIAcwBpAG8AbgA9ACIANAAuADAALgAwAC4AMAAiAD4APABEAEEAVABBAD4APABQAFIATwBUAEUAQwBUAEkATgBGAE8APgA8AEsARQBZAEwARQBOAD4AMQA2ADwALwBLAEUAWQBMAEUATgA+ADwAQQBMAEcASQBEAD4AQQBFAFMAQwBUAFIAPAAvAEEATABHAEkARAA+ADwALwBQAFIATwBUAEUAQwBUAEkATgBGAE8APgA8AEsASQBEAD4AYwBCAEsAYwBmADEAeABXAFMAQQBDAE8ASwBYADAAVwB1AEsAMgA2AE8AQQA9AD0APAAvAEsASQBEAD4APABMAEEAXwBVAFIATAA+AGgAdAB0AHAAOgAvAC8AcABsAGEAeQByAGUAYQBkAHkALgBkAGkAcgBlAGMAdAB0AGEAcABzAC4AbgBlAHQALwBwAHIALwBzAHYAYwAvAHIAaQBnAGgAdABzAG0AYQBuAGEAZwBlAHIALgBhAHMAbQB4ADwALwBMAEEAXwBVAFIATAA+ADwALwBEAEEAVABBAD4APAAvAFcAUgBNAEgARQBBAEQARQBSAD4A</ProtectionHeader>
+    </Protection>
+</SmoothStreamingMedia>
