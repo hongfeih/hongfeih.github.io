@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--NeuLion Adaptive Streaming Server Version: 4.3.20190416.24862 -->
+<MPD profiles="urn:mpeg:dash:profile:isoff-live:2011" type="static" mediaPresentationDuration="PT3M7.53S" minBufferTime="PT10.0S" maxSegmentDuration="PT4.0S" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cenc="urn:mpeg:cenc:2013" xsi:schemaLocation="urn:mpeg:DASH:schema:MPD:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd">
+    <Period>
+        <AdaptationSet mimeType="video/mp4" startWithSAP="1" id="0" contentType="video" maxWidth="640" maxHeight="360" maxFrameRate="30000/1001" segmentAlignment="true" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+            <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc" cenc:default_KID="29395D64-D86B-373A-AD1D-05847D96ACF8" />
+            <ContentProtection schemeIdUri="urn:uuid:9a04f079-9840-4286-ab92-e65be0885f95" value="cenc">
+                <cenc:pssh>AAACeHBzc2gAAAAAmgTweZhAQoarkuZb4IhflQAAAlhYAgAAAQABAE4CPABXAFIATQBIAEUAQQBEAEUAUgAgAHgAbQBsAG4AcwA9ACIAaAB0AHQAcAA6AC8ALwBzAGMAaABlAG0AYQBzAC4AbQBpAGMAcgBvAHMAbwBmAHQALgBjAG8AbQAvAEQAUgBNAC8AMgAwADAANwAvADAAMwAvAFAAbABhAHkAUgBlAGEAZAB5AEgAZQBhAGQAZQByACIAIAB2AGUAcgBzAGkAbwBuAD0AIgA0AC4AMAAuADAALgAwACIAPgA8AEQAQQBUAEEAPgA8AFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBFAFkATABFAE4APgAxADYAPAAvAEsARQBZAEwARQBOAD4APABBAEwARwBJAEQAPgBBAEUAUwBDAFQAUgA8AC8AQQBMAEcASQBEAD4APAAvAFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBJAEQAPgBaAEYAMAA1AEsAVwB2AFkATwBqAGUAdABIAFEAVwBFAGYAWgBhAHMAKwBBAD0APQA8AC8ASwBJAEQAPgA8AEwAQQBfAFUAUgBMAD4AaAB0AHQAcAA6AC8ALwBwAGwAYQB5AHIAZQBhAGQAeQAuAGQAaQByAGUAYwB0AHQAYQBwAHMALgBuAGUAdAAvAHAAcgAvAHMAdgBjAC8AcgBpAGcAaAB0AHMAbQBhAG4AYQBnAGUAcgAuAGEAcwBtAHgAPAAvAEwAQQBfAFUAUgBMAD4APAAvAEQAQQBUAEEAPgA8AC8AVwBSAE0ASABFAEEARABFAFIAPgA=</cenc:pssh>
+            </ContentProtection>
+            <ContentProtection schemeIdUri="urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" value="cenc">
+                <cenc:pssh>AAAANHBzc2gAAAAA7e+LqXnWSs6jyCfc1R0h7QAAABQIARIQKTldZNhrNzqtHQWEfZas+A==</cenc:pssh>
+            </ContentProtection>
+            <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main" />
+            <InbandEventStream schemeIdUri="urn:scte:scte35:2013:xml" value="1" />
+            <SegmentTemplate timescale="1000" media="$RepresentationID$/Time=$Time$.m4s" initialization="$RepresentationID$/Time=init.m4s">
+                <SegmentTimeline>
+                    <S t="0" d="2002" />
+                    <S t="2002" d="2002" />
+                    <S t="4004" d="2002" />
+                    <S t="6006" d="2002" />
+                    <S t="8008" d="2002" />
+                    <S t="10010" d="2002" />
+                    <S t="12012" d="2002" />
+                    <S t="14014" d="2002" />
+                    <S t="16016" d="2002" />
+                    <S t="18018" d="2002" />
+                    <S t="20020" d="2002" />
+                    <S t="22022" d="2002" />
+                    <S t="24024" d="2002" />
+                    <S t="26026" d="2002" />
+                    <S t="28028" d="2002" />
+                    <S t="30030" d="2002" />
+                    <S t="32032" d="1969" />
+                    <S t="34001" d="2002" />
+                    <S t="36003" d="2002" />
+                    <S t="38005" d="2002" />
+                    <S t="40007" d="2002" />
+                    <S t="42009" d="2002" />
+                    <S t="44011" d="2002" />
+                    <S t="46013" d="2002" />
+                    <S t="48015" d="2002" />
+                    <S t="50017" d="2002" />
+                    <S t="52019" d="2002" />
+                    <S t="54021" d="2002" />
+                    <S t="56023" d="2002" />
+                    <S t="58025" d="2002" />
+                    <S t="60027" d="2002" />
+                    <S t="62029" d="2002" />
+                    <S t="64031" d="2002" />
+                    <S t="66033" d="1968" />
+                    <S t="68001" d="2002" />
+                    <S t="70003" d="2002" />
+                    <S t="72005" d="2002" />
+                    <S t="74007" d="2002" />
+                    <S t="76009" d="2002" />
+                    <S t="78011" d="2002" />
+                    <S t="80013" d="2002" />
+                    <S t="82015" d="2002" />
+                    <S t="84017" d="2002" />
+                    <S t="86019" d="2002" />
+                    <S t="88021" d="2002" />
+                    <S t="90023" d="2002" />
+                    <S t="92025" d="2002" />
+                    <S t="94027" d="2002" />
+                    <S t="96029" d="2002" />
+                    <S t="98031" d="2002" />
+                    <S t="100033" d="1969" />
+                    <S t="102002" d="2002" />
+                    <S t="104004" d="2002" />
+                    <S t="106006" d="2002" />
+                    <S t="108008" d="2002" />
+                    <S t="110010" d="2002" />
+                    <S t="112012" d="2002" />
+                    <S t="114014" d="2002" />
+                    <S t="116016" d="2002" />
+                    <S t="118018" d="2002" />
+                    <S t="120020" d="2002" />
+                    <S t="122022" d="2002" />
+                    <S t="124024" d="2002" />
+                    <S t="126026" d="2002" />
+                    <S t="128028" d="2002" />
+                    <S t="130030" d="2002" />
+                    <S t="132032" d="1969" />
+                    <S t="134001" d="2002" />
+                    <S t="136003" d="2002" />
+                    <S t="138005" d="2002" />
+                    <S t="140007" d="2002" />
+                    <S t="142009" d="2002" />
+                    <S t="144011" d="2002" />
+                    <S t="146013" d="2002" />
+                    <S t="148015" d="2002" />
+                    <S t="150017" d="2002" />
+                    <S t="152019" d="2002" />
+                    <S t="154021" d="2002" />
+                    <S t="156023" d="2002" />
+                    <S t="158025" d="2002" />
+                    <S t="160027" d="2002" />
+                    <S t="162029" d="2002" />
+                    <S t="164031" d="2002" />
+                    <S t="166033" d="1968" />
+                    <S t="168001" d="2002" />
+                    <S t="170003" d="2002" />
+                    <S t="172005" d="2002" />
+                    <S t="174007" d="2002" />
+                    <S t="176009" d="2002" />
+                    <S t="178011" d="2002" />
+                    <S t="180013" d="2002" />
+                    <S t="182015" d="2002" />
+                    <S t="184017" d="2002" />
+                    <S t="186019" d="1035" />
+                </SegmentTimeline>
+            </SegmentTemplate>
+            <Representation width="640" height="360" sar="1:1" frameRate="30000/1001" codecs="avc1.4D401E" id="test_800_video" bandwidth="800000" />
+            <Representation width="400" height="224" sar="1:1" frameRate="30000/1001" codecs="avc1.4D4015" id="test_400_video" bandwidth="400000" />
+        </AdaptationSet>
+        <AdaptationSet mimeType="audio/mp4" startWithSAP="1" id="1" lang="eng" contentType="audio" segmentAlignment="true" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+            <ContentProtection schemeIdUri="urn:mpeg:dash:mp4protection:2011" value="cenc" cenc:default_KID="29395D64-D86B-373A-AD1D-05847D96ACF8" />
+            <ContentProtection schemeIdUri="urn:uuid:9a04f079-9840-4286-ab92-e65be0885f95" value="cenc">
+                <cenc:pssh>AAACeHBzc2gAAAAAmgTweZhAQoarkuZb4IhflQAAAlhYAgAAAQABAE4CPABXAFIATQBIAEUAQQBEAEUAUgAgAHgAbQBsAG4AcwA9ACIAaAB0AHQAcAA6AC8ALwBzAGMAaABlAG0AYQBzAC4AbQBpAGMAcgBvAHMAbwBmAHQALgBjAG8AbQAvAEQAUgBNAC8AMgAwADAANwAvADAAMwAvAFAAbABhAHkAUgBlAGEAZAB5AEgAZQBhAGQAZQByACIAIAB2AGUAcgBzAGkAbwBuAD0AIgA0AC4AMAAuADAALgAwACIAPgA8AEQAQQBUAEEAPgA8AFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBFAFkATABFAE4APgAxADYAPAAvAEsARQBZAEwARQBOAD4APABBAEwARwBJAEQAPgBBAEUAUwBDAFQAUgA8AC8AQQBMAEcASQBEAD4APAAvAFAAUgBPAFQARQBDAFQASQBOAEYATwA+ADwASwBJAEQAPgBaAEYAMAA1AEsAVwB2AFkATwBqAGUAdABIAFEAVwBFAGYAWgBhAHMAKwBBAD0APQA8AC8ASwBJAEQAPgA8AEwAQQBfAFUAUgBMAD4AaAB0AHQAcAA6AC8ALwBwAGwAYQB5AHIAZQBhAGQAeQAuAGQAaQByAGUAYwB0AHQAYQBwAHMALgBuAGUAdAAvAHAAcgAvAHMAdgBjAC8AcgBpAGcAaAB0AHMAbQBhAG4AYQBnAGUAcgAuAGEAcwBtAHgAPAAvAEwAQQBfAFUAUgBMAD4APAAvAEQAQQBUAEEAPgA8AC8AVwBSAE0ASABFAEEARABFAFIAPgA=</cenc:pssh>
+            </ContentProtection>
+            <ContentProtection schemeIdUri="urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" value="cenc">
+                <cenc:pssh>AAAANHBzc2gAAAAA7e+LqXnWSs6jyCfc1R0h7QAAABQIARIQKTldZNhrNzqtHQWEfZas+A==</cenc:pssh>
+            </ContentProtection>
+            <Role schemeIdUri="urn:mpeg:dash:role:2011" value="main" />
+            <Role schemeIdUri="urn:neulion:audio:displayname" value="English" />
+            <SegmentTemplate timescale="1000" media="$RepresentationID$/Time=$Time$.m4s" initialization="$RepresentationID$/Time=init.m4s">
+                <SegmentTimeline>
+                    <S t="0" d="1997" />
+                    <S t="1997" d="1997" />
+                    <S t="3994" d="1997" />
+                    <S t="5991" d="1997" />
+                    <S t="7988" d="1997" />
+                    <S t="9985" d="1996" />
+                    <S t="11981" d="1997" />
+                    <S t="13978" d="2021" />
+                    <S t="15999" d="1996" />
+                    <S t="17995" d="1997" />
+                    <S t="19992" d="1997" />
+                    <S t="21989" d="1997" />
+                    <S t="23986" d="1997" />
+                    <S t="25983" d="1997" />
+                    <S t="27980" d="1997" />
+                    <S t="29977" d="2020" />
+                    <S t="31997" d="1997" />
+                    <S t="33994" d="1997" />
+                    <S t="35991" d="1997" />
+                    <S t="37988" d="1997" />
+                    <S t="39985" d="1997" />
+                    <S t="41982" d="1997" />
+                    <S t="43979" d="2020" />
+                    <S t="45999" d="1997" />
+                    <S t="47996" d="1997" />
+                    <S t="49993" d="1996" />
+                    <S t="51989" d="1997" />
+                    <S t="53986" d="1997" />
+                    <S t="55983" d="1997" />
+                    <S t="57980" d="1997" />
+                    <S t="59977" d="2020" />
+                    <S t="61997" d="1997" />
+                    <S t="63994" d="1997" />
+                    <S t="65991" d="1997" />
+                    <S t="67988" d="1997" />
+                    <S t="69985" d="1997" />
+                    <S t="71982" d="1997" />
+                    <S t="73979" d="2020" />
+                    <S t="75999" d="1997" />
+                    <S t="77996" d="1997" />
+                    <S t="79993" d="1997" />
+                    <S t="81990" d="1997" />
+                    <S t="83987" d="1996" />
+                    <S t="85983" d="1997" />
+                    <S t="87980" d="1997" />
+                    <S t="89977" d="2020" />
+                    <S t="91997" d="1997" />
+                    <S t="93994" d="1997" />
+                    <S t="95991" d="1997" />
+                    <S t="97988" d="1997" />
+                    <S t="99985" d="1997" />
+                    <S t="101982" d="1997" />
+                    <S t="103979" d="2020" />
+                    <S t="105999" d="1997" />
+                    <S t="107996" d="1997" />
+                    <S t="109993" d="1997" />
+                    <S t="111990" d="1997" />
+                    <S t="113987" d="1997" />
+                    <S t="115984" d="1997" />
+                    <S t="117981" d="1997" />
+                    <S t="119978" d="2020" />
+                    <S t="121998" d="1997" />
+                    <S t="123995" d="1996" />
+                    <S t="125991" d="1997" />
+                    <S t="127988" d="1997" />
+                    <S t="129985" d="1997" />
+                    <S t="131982" d="1997" />
+                    <S t="133979" d="2020" />
+                    <S t="135999" d="1997" />
+                    <S t="137996" d="1997" />
+                    <S t="139993" d="1997" />
+                    <S t="141990" d="1997" />
+                    <S t="143987" d="1997" />
+                    <S t="145984" d="1997" />
+                    <S t="147981" d="1997" />
+                    <S t="149978" d="2020" />
+                    <S t="151998" d="1997" />
+                    <S t="153995" d="1997" />
+                    <S t="155992" d="1997" />
+                    <S t="157989" d="1996" />
+                    <S t="159985" d="1997" />
+                    <S t="161982" d="1997" />
+                    <S t="163979" d="2020" />
+                    <S t="165999" d="1997" />
+                    <S t="167996" d="1997" />
+                    <S t="169993" d="1997" />
+                    <S t="171990" d="1997" />
+                    <S t="173987" d="1997" />
+                    <S t="175984" d="1997" />
+                    <S t="177981" d="1997" />
+                    <S t="179978" d="2020" />
+                    <S t="181998" d="1997" />
+                    <S t="183995" d="1997" />
+                    <S t="185992" d="696" />
+                </SegmentTimeline>
+            </SegmentTemplate>
+            <Representation audioSamplingRate="44100" codecs="mp4a.40.2" id="test_800_audio" bandwidth="122000">
+                <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
+            </Representation>
+        </AdaptationSet>
+    </Period>
+</MPD>
