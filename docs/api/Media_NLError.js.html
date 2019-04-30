@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Media/NLError.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Media/NLError.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** 
+ * @class NLError
+ */
+export class NLError {
+  constructor() {
+    this.code = 0;
+    this.level = NLError.SeverityLevel.All;
+    this.message = '';
+    this.nativeMessage = '';
+    this.url = '';
+    this.httpCode = 0;
+    this.nativeCode = 0;
+  }
+
+  static create(code, level, url, message, nativeCode) {
+    let error = new NLError();
+    error.code = code;
+    error.level = level;
+    error.url = url;
+    error.nativeMessage = message;
+    error.nativeCode = nativeCode;
+    if (typeof (code) === 'number') {
+      let tempStatus = code % 1000;
+      if (tempStatus >= 400 &amp;&amp; tempStatus &lt; 600) {
+        error.httpCode = tempStatus;
+      }
+    }
+    let ProbeErrorItem = NLError.ErrorCodeString().filter(function (item) {
+      if (code >= item.value &amp;&amp; code &lt; item.value + 1000) {
+        return true;
+      }
+    }).pop();
+    if (ProbeErrorItem &amp;&amp; ProbeErrorItem.name) {
+      error.message = ProbeErrorItem.name.replace(/_/g, ' ');
+    }
+    return error;
+  }
+
+  isValid() {
+    return this.code >= NLError.Code.Device_Related_Error;
+  }
+
+  clone(code, level, url, message) {
+    this.code = code;
+    this.level = level;
+    this.url = url;
+    this.nativeMessage = message;
+    if (typeof (code) === 'number') {
+      let tempStatus = code % 1000;
+      if (tempStatus >= 400 &amp;&amp; tempStatus &lt; 600) {
+        this.httpCode = tempStatus;
+      }
+    }
+    let ProbeErrorItem = NLError.ErrorCodeString().filter(function (item) {
+      if (code >= item.value &amp;&amp; code &lt; item.value + 1000) {
+        return true;
+      }
+    }).pop();
+    if (ProbeErrorItem &amp;&amp; ProbeErrorItem.name) {
+      this.message = ProbeErrorItem.name.replace(/_/g, ' ');
+    }
+  }
+
+  toJSON() {
+    return {
+      'errorCode': this.code,
+      'errorLevel': this.level,
+      'errorUrl': this.url,
+      'errorNativeMessage': this.nativeMessage,
+      'errorMsg': this.message,
+      'errorHttpCode': this.httpCode,
+      'errorNativeCode': this.nativeCode
+    }
+  }
+
+  compare(other) {
+    return (this.errorLevel === other.errorLevel) &amp;&amp; (this.code === other.code) &amp;&amp; (this.url === other.url) &amp;&amp; (this.nativeMessage === other.nativeMessage);
+  }
+}
+
+/**
+ * Severity level of Error
+ * @readonly
+ * @enum {number}
+ * @static
+ * @type NLError.SeverityLevel
+ */
+NLError.SeverityLevel = {
+  None: 0,
+  Fatal: 1,
+  Error: 2,
+  Warning: 3,
+  Info: 4,
+  All: 15
+}
+
+/**
+ * Error codes
+ * @readonly
+ * @enum {number}
+ * @static
+ * @type NLError.Code
+ */
+NLError.Code = {
+  Device_Related_Error: 10000,
+  Incompatible_Codecs_Error: 10005,
+  DRM_Not_Supported: 10031,
+  DRM_Init_Failed: 10032,
+  // Playready_Not_Supported: 10031,
+  // Widewine_Not_Supported: 10032,
+  // FairPlay_Not_Supported: 10033,
+  Platform_Not_Supported: 10040,
+  // MediaSource_Error: 10050,
+  // MediaElement_Error: 10060,
+
+  Manifest_Related_Error: 20000,
+  Manifest_Not_For_LTE: 20001,
+  Get_Primary_Manifest_Failed: 21000,
+  Get_Single_Bitrate_Manifest_Failed: 22000,
+
+  KeyOrLicense_Related_Error: 30000,
+  Get_Key_License_Failed: 31000,
+  DRM_Module_Error: 32000,
+  DRM_Module_Error_License_Expired: 32001,
+
+  Chunk_Related_Error: 40000,
+  Get_Chunk_Failed: 41000,
+
+  Generic_Error: 50000,
+  Start_Playback_Timeout: 51000,
+  Seek_Timeout: 52000,
+  Playback_Generic_Error: 53000
+}
+
+NLError.ErrorCodeString = function () {
+  let ret = [];
+  for (let name in NLError.Code) {
+    if (!NLError.Code.hasOwnProperty(name)) {
+      continue;
+    } else {
+      ret.push({ 'name': name, 'value': NLError.Code[name] });
+    }
+  }
+  return ret;
+}
+
+/**
+* Detailed network erro code
+* @readonly
+* @enum {number}
+* @static
+* @type NLError.NetworkDetailCode
+*/
+NLError.NetworkDetailCode = {
+  Connect_Failed: 1,
+  Timeout: 2,
+  Security_Error: 51,
+  Cookie_Reject_Error: 403,
+  Http_Error: 404,
+  Manifest_Not_Changed: 600,
+  Content_Error: 800
+}
+
+NLError.Basic = {
+  M3U8: {
+    MANIFEST_LOAD_ERROR: {
+      code: 6010, message: 'Failed to load manifest.'
+    },
+    MANIFEST_PARSING_ERROR: {
+      code: 6020, message: 'Failed to parse manifest.'
+    },
+    GET_PLAYHEADTIME_FAILED: {
+      code: 6030, message: 'Failed to get HLS play head time. (Maybe VOD?)'
+    },
+    GET_THUMBNAIL_FAILED: {
+        code: 6040, message: 'Failed to parse thumbnail manifest.'
+    },
+    GET_VTT_FAILED: {
+        code: 6050, message: 'Failed to get image list.'
+    },
+    PARSE_VTT_FAILED: {
+        code: 6060, message: 'Failed to parse image list.'
+    }
+  },
+  DRM: {
+    // DRM init error
+    NOT_SUPPORTED: {
+      code: 5000, message: 'DRM not supported'
+    },
+    INVALID_PARAMS: {
+      code: 5010, message: 'Invalid or missing parameters.'
+    },
+    KEY_SESSION_CREATE_ERROR: {
+      code: 5020, message: 'MediaKey session cannot be created.'
+    },
+    KEY_ERROR: {
+      code: 5021, message: 'MediaKey session error.'
+    },
+    CERTIFICATE_ERROR: {
+      code: 5030, message: 'Certificate error.'
+    },
+    CERTIFICATE_OVERFLOW_ERROR: {
+      code: 5031, message: 'Certificate overflow.'
+    },
+    // get license error
+    LICENSE_ERROR: {
+      code: 5040, message: 'License error.'
+    }
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:24:40 GMT+0800 (GMT+08:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

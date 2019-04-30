@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page - Basic</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+  <label>Url:</label><input type="text" id="urlValue" style="width: 400px;"
+    value='https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8'>
+  <button onclick="load_Url()">Load</button>
+  <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  <button onclick="unload_Url()">Unload</button>
+  <div>
+    <div id="userId" style="position: absolute;top: 30px;background-color: red;left: 15px;font-size: 25px;z-index: 2;"></div>
+    <video crossOrigin="anonymous" id="video_main" style="width: 800px;" autoplay muted controls preload="auto">
+      Your browser doesn't support HTML5 video.
+    </video>
+  </div>
+  <script>
+    var video = document.getElementById('video_main');
+    var player = new AdaptivePlayer(video);
+
+    player.addEventListener(AdaptivePlayer.EventType.ID3Event, function(e) {
+      if (e && e.value) {
+        switch (e.value.key) {
+          case 'GEOB':
+            if (e.value.dict.name === "User Name Overlay") {
+              // show user name
+              if (e.value.dict.status === 'start' || e.value.dict.status === 'keep') {
+                document.getElementById('userId').innerHTML = 'User Name Overlay: ' + e.value.dict.data;
+              } else if (e.value.dict.status === 'stop') {
+                document.getElementById('userId').innerHTML = "";
+              }
+            }
+            if (e.value.dict.name === "Kill User Session") {
+              // stop playback
+              if (e.value.dict.data === "testuser001") {
+                document.getElementById('userId').innerHTML = 'Kill User Session: ' + e.value.dict.data;
+                unload_Url();
+              }
+            }
+            break;
+
+          case 'TIT2':
+          case 'TIT3':
+            // freewheel IAB
+            // e.value.dict.id
+            // e.value.dict.adType
+            // e.value.dict.value
+            break;
+
+          case 'TXXX':
+            // Timed metadata
+            document.getElementById('userId').innerHTML = 'TXXX: ' + e.value.dict.info;
+            break;
+
+          case 'PRIV':
+            // Nielsen ID3
+            document.getElementById('userId').innerHTML = 'PRIV: ' + e.value.dict.info;
+            break;
+
+          case 'TDEN':
+            // TIME
+            document.getElementById('userId').innerHTML = 'TDEN: ' + e.value.dict.data;
+            break;
+        }
+      }
+      
+    });
+
+    // PRIV
+    // var url = 'http://www.nielseninternet.com/NielsenConsumer/prog_index.m3u8'; 
+
+    // TIT2, not freewheel
+    // var url = 'http://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8'; 
+    
+    // TDEN
+    // var url = 'http://tweedekamerlive.download.kpnstreaming.nl/plenairezaal/4500/prog_index.m3u8';
+
+    // TXXX
+    // var url = 'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8';
+
+    // NeuLion
+    // var url = 'http://172.16.0.108:7505/clear/teststage/t594_hd.m3u8';
+
+    
+    function load_Url() {
+      document.getElementById('userId').innerHTML = "";
+      var urlValue = document.getElementById('urlValue');
+      player.load(urlValue.value);
+    }
+
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      player.configure({ drm: { params: { token: '123' } } });
+      load_Url();
+    }
+
+    function unload_Url() {
+      player.stop();
+    }
+  </script>
+</body>

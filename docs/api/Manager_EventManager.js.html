@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Manager/EventManager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Manager/EventManager.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { MultiMap } from '../Utils/MultiMap';
+
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the 'License');
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an 'AS IS' BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * class EventManager
+ */
+export class EventManager {
+  constructor() {
+    /**
+     * Maps an event type to an array of event bindings.
+     * @private {shaka.util.MultiMap.&lt;!shaka.util.EventManager.Binding_>}
+     */
+    this.bindingMap_ = new MultiMap();
+  }
+
+  /**
+   * Detaches all event listeners.
+   * @override
+   */
+  destroy() {
+    this.removeAll();
+    this.bindingMap_ = null;
+    return Promise.resolve();
+  }
+
+  /**
+   * Attaches an event listener to an event target.
+   * @param {EventTarget} target The event target.
+   * @param {string} type The event type.
+   * @param {shaka.util.EventManager.ListenerType} listener The event listener.
+   */
+  listen(target, type, listener) {
+    let binding = new Binding_(target, type, listener);
+    try {
+      this.bindingMap_.push(type, binding);
+    } catch (e) {
+      // console.info(e);//
+    }
+  }
+
+  /**
+   * Detaches an event listener from an event target.
+   * @param {EventTarget} target The event target.
+   * @param {string} type The event type.
+   */
+  unlisten(target, type) {
+    if (this.bindingMap_ === null || this.bindingMap_.length === 0) {
+      return;
+    }
+    let list = this.bindingMap_.get(type) || [];
+
+    for (let i = 0; i &lt; list.length; ++i) {
+      let binding = list[i];
+
+      if (binding.target === target) {
+        binding.unlisten();
+        this.bindingMap_.remove(type, binding);
+      }
+    }
+  }
+
+  /**
+   * Detaches all event listeners from all targets.
+   */
+  removeAll() {
+    try {
+      let list = this.bindingMap_.getAll();
+
+      for (let i = 0; i &lt; list.length; ++i) {
+        list[i].unlisten();
+      }
+
+      this.bindingMap_.clear();
+    } catch (error) {
+      // console.log('EventManager.prototype.removeAll: error detected')
+    }
+  }
+}
+
+class Binding_ {
+  constructor(target, type, listener) {
+    /** @type {EventTarget} */
+    this.target = target;
+
+    /** @type {string} */
+    this.type = type;
+
+    /** @type {?shaka.util.EventManager.ListenerType} */
+    this.listener = listener;
+
+    try {
+      this.target.addEventListener(type, listener, false);
+    } catch (e) {
+      // console.info(e);//
+    }
+  }
+
+  /**
+   * Detaches the event listener from the event target. This does nothing if the
+   * event listener is already detached.
+   */
+  unlisten() {
+    if (!this.target) {
+      return;
+    }
+
+    this.target.removeEventListener(this.type, this.listener, false);
+
+    this.target = null;
+    this.listener = null;
+  }
+}
+
+/**
+ * Event Type
+ * @readonly
+ * @enum {string}
+ * @static
+ * @type EventManager.EventType
+ */
+EventManager.EventType = {
+  PlayStart: 'playStart',
+  /** From 3.0.0, triggered both when completed or aborted, need to check event.details.reason */
+  PlayEnd: 'playEnd',
+  Error: 'error',
+  StateChange: 'stateChange',
+  ProfileChange: 'profileChange',
+  VolumeChange: 'volumeChange',
+  TrackChange: 'trackChange',
+  TimeUpdate: 'timeUpdate',
+  Progress: 'progress',
+  RateChange: 'rateChange',
+  /** Trigger only once for CVOD, periodicly for live stream */
+  SeekRangeChange: 'seekRangeChange',
+  /** events from streaming core like Shaka and hls.js */
+  StreamingEvent: 'streaming',
+  /** callback with ID3Message  */
+  ID3Event: 'id3',
+  /** since v2.2.2 */
+  AdEvent: 'advertisement',
+  /** since v3.0.0 */
+  AutoPlayStatus: 'autoplaystatus'
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:24:40 GMT+0800 (GMT+08:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

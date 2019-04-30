@@ -1,0 +1,85 @@
+{
+  "PLAYER_CONFIGURATIONS": {
+    "debug": true,
+    "withCredentials": false,
+    "//": "set credential true when matches",
+    "withCredentialsFragmentPattern": [
+      "/test/",
+	  "/hls/",
+	  "/dash/"
+    ],
+    "//": "UTC timing for Safari, bydefault set as true, will not work with url has one time token protection",
+    "useExternalM3U8Parser": true,
+    "appendXPLAYForStitching": false,
+    "enableLTEmode": false,
+    "useUTCTimeForCVOD": false,
+    "abr": {
+      "enabled": true
+    },
+    "preferredAudioLanguage": "",
+    "preferredTextLanguage": "",
+    "debugConfig": {
+      "gapTolerance": {
+        "firefox": 0.06,
+        "ie": 0.06,
+        "edge": 0.06,
+        "chrome": 0.06,
+        "safari": 0.06,
+        "others": 0.06
+      },
+	  "logServer": ""
+    }
+  },
+  
+  "DRM_LICENSE_SERVERS": {
+    "poc": {
+      "licenseServer_PR": "https://poc-dynopkgplayready.sd-ngp.net/standard-licensing/rightsmanager.asmx",
+      "licenseServer_WV": "https://poc-dynopkgwidevine.sd-ngp.net/proxy",
+      "licenseServer_FP": "https://poc-dynopkgfairplay.sd-ngp.net/licensing",
+      "certUrl": "https://poc-dynopkgfairplay.sd-ngp.net/licensing"
+    },
+    "staging": {
+      "licenseServer_PR": "https://staging-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx",
+      "licenseServer_WV": "https://staging-lic2widevine.sd-ngp.net/proxy",
+      "licenseServer_FP": "https://staging-lic2fairplay.sd-ngp.net/licensing",
+      "certUrl": "https://staging-lic2fairplay.sd-ngp.net/licensing"
+    },
+    "prod": {
+      "licenseServer_PR": "https://prod-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx",
+      "licenseServer_WV": "https://prod-lic2widevine.sd-ngp.net/proxy",
+      "licenseServer_FP": "https://prod-lic2fairplay.sd-ngp.net/licensing",
+      "certUrl": "https://prod-lic2fairplay.sd-ngp.net/licensing"
+    },
+    "v3": {
+      "licenseServer_PR": "https://twoproxy.dsh-qa.dicelaboratory.com/rightsmanager.asmx",
+      "licenseServer_WV": "https://twoproxy.dsh-qa.dicelaboratory.com/proxy",
+      "licenseServer_FP": "https://twoproxy.dsh-qa.dicelaboratory.com/licensing",
+      "certUrl": "https://twoproxy.dsh-qa.dicelaboratory.com/licensing"
+    }
+  },
+
+  "TOKEN": {
+    "SERVERS": [
+      "http://172.16.0.188:8889/token",
+      "https://nlds.neulion.net.cn/token"
+    ],
+    "CLIENTS": [
+      "nl:testclient:1",
+      "nba",
+      "nflgp",
+      "canal",
+      "skyboxoffice",
+      "univisionnow",
+      "sportsnetlive",
+      "osnpoc",
+      "skyfanpass",
+      "osn",
+      "btboxoffice",
+      "efl0100",
+      "efl0283",
+      "efl0103",
+      "efl0107",
+      "efl0050"
+    ]
+  }
+}

@@ -1,0 +1,659 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>HTML5 Simple Player</title>
+  <script src="../3rd/jquery/jquery-2.2.2.min.js"></script>
+  <script src="../3rd/ua-parser/ua-parser.min.js"></script>
+  <script src="../dist/nladaptiveplayer.js"></script>
+
+  <link href="../css/main.css" rel="stylesheet">
+  <script src="../js/playercontrols.js"></script>
+  <link rel="stylesheet" href="../css/playercontrols.css">
+  <script src="../js/utils.js"></script>
+</head>
+
+<body>
+  <table style="width: 900px;">
+    <tbody>
+      <tr>
+        <td style="width: 80px;">
+          <label>Url: </label>
+        </td>
+        <td>
+          <input type="text" style="width: 450px;" placeholder="stream url" id="url1" value="http://172.16.0.108:8505/clear/t594_hd.m3u8">
+          <input type="checkbox" id="withCredentials1"> Request With Credentials
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 100px;">
+          <label>Token: </label>
+        </td>
+        <td>
+          <input type="text" style="width:100%" placeholder="stream token" id="token1">
+        </td>
+      </tr>
+      <tr>
+        <th colspan="2" align="left">
+          <label>Start bitrate: </label>
+          <input type="text" style="width: 150px;" placeholder="Start bitrate" id="start_bitrate">
+          <label>&nbsp;&nbsp;&nbsp;&nbsp;Start position: </label>
+          <input type="text" style="width: 150px;" placeholder="Start position" id="start_position">
+        </th>
+      </tr>
+      <tr>
+        <th colspan="2" align="left">
+          <input type="text" style="width: 250px;" value="nl:testclient:1" id="client">
+          <input type="text" style="width: 250px;" placeholder="stream id" id="streamId">
+          <button onclick="getToken1()">Get Token</button>
+        </th>
+      </tr>
+      <tr>
+        <th colspan="2" align="left">
+          <button onclick="setPOC()">POC</button>
+          <button onclick="setStaging()">Staging</button>
+        </th>
+      </tr>
+      <tr>
+        <td style="width: 100px;">
+          <label>Playready: </label>
+        </td>
+        <td>
+          <input type="text" class="form-control" style="width:100%" value="https://staging-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx"
+            placeholder="PlayReady License Server" id="licenseServer_PR">
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 100px;">
+          <label>Widevine: </label>
+        </td>
+        <td>
+          <input type="text" class="form-control" style="width:100%" value="https://staging-lic2widevine.sd-ngp.net/proxy"
+            placeholder="Widevine License Server" id="licenseServer_WV">
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 100px;">
+          <label>FairpPlay: </label>
+        </td>
+        <td>
+          <input type="text" class="form-control" style="width:100%" value="https://staging-lic2fairplay.sd-ngp.net/licensing"
+            placeholder="FairPlay_License Server" id="licenseServer_FP">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button onclick="testDRM(1)">Play</button>
+  <button onclick="Stop()">Stop</button>
+  <label id="version"></label>
+  <br />
+  <div style="vertical-align:top;">
+	<button onclick="setNormalize()">Set normalize current Time</button>
+  <button onclick="getStreamInfos()">Get stream infos</button>
+  <label id="streamInfos"></label>
+  <br />
+  <button onclick="seekFrame(1, 1)">Seek forward 1 frame</button>
+  <button onclick="seekFrame(-1, 1)">Seek backward 1 frame</button>
+  <br />
+	<!--button onclick="getNormalize()">Get normalize current time</button-->
+	<br />
+  <tr>
+    <td style="width: 100px;">
+      <label>seekStep: </label>
+    </td>
+    <td>
+      <input type="text" class="form-control" style="width: 100px" value="1" placeholder="seekStep" id="seekStep">
+    </td>
+  </tr>
+  <tr>
+    <td style="width: 100px;">
+      <label>seekCount: </label>
+    </td>
+    <td>
+      <input type="text" class="form-control" style="width:100px" value="1" placeholder="seekCount" id="seekCount">
+    </td>
+  </tr>
+  <button onclick="done()">do</button>
+  <button onclick="cacel()">undo</button>
+  <br />
+  <br />
+  <!--button onclick="getsnapshot()">Get snapshot</button-->
+
+  <br />
+  <b>Ranges:</b>
+  <label id='status' style="width: 500px;"></label>
+  </br>
+  <b>Status:</b>
+  <label id="state">0.00/NaN</label>
+  <label id="status" style="width: 500px;word-break:break-all;"></label>
+  <br />
+	<b>StartTime:</b>
+	<label id="startTime">NaN</label>
+	<b>lastTime:</b>
+	<label id="lastTime">NaN</label>
+	<b>currentTime:</b>
+	<label id="currentTimeSec">NaN</label>
+	<b>targetSeekCount:</b>
+	<label id="targetSeekCount">NaN</label>
+	<b>seekCount:</b>
+	<label id="hasSeekCount">NaN</label>
+	<b>Process:</b>
+	<label id="Process">NaN</label>
+  </br>
+	<b>Result:</b>
+	<label id="Result">NaN</label>
+  </br>
+	<b>DIFF1:</b>
+	<label id="Diff1">NaN</label>
+  </br>
+	<b>DIFF2:</b>
+	<label id="Diff2">NaN</label>
+	</br>
+  </div>
+  <table>
+    <tbody>
+      <tr>
+        <td style="vertical-align:top;width:50%">
+          <div id="video_container" class="sd-player__video-container">
+            <div class="sd-player__buffering-spinner"></div>
+            <video crossOrigin="anonymous" id="video_main1" class="sd-video" style="width: 100%;" autoplay>
+              Your browser doesn't support HTML5 video.
+            </video>
+            <div class="sd-player__video-controls-enclosure" style="z-index: 2;">
+              <div class="sd-player__video-controls">
+                <div id="sd_player_seek_thumbnail" class="sd-player__video-thumbnail" style="z-index: 3; position: absolute; width: 100%; height: 85%; top: -150px;">
+                </div>
+                <div class="sd-player__video-controls-group sd-player__video-controls-progress">
+                  <div class="sd-player__current-time" id="sd-player__current-time_id">0:00</div>
+                  <input id="sd_player_seek_bar" class="sd-player__player-control-range sd-player__seek-bar"
+                    ng-mousemove="thumbnailShowPIP($event)" ng-mousedown="thumbnailShowPIP($event)" ng-mouseleave="thumbnailHidePIP($event)"
+                    type="range" step="any" min="0" max="1">
+                  <div class="sd-player__total-time" id="sd-player__total-time_id">0:00</div>
+                </div>
+                <div class="sd-player__video-controls-group sd-player__video-controls-buttons">
+                  <div class="sd-player__video-controls-subgroup sd-player__video-controls-audio">
+                    <button class="sd-player__player-control-button sd-player__mute-button" type="button" title="{{ 'Mute' }}"></button>
+                    <button class="sd-player__player-control-button sd-player__unmute-button" type="button" title="{{ 'Unmute' }}"></button>
+                    <input class="sd-player__player-control-range sd-player__volume-bar" type="range" step="any" min="0"
+                      max="1">
+                  </div>
+                  <div class="sd-player__video-controls-subgroup sd-player__video-controls-playback">
+                    <button class="sd-player__player-control-button sd-player__skip-back-button" title="{{ 'Skip back' }}"
+                      type="button"></button>
+                    <button class="sd-player__player-control-button sd-player__play-button" title="{{ 'Play' }}" type="button"></button>
+                    <button class="sd-player__player-control-button sd-player__pause-button" title="{{ 'Pause' }}" type="button"></button>
+                    <button class="sd-player__player-control-button sd-player__skip-forward-button" title="{{ 'Skip forward' }}"
+                      type="button"></button>
+                    <button class="sd-player__player-control-button sd-player__go-live-button" title="{{ 'Go Live' }}"
+                      type="button"></button>
+                  </div>
+                  <div class="sd-player__video-controls-subgroup sd-player__video-controls-accessibility">
+                    <button class="sd-player__player-control-button sd-player__fullscreen-button" title="{{ 'Full screen mode' }}"
+                      type="button"></button>
+                    <button class="sd-player__player-control-button sd-player__options-button" title="Settings"></button>
+                    <button class="sd-player__player-control-button sd-player__closed-captions-on-button" title="{{ 'Turn off subtitles' }}"
+                      type="button"></button>
+                    <button class="sd-player__player-control-button sd-player__closed-captions-off-button" title="{{ 'Turn on subtitles' }}"
+                      type="button"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label id="seekRange"></label>
+        </td>
+        <td style="vertical-align:top;width:50%">
+          <!--img id="snapshot" style="width:600px" /-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <script>
+	var startTime = 0;
+  var statsInterval;
+  var STATS_INTERVAL = 30 * 1000;
+
+  var autoSeek = false;
+  var targetSeekCount = 0;
+  var seekStep = 1;
+	var seekCount = 0;
+  var lastTime = 0;
+	var seekTotalCostTime = 0;
+	var seekBeginTime = 0;
+	var maxSeekCostTime = 0;
+	var bigSeekCostNum = 0;
+  var seekResult = -1;
+
+  function resetSeekInfo() {
+    seekCount = 0;
+	  seekTotalCostTime = 0;
+	  seekBeginTime = 0;
+	  maxSeekCostTime = 0;
+	  bigSeekCostNum = 0;
+    seekResult = -1;
+  }
+
+  document.getElementById('version').innerHTML = "(Version: " + AdaptivePlayer.version + ")";
+
+  var video = document.getElementById('video_main1');
+  var player = new AdaptivePlayer(video);
+// player._config.debugConfig.logServer = "http://172.16.1.169:8582";
+
+  var playerControls = new PlayerControls(player, document.getElementsByClassName('sd-player__video-container')[0]);
+
+  player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+  player.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart);
+  player.addEventListener(AdaptivePlayer.EventType.PlayEnd, onPlayEnd);
+  //player.addEventListener(AdaptivePlayer.EventType.StateChange, onStateChange);    
+  player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate);
+  player.addEventListener(AdaptivePlayer.EventType.Error, onError);
+  //player.addEventListener(AdaptivePlayer.EventType.ProfileChange, onProfileChange);
+  //player.addEventListener(AdaptivePlayer.EventType.Buffering, onBuffering);
+  player.addEventListener(AdaptivePlayer.EventType.ID3Event, onID3);
+  player.addEventListener(AdaptivePlayer.EventType.SeekRangeChange, onSeekRangeChange);
+
+  function onPlayStart(e) {
+    var status = document.getElementById('status');
+    status.innerHTML += "<p>Play started";
+    clearInterval(statsInterval);
+    statsInterval = setInterval(function () {
+      console.log("Stats: " + JSON.stringify(player.getStats()));
+    }, STATS_INTERVAL);
+
+    playerControls.configure();
+  }
+
+  function onPlayEnd(e) {
+    var status = document.getElementById('status');
+    status.innerHTML += "<p>Play ended";
+    var player = e.target;
+    player.stop();
+  }
+
+  function onStateChange(e) {
+    var status = document.getElementById('status');
+    status.innerHTML += "<p>StateChanged:" + e.oldState + "->" + e.newState;
+  }
+
+  function onError(e) {
+    var status = document.getElementById('status');
+    status.innerHTML = "<p>Error: " + JSON.stringify(e.details);
+  }
+
+  function onTimeUpdate(e) {
+    var state = document.getElementById('state');
+    state.innerHTML = e.details.currentTime.toFixed(2) + "/" + e.details.duration.toFixed(2);
+  }
+
+  function toDateString(epoch) {
+    var date = new Date(epoch * 1000);
+    return (date.getMonth() + 1) + "/" +
+      date.getDate() + "/" +
+      date.getFullYear() + " " +
+      date.getHours() + ":" +
+      date.getMinutes() + ":" +
+      date.getSeconds()
+  }
+
+  function onSeekRangeChange(e) {
+    document.getElementById('seekRange').innerHTML = "[" + toDateString(e.details.start) + ", " + toDateString(e.details.end) + "]";
+  }
+
+  function onBuffering(e) {
+    var state = document.getElementById('status');
+    status.innerHTML += "Buffering";
+  }
+
+  function onProfileChange(event) {
+    var status = document.getElementById('status');
+    status.innerHTML += "<p>Profile changed to " + event.videoWidth + 'x' + event.videoHeight;
+  }
+
+  function onID3(event) {
+    var text = event.start + '-' + event.end + ":" + JSON.stringify(event.value) + '\r\n';
+    var status = document.getElementById('status');
+    status.innerHTML = "<p>ID3: " + text;
+  }
+
+  var license_type = "staging";
+  function getToken1() {
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://172.16.0.188:8889/token?ls=' + license_type + '&client=' + document.getElementById('client').value + '&eid=' + document.getElementById('streamId').value + '&offline=false', false);  // `false` makes the request synchronous
+    request.send(null);
+    document.getElementById('token1').value = request.responseText;
+  }
+
+  function setPOC() {
+    document.getElementById('licenseServer_PR').value = 'https://poc-dynopkgplayready.sd-ngp.net/standard-licensing/rightsmanager.asmx';
+    document.getElementById('licenseServer_WV').value = 'https://poc-dynopkgwidevine.sd-ngp.net/proxy';
+    document.getElementById('licenseServer_FP').value = 'https://poc-dynopkgfairplay.sd-ngp.net/licensing';
+    license_type = "poc";
+  }
+
+  function setStaging() {
+    document.getElementById('licenseServer_PR').value = 'https://staging-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx';
+    document.getElementById('licenseServer_WV').value = 'https://staging-lic2widevine.sd-ngp.net/proxy';
+    document.getElementById('licenseServer_FP').value = 'https://staging-lic2fairplay.sd-ngp.net/licensing';
+    license_type = "staging";
+  }
+
+  function setProd() {
+    document.getElementById('licenseServer_PR').value = 'https://prod-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx';
+    document.getElementById('licenseServer_WV').value = 'https://prod-lic2widevine.sd-ngp.net/proxy';
+    document.getElementById('licenseServer_FP').value = 'https://prod-lic2fairplay.sd-ngp.net/licensing';
+    license_type = "prod";
+  }
+
+  function Stop() {
+    if (player) {
+      player.stop();
+    }
+  }
+
+  function testDRM(index) {
+    var status = document.getElementById('status');
+    status.innerHTML = "";
+    var url = document.getElementById('url' + index).value;
+    var token = document.getElementById('token' + index).value;
+    var withCredentials = document.getElementById('withCredentials' + index).checked;
+    var licenseServer_PR = document.getElementById('licenseServer_PR').value;
+    var licenseServer_WV = document.getElementById('licenseServer_WV').value;
+    var licenseServer_FP = document.getElementById('licenseServer_FP').value;
+    var startBitrate = parseInt(document.getElementById('start_bitrate').value);
+    var startPosition = parseInt(document.getElementById('start_position').value);
+    var config = { debug: true, enableLTEmode: true, };
+    if (token != "") {
+      config.drm = {
+        widevine: {
+          server: licenseServer_WV,
+        },
+        playready: {
+          server: licenseServer_PR,
+        },
+        fairplay: {
+          server: licenseServer_FP,
+          serverCertificate: licenseServer_FP
+        },
+        params: {
+          token: token
+        }
+      }
+    }
+    if (withCredentials) {
+      config.withCredentials = true;
+    }
+    if (startBitrate > 0) {
+      config.abr = { enabled: false, startBitrate: startBitrate };
+    }
+    player.configure(config);
+    player.stop();
+    player.load(url, startPosition);
+  }
+
+  player.addEventListener(AdaptivePlayer.EventType.LTEEvent, function (e) {
+    console.log(e.details);
+    var status = document.getElementById('status');
+    status.innerHTML = JSON.stringify(e.details);
+  });
+
+  player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, function (e) {
+    var currentTime = document.getElementById('currentTime');
+    currentTime.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+  });
+
+  player.addEventListener(AdaptivePlayer.EventType.Error, function (e) {
+    console.log(e.details);
+    var status = document.getElementById('status');
+    if (e.details.errorCode == AdaptivePlayer.ErrorCode.Manifest_Not_For_LTE) {
+      status.innerHTML = "Error: This stream can't be used for NeuLion LTE <br/>" + JSON.stringify(e.details);
+    }
+  });
+
+  video.addEventListener('pause', onPaused);
+  video.addEventListener('seeked', onSeeked);
+
+  function getStreamInfos() {
+    var streamInfos = document.getElementById('streamInfos');
+    streamInfos.innerHTML = JSON.stringify(player._player._player.getLteStreamInfos(player._player._player.currentLevel));
+  }
+
+  function done() {
+    var seekStepElem = document.getElementById('seekStep');
+    var seekStep = Number(seekStepElem.value);
+    var seekCountElem = document.getElementById('seekCount');
+    var seekCount = Number(seekCountElem.value);
+
+    if (!isNaN(seekStep) && !isNaN(seekCount)) {
+      seekFrame(seekStep, seekCount);
+    }
+  }
+
+  function cacel() {
+    targetSeekCount = 0;
+    autoSeek = false;
+  }
+
+  function seekFrame(value, number) {
+    targetSeekCount = number;
+    var targetSeekCountElem = document.getElementById('targetSeekCount');
+    targetSeekCountElem.innerHTML = targetSeekCount.toString();
+
+    startTime = player.getNormalizeCurrentTime();
+    var startTimeElem = document.getElementById('startTime');
+    startTimeElem.innerHTML = startTime.toFixed(6);
+    
+    var currentTimeElem = document.getElementById('currentTimeSec');
+    currentTimeElem.innerHTML = startTime.toFixed(6);
+
+    var lastTimeElem = document.getElementById('lastTime');
+    lastTimeElem.innerHTML = startTime.toFixed(6);
+
+    var processElem = document.getElementById('Process');
+    processElem.innerHTML = 'dealing';
+    resetSeekInfo();
+
+    seekStep = value;
+    autoSeek = true;
+    seekResult = -1;
+    innerSeekFrame(value);
+  }
+
+  function innerSeekFrame(value) {
+    if (seekCount >= targetSeekCount) {
+      var processElem = document.getElementById('Process');
+      processElem.innerHTML = 'seek end';
+      autoSeek = false;
+      checkFinalResult();
+      resetSeekInfo();
+      return;
+    }
+
+    seekCount += 1;
+    lastTime = player.getNormalizeCurrentTime();
+    var lastTimeElem = document.getElementById('lastTime');
+    lastTimeElem.innerHTML = lastTime.toString();
+
+    var sampleDuration = player.sampleDuration;
+    player.currentTime += (value * sampleDuration);
+  }
+
+  function toDateStringAS3(epoch) {
+    var date = new Date(epoch * 1000);
+    return '' +
+      date.getUTCFullYear() +
+      (((date.getUTCMonth() + 1) < 10) ? ('0' + (date.getUTCMonth() + 1)) : (date.getUTCMonth() + 1)) +
+      ((date.getUTCDate() < 10) ? ('0' + date.getUTCDate()) : date.getUTCDate()) +
+      ((date.getUTCHours() < 10) ? '0' + date.getUTCHours() : date.getUTCHours()) +
+      ((date.getUTCMinutes() < 10) ? '0' + date.getUTCMinutes() : date.getUTCMinutes()) +
+      ((date.getUTCSeconds() < 10) ? '0' + date.getUTCSeconds() : date.getUTCSeconds()) +
+      '(' + date.getUTCMilliseconds() + ')'
+  }
+
+  var changed = false;
+
+  function showInfo() {
+    // let normalizeTime = player.getNormalizeCurrentTime();
+    // var url = "http://172.16.0.108:8505/clear/t594_hd_" + toDateStringAS3(normalizeTime) + '.jpg';
+    // document.getElementById('snapshot').src = url;
+    player.normalizeCurrentTime();
+    let time = player.getNormalizeCurrentTime();
+    var currentTimeSec = document.getElementById('currentTimeSec');
+    currentTimeSec.innerHTML = time.toFixed(6);
+  }
+
+  function onPaused(e) {
+    if (!changed) {
+      video.width = video.width + 1;
+      changed = true;
+    } else {
+      video.width = video.width - 1;
+      changed = false;
+    }
+
+    window.setTimeout(showInfo, 0.2);
+  }
+
+  function checkSeekResult() {
+    var resultElem = document.getElementById('Result');
+    let time = player.getNormalizeCurrentTime();
+    var sampleDuration = player.sampleDuration;
+    var diff = Math.abs(time.toFixed(6) - lastTime.toFixed(6)); 
+    var diff2 = Math.abs(seekStep * sampleDuration);
+    if (Math.abs(diff - diff2) < sampleDuration/10) {
+      if (seekResult == -1 || seekResult == 1) {
+        seekResult = 1;
+        resultElem.innerHTML = 'Suc.';
+      }
+    } else {
+      seekResult = 0;
+      resultElem.innerHTML = 'Not Suc.';
+    }
+  }
+
+  function checkFinalResult() {
+    var resultElem = document.getElementById('Result');
+    let time = player.getNormalizeCurrentTime();
+    let sampleDuration = player.sampleDuration;
+    var diff = Math.abs(time.toFixed(6) - startTime.toFixed(6));
+    var diff2 = Math.abs(seekStep * sampleDuration * targetSeekCount);
+	resultElem.setAttribute("style", "color:red;");
+    if (Math.abs(diff - diff2) < sampleDuration/10) {
+      if (seekResult == -1 || seekResult == 1) {
+        seekResult = 1;
+        resultElem.innerHTML = 'Suc.';
+      }
+    } else {
+      seekResult = 0;
+      resultElem.innerHTML = 'Not Suc.';
+    }
+    var diff1Elem = document.getElementById('Diff1');
+    diff1Elem.innerHTML = 'current=' + time.toString() + ' start=' + startTime.toString() + ' diff=' + diff.toString();
+    var diff2Elem = document.getElementById('Diff2');
+    diff2Elem.innerHTML = 'seekStep=' + seekStep.toString() + ' sampleDuration=' + sampleDuration.toString() + 'targetSeekCount=' + targetSeekCount.toString() + ' diff2=' + diff2.toString();
+  }
+
+  function showInfo2() {
+    // let normalizeTime = player.getNormalizeCurrentTime();
+    // var url = "http://172.16.0.108:8505/clear/t594_hd_" + toDateStringAS3(normalizeTime) + '.jpg';
+    // document.getElementById('snapshot').src = url;
+    let time = player.getNormalizeCurrentTime();
+    var currentTimeSec = document.getElementById('currentTimeSec');
+    currentTimeSec.innerHTML = time.toFixed(6);
+
+    checkSeekResult();
+
+    var seekCostTime = Date.now() - seekBeginTime;
+    seekTotalCostTime += seekCostTime;
+    if (seekCostTime > 1000) {
+      bigSeekCostNum++;
+    }
+    if (seekCostTime > maxSeekCostTime) {
+      maxSeekCostTime = seekCostTime;
+    }
+    if (seekCount%100 == 0) {
+      console.log('seek num=' + seekCount + ' every cost time=' + seekTotalCostTime/seekCount + ' bigSeekCostNum=' + bigSeekCostNum + ' maxSeekCostTime=' + maxSeekCostTime);
+    }
+    var hasSeekCountElem = document.getElementById('hasSeekCount');
+    hasSeekCountElem.innerHTML = seekCount.toString();
+
+    innerSeekFrame(seekStep);
+  }
+
+  function onSeeked(e) {
+    if (!changed) {
+      video.width = video.width + 1;
+      changed = true;
+    } else {
+      video.width = video.width - 1;
+      changed = false;
+    }
+
+    if (autoSeek) {
+      window.setTimeout(showInfo2, 0.2);
+    } else {
+      window.setTimeout(showInfo, 0.2);
+    }
+  }
+
+  function setNormalize() {
+    player.normalizeCurrentTime();
+    getNormalize();
+  }
+
+  function getNormalize() {
+    let time = player.getNormalizeCurrentTime();
+    var currentTimeSec = document.getElementById('currentTimeSec');
+    currentTimeSec.innerHTML = time.toFixed(6);
+  }
+
+  document.addEventListener('keyup', function (e) {
+    var keyCode = e.keyCode;
+    var m_shiftPressed = false;
+
+    if (keyCode == 16) //SHIFT
+      m_shiftPressed = true;
+
+    if ((keyCode == 39) && (m_shiftPressed)) { //>
+      video.pause();
+      seekFrame(1, 0);
+      e.preventDefault();
+    }
+    else if ((keyCode == 37) && (m_shiftPressed)) { //<
+      video.pause();
+      seekFrame(-1, 0);
+      e.preventDefault();
+    }
+    else if (keyCode == 39) { //>
+      video.pause();
+      seekFrame(1, 0);
+      e.preventDefault();
+    }
+    else if (keyCode == 37) { //<
+      video.pause();
+      seekFrame(-1, 0);
+      e.preventDefault();
+    }
+    else if (keyCode == 32) { //Space (play/pause)
+      if (video.paused) video.play();
+      else video.pause();
+      e.preventDefault();
+    }
+    else if (keyCode == 35) { //End (will stop playing automatically)
+      // showFrame(m_manifest.video.num_frames - 1);
+      e.preventDefault();
+    }
+    else if (keyCode == 36) {//Home
+      pause();
+      // showFrame(0);
+      e.preventDefault();
+    }
+    else if (keyCode == 82) {//R
+      // togglePlayRev(0);
+      e.preventDefault();
+    }
+  });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: tests_id3</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: tests_id3</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>tests_id3</h2>
+</header>
+
+<article>
+    <!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page - Basic</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+  <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  <div>
+    <div id="userId" style="position: absolute;top: 30px;background-color: red;left: 15px;font-size: 25px;z-index: 2;"></div>
+    <video crossOrigin="anonymous" id="video_main" style="width: 800px;" autoplay muted controls preload="auto">
+      Your browser doesn't support HTML5 video.
+    </video>
+  </div>
+  <script>
+    var video = document.getElementById('video_main');
+    var player = new AdaptivePlayer(video);
+
+    player.addEventListener(AdaptivePlayer.EventType.ID3Event, function(e) {
+      if (e && e.value) {
+        switch (e.value.key) {
+          case 'GEOB':
+            if (e.value.dict.name === "User Name Overlay") {
+              // show user name
+              if (e.value.dict.status === 'start' || e.value.dict.status === 'keep') {
+                document.getElementById('userId').innerHTML = 'User Name Overlay: ' + e.value.dict.data;
+              } else if (e.value.dict.status === 'stop') {
+                document.getElementById('userId').innerHTML = "";
+              }
+            }
+            if (e.value.dict.name === "Kill User Session") {
+              // stop playback
+              if (e.value.dict.data === "testuser001") {
+                document.getElementById('userId').innerHTML = 'Kill User Session: ' + e.value.dict.data;
+                stop();
+              }
+            }
+            break;
+
+          case 'TIT2':
+          case 'TIT3':
+            // freewheel IAB
+            // e.value.dict.id
+            // e.value.dict.adType
+            // e.value.dict.value
+            break;
+
+          case 'TXXX':
+            // Timed metadata
+            document.getElementById('userId').innerHTML = 'TXXX: ' + e.value.dict.info;
+            break;
+
+          case 'PRIV':
+            // Nielsen ID3
+            document.getElementById('userId').innerHTML = 'PRIV: ' + e.value.dict.info;
+            break;
+
+          case 'TDEN':
+            // TIME
+            document.getElementById('userId').innerHTML = 'TDEN: ' + e.value.dict.data;
+            break;
+        }
+      }
+      
+    });
+
+    // PRIV
+    // var url = 'http://www.nielseninternet.com/NielsenConsumer/prog_index.m3u8'; 
+
+    // TIT2, not freewheel
+    // var url = 'http://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8'; 
+    
+    // TDEN
+    // var url = 'http://tweedekamerlive.download.kpnstreaming.nl/plenairezaal/4500/prog_index.m3u8';
+
+    // TXXX
+    // var url = 'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8';
+
+    // NeuLion
+    var url = 'http://172.16.0.108:7505/clear/teststage/t594_hd.m3u8';
+
+    player.load(url);
+
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      document.getElementById('userId').innerHTML = "";
+      player.configure({ drm: { params: { token: '123' } } });
+      player.load(url);
+    }
+
+    function stop() {
+      player.stop();
+    }
+  </script>
+</body>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li><li><a href="tutorial-tests_ad.html">tests_ad</a></li><li><a href="tutorial-tests_basic.html">tests_basic</a></li><li><a href="tutorial-tests_cuepoint.html">tests_cuepoint</a></li><li><a href="tutorial-tests_events.html">tests_events</a></li><li><a href="tutorial-tests_id3.html">tests_id3</a></li><li><a href="tutorial-tests_startparams.html">tests_startparams</a></li><li><a href="tutorial-tests_thumbnail.html">tests_thumbnail</a></li><li><a href="tutorial-tests_tracks.html">tests_tracks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 01 2019 15:43:15 GMT+0800 (中国标准时间)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

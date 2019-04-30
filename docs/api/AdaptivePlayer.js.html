@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AdaptivePlayer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AdaptivePlayer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import './require-babel-polyfill.js'
+
+import { FakeEventTarget } from './Utils/FakeEventTarget';
+import { FakeEvent } from './Utils/FakeEvent';
+
+import * as UrlUtil from './Utils/Url';
+import * as ObjectUtil from './Utils/Object';
+import { LogUtil } from './Utils/Log';
+import * as PlatformUtil from './Utils/Platform';
+import { NLError } from './Media/NLError';
+import * as VideoUtil from './Utils/Video';
+import UAParser from '../externals/ua-parser-js/ua-parser.min'
+import * as XHRUtil from './Utils/Xhr';
+import ISO6392 from '../externals/iso639/iso639-2';
+
+import { StateManager } from './Manager/StateManager';
+import { EventManager } from './Manager/EventManager';
+import { StatisticManager } from './Manager/StatisticManager';
+import { CuepointManager } from './Manager/CuepointManager';
+import { MultiviewsManager } from './Manager/MultiviewsManager';
+import { DebugPanel } from './Manager/DebugPanel';
+
+import { Settings } from './config';
+
+import DashPlayer from './Player/DashPlayer';
+import HlsPlayer from './Player/HlsPlayer';
+import BasicPlayer from './Player/BasicPlayer';
+import WebRTCPlayer from './Player/WebRTCPlayer';
+
+/**
+ * Endeavor Streaming HTML5 Adaptive Player
+ * &lt;br>Support DASH with Shaka player, support HLS with native player and hls.js
+ * &lt;br>And HTTP video (mp4/ogg/webm) with native support
+ * @version 3.0.0
+ * @param {HTMLVideoElement} video - video element to play with; return error when null
+ * @param {object} [opt] - other informations, reserved
+ * @example
+ * let player = new AdaptivePlayer(document.getElementById('video'));
+ * ...
+ * @class AdaptivePlayer
+ * @implements FakeEventTarget
+ */
+export class AdaptivePlayer extends FakeEventTarget {
+	constructor(video, options) {
+		super();
+
+		this._video = video;
+		this._player = null;
+		this._config = {};
+		this._url = '';
+		this._loaded = false;
+		this._autoPlayStatusEventSent = false;
+
+		this._logger = new LogUtil();
+		this._logger.setLogLevel(Settings.DEFAULT_LOG_LEVEL);
+
+		this._statisticManager = new StatisticManager(this._video, this);
+		this._statisticManager.setErrorCallback(function() {
+			this.stop({ triggerPlayEndEvent: false });
+		}.bind(this), { level: 15, url: '' });
+
+		// check video object
+		if (!this._video) {
+			return { error: 'Invaild video object!' };
+		}
+
+		// only register volumechange globally
+		this._video.addEventListener('volumechange', this._onVolumeChange.bind(this));
+
+		// keep autoplay state
+		this._videoautoplay = video.autoplay;
+
+		// manage state change of video element
+		AdaptivePlayer.ActionReason = StateManager.ActionReason;
+		this._stateManager = new StateManager(this, function (oldState, newState, details) {
+			this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.StateChange, {
+				oldState: oldState,
+				newState: newState,
+				details: { oldState: oldState, newState: newState, from: details.from || details.reason || '' }
+			}));
+		}.bind(this));
+
+		// manage ID3 handling.
+		this._cuepointManager = new CuepointManager(this);
+		this._clearID3AfterSeek = false; // only remove id3 after manully seek, or may remove id3 nearby 0.
+
+		this._multiViewsManager = new MultiviewsManager(this);
+
+		// initial configuration
+		this._config = ObjectUtil.mergeObject({}, Settings.BASE_CONFIG);
+
+		// debug panel
+		this._debugPanel = new DebugPanel(this, Settings.DEBUG_PANEL_REFRESH_INTERVAL);
+
+		// for ad-stitching
+		this._emptyAdvertisementList = [];
+
+		// prevent default context menu
+		if (Settings.DISABLE_CONTEXT_MENU) {
+			this._video.addEventListener('contextmenu', function (e) {
+				e.preventDefault();
+			}, false);
+		}
+
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', '[' + AdaptivePlayer.version + '] Instance created! ');
+	}
+
+	/**
+	 * Destroy instance, this instance can't be used anymore
+	 */
+	destroy() {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'destroy called!');
+
+		super.destroy();
+
+		this._video.removeEventListener('volumechange', this._onVolumeChange.bind(this));
+
+		return this.stop({ triggerPlayEndEvent: true })
+			.then(function () {
+				if (this._stateManager) {
+					this._stateManager.destroy();
+				}
+			}.bind(this))
+			.then(function () {
+				if (this._eventManager) {
+					this._eventManager.destroy();
+				}
+			}.bind(this))
+			.then(function () {
+				if (this._statisticManager) {
+					this._statisticManager.stop();
+				}
+			}.bind(this))
+			.then(function () {
+				if (this._debugPanel) {
+					this._debugPanel.destroy.bind();
+				}
+			}.bind(this))
+			.then(function () {
+				if (this._player &amp;&amp; this._player.destroy) {
+					this._player.destroy();
+				}
+			}.bind(this))
+			.then(function () {
+				this._debugPanel = null;
+				this._eventManager = null;
+				this._stateManager = null;
+				this._player = null;
+				this._loaded = false;
+				this._statisticManager = null;
+				this._multiViewsManager = null;
+				this._cuepointManager = null;
+			}.bind(this));
+	}
+
+	/**
+	 * Determine native support of stream protocol by browser
+	 *
+	 * @returns {json}
+	 * @example { m3u8: false, mpd: false }
+	 */
+	nativeCanPlay() {
+		return {
+			m3u8: VideoUtil.canPlayNative(this._video, 'm3u8'),
+			mpd: VideoUtil.canPlayNative(this._video, 'mpd')
+		};
+	}
+
+	/**
+	 * callback of get support types
+	 *
+	 * @callback SupportCb
+	 * @param {object}
+   * @property {Object} manifest A map of supported manifest types. The keys are manifest MIME types and file extensions.
+   * @property {Object} media A map of supported media types. The keys are media MIME types.
+   * @property {Object} drm A map of supported key systems. The keys are the key system names. The value is null if it is not supported. Key systems not probed will not be in this dictionary.
+	 *
+	 * @example {
+			'manifest': {
+				'mpd': true,
+				'm3u8': true,
+				'ism': false,
+				...
+			},
+			'media': {
+				'video/mp4; codecs=\'avc1.42E01E\': true,
+				'video/mp4': true,
+				'video/mp4; codecs=\'avc3.42E01E\': true,
+				...
+			},
+			'drm': {
+				'com.widevine.alpha': {
+					'persistentState': true
+				},
+				'com.microsoft.playready': null,
+				'com.apple.fps.2_0': null,
+				...
+			},
+			'offline': true
+		}
+   */
+  /**
+   * Return support information
+   * @param {SupportCb} callback - return 4 types of informations, including:
+   * &lt;br>                                 1. supported drm systems
+   * &lt;br>                                 2. supported media codecs
+   * &lt;br>                                 3. supported manifest types
+   * &lt;br>                                 4. support offline or not
+   */
+	static support(callback) {
+		// Static function
+		// currently use shaka function to detect supports
+		return DashPlayer.support(callback);
+	}
+
+	/**
+	 * Set configurations of player
+	 * @param {object} config player configurations
+	 * @param {boolean} config.withCredentials false by default
+	 * @param {string[]} config.withCredentialsFragmentPattern set to use withCredentials for segment url with defined values, by default ['/nlds/', '/nldsu/', '/nlds_vod/', '/nldsu_vod/']
+	 * @param {boolean} config.useExternalM3U8Parser Use external m3u8 parser for native player (DRM streams on Mac and play on iOS browsers) to get UTC time and AD-stitching related tags
+   * @param {boolean} config.appendXPLAYForStitching Append playbackId for DASH stitching/failover (x-play=uuid) false by default
+	 * @param {object} config.abr adaptive playback or fixed bitrate
+	 * @param {boolean} config.abr.enabled true (adaptive playback) by default
+	 * @param {number} config.abr.startBitrate Start playback with defined bitrate; abr.enabled should set to false
+	 * @param {object} config.drm DRM related configurations
+	 * @param {object} config.drm.widevine Widevine related configurations
+	 * @param {string} config.drm.widevine.server License server url of Widevine
+	 * @param {object} config.drm.playready playready related configurations
+	 * @param {string} config.drm.playready.server License server url of playready
+	 * @param {object} config.drm.fairplay fairplay related configurations
+	 * @param {string} config.drm.fairplay.server License server url of fairplay
+	 * @param {string} config.drm.fairplay.serverCertificate url to get server certificate of fairplay
+	 * @param {object} config.drm.params parameters
+	 * @param {string} config.drm.params.token cro token for authentication of license server
+	 * @param {string} config.preferredAudioLanguage enable audio track of preferred audio language; Otherwise first audio track will be selected.
+	 * @param {string} config.preferredTextLanguage enable text track of preferred text language; Otherwise first text track will be selected.
+	 * @param {object} config.closedCaption CC configurations
+	 * @param {string} config.closedCaption.label display label of CC, 'English' by default
+	 * @param {string} config.closedCaption.language language of CC, 'en' by default
+	 * @param {boolean} config.dashCC enable to extract CC from DASH video segment, true by default
+	 */
+	configure(config) {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'configure called!');
+		if (typeof config === 'object') {
+			this._config = ObjectUtil.mergeObject(config, Settings.BASE_CONFIG);
+		}
+
+		// normalize preferred language code from 639-2 to 639-1 (3-bytes to 2-bytes)
+		this._config.preferredAudioLanguage = ISO6392.toISO6391(this._config.preferredAudioLanguage);
+		this._config.preferredTextLanguage = ISO6392.toISO6391(this._config.preferredTextLanguage);
+		
+		let ref = this._statisticManager.getErrorConfig();
+		if (config.errorReportLevel) {
+			ref.level = config.errorReportLevel;
+		} else {
+			ref.level = AdaptivePlayer.ErrorReportLevel.All;
+		}
+	}
+
+	/**
+	 * Play video with url,
+	 * Return error when url is wrong, and current playback will not be stopped while playing
+	 *
+	 * @param {string} url playback url
+	 * @param {number} [startTime] start playback from certain position in second;
+	 * &lt;br> if not set or set as -1, will start from 0 (VOD) or live edge (Live)
+	 * &lt;br> if set as 0, will start from 0 (VOD) or first segment in list (Live)
+	 * &lt;br> For HLS Live, time may be not accurate as player will seek to start time of TS chunk, i.e., pass 1501768500 will go to 1501768510
+	 * @param {StreamType} [streamType] to set streaming type in case of url doesn't end with explicit extension; auto set according to url if set as null
+	 */
+	load(url, startTime, streamType) {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'Load ' + url +
+			((typeof startTime !== 'undefined') ? ', startTime=' + startTime : '') +
+			((typeof streamType !== 'undefined') ? ', streamType=' + streamType : ''));
+
+		this._url = url;
+
+		// if is NaN, set to null
+		if (typeof startTime === 'number') {
+			if (isNaN(startTime)) {
+				startTime = null;
+			} else if (startTime === 0) {
+				startTime = Settings.SMALL_GAP_TO_START; // work-around of DASH live start position: not seek to start in case of 0
+			}
+		}
+
+		this._loaded = false;
+
+		this._video.autoplay = this._videoautoplay; // Fix bug of patch for NBA-4696
+		this._pauseAfterSeek = false;
+		this._lastDuration = 0.0;
+		this._oneTimeSeek = false;
+		this._oneTimeAutoPlay = true;
+		this._firstPlayAfterMetadataLoaded = false;
+		this._isInSeeking = false;
+		this._autoPlayStatusEventSent = false;
+
+		this._statisticManager.reset(url);
+		this._stateManager.reset({ reason: StateManager.ActionReason.START });
+		this._multiViewsManager.setSyncViews([]);
+		this._debugPanel.reset();
+		this._cuepointManager.cleanup();
+		this._emptyAdvertisementList = [];
+
+		let nextPlayerType = UrlUtil.detectPlayerType(url, streamType, !!this._config.drm);
+		if (nextPlayerType === AdaptivePlayer.PlayerType.UNKNOWN) {
+			this._logger.print(AdaptivePlayer.LogLevel.ERROR, 'AdaptivePlayer', 'Probe url failed');
+			this._statisticManager.reportUnsupportedSchema(url);
+			return;
+		}
+
+		if ((nextPlayerType !== AdaptivePlayer.PlayerType.NATIVE &amp;&amp; !PlatformUtil.probePlatformSupport()) ||
+			(nextPlayerType === AdaptivePlayer.PlayerType.WEBRTC &amp;&amp; !PlatformUtil.probeWebRTCSupport())) {
+			this._logger.print(AdaptivePlayer.LogLevel.ERROR, 'AdaptivePlayer', 'Type ' + nextPlayerType + ' is not supported.');
+			this._statisticManager.reportUnsupported();
+			return;
+		}
+
+		// Add x-play=[uuid] for DASH stitiching/failover
+		if (!!this._config.appendXPLAYForStitching &amp;&amp;
+			nextPlayerType === AdaptivePlayer.PlayerType.SHAKA &amp;&amp; // DASH only
+			this._url.indexOf('x-play=') === -1) { // if not exist
+			let playbackId = PlatformUtil.generateUUID();
+			this._url += (this._url.indexOf('?') === -1) ? '?' : '&amp;';
+			this._url += ('x-play=' + playbackId);
+		}
+        
+		let createOrRenewFn = function () {
+			if (this._eventManager) {
+				this._eventManager.destroy();
+			}
+
+			if (this._player) {
+				if (nextPlayerType !== this._player.type) {
+					// destroy if exist
+					return this._player.destroy().then(function () {
+						this._player = this._createPlayer(nextPlayerType);
+					}.bind(this));
+				} else {
+					return this._player.unload();
+				}
+			} else {
+				this._player = this._createPlayer(nextPlayerType);
+			}
+			return Promise.resolve();
+		}.bind(this);
+		createOrRenewFn().then(function () {
+			if (this._player === null || this._video === null) {
+				this._logger.print(AdaptivePlayer.LogLevel.ERROR, 'AdaptivePlayer', 'player not created successfully or already destroyed');
+				if (this._statisticManager) this._statisticManager.reportNativeVideoError('player not created successfully or already destroyed');
+				return;
+			}
+
+			this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'current player type=' + this._player.type + ', next player type=' + nextPlayerType);
+
+			// manage events of video element
+			this._eventManager = new EventManager();
+
+			// not listen error when shaka player used
+			// if (nextPlayerType !== AdaptivePlayer.PlayerType.SHAKA) {
+			this._eventManager.listen(this._video, 'error', this._onVideoError.bind(this));
+			// }
+			this._eventManager.listen(this._video, 'timeupdate', this._onTimeUpdate.bind(this));
+			this._eventManager.listen(this._video, 'ratechange', this._onRateChange.bind(this));
+			this._eventManager.listen(this._video, 'progress', this._onProgress.bind(this));
+			this._eventManager.listen(this._video, 'resize', this._onResize.bind(this)); // not work on IE/Edge
+			this._eventManager.listen(this._video, 'ended', function () { // Play done
+				this._onEnded({ reason: StateManager.ActionReason.COMPLETE })
+			}.bind(this)); 
+
+			if (this._video.textTracks) {
+				// monitoring track change event
+				this._eventManager.listen(this._video.textTracks, 'addtrack', this._onTextTracksChanged.bind(this));
+				this._eventManager.listen(this._video.textTracks, 'removetrack', this._onTextTracksChanged.bind(this));
+				this._eventManager.listen(this._video, 'addtrack', this._onTextTracksChanged.bind(this));
+				this._eventManager.listen(this._video, 'removetrack', this._onTextTracksChanged.bind(this));
+			}
+
+			// other video events just pass to caller
+			['seeking',
+				'seeked',
+				'pause',
+				'play',
+				'canplay',
+				'canplaythrough',
+				'playing',
+				'loadedmetadata',
+				'loadstart',
+				'durationchange'
+			].forEach(function (event) {
+				this._eventManager.listen(this._video, event, this._onVideoEvent.bind(this));
+			}.bind(this));
+
+			this._player.configure(this._config);
+
+			this._startLoadTime = new Date();
+
+			return this._player.load(this._url, startTime).catch(function(e) {
+				this._logger.print(AdaptivePlayer.LogLevel.ERROR, 'AdaptivePlayer', 'Load failed! msg=' + e.message);
+				this._statisticManager.reportNativeVideoError(e.message, AdaptivePlayer.ErrorCode.Generic_Error);
+			}.bind(this));
+		}.bind(this));
+	}
+
+	/**
+	 * Return unique ID of this machine for playback control
+	 * @returns string in guid format
+	 */
+	deviceId() {
+		this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'deviceId called!');
+		return PlatformUtil.getDeviceId();
+	}
+
+	/**
+	 * Determine stream is live or vod
+	 *
+	 * @returns {boolean} true when live, false when vod
+	 */
+	isLive() {
+		if (this._player) {
+			return this._player.isLive();
+		}
+		return false;
+	}
+
+	/**
+	 * Go to live position of live stream
+	 */
+	gotoLive() {
+		if (this._player &amp;&amp; this._player.isLive()) {
+			this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'gotoLive called!');
+			this._player.gotoLive();
+		}
+	}
+
+	/**
+	 * Start to play, or resume
+	 */
+	play() {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'play called!');
+
+		if (this._video) {
+			// NBA-4696: popup player : replay video doesn't auto play the video
+			// best practices of https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+			let promise = this._video.play();
+			if (promise != null) {
+				promise.then(function() {
+					// Autoplay started!
+					if (!this._autoPlayStatusEventSent) {
+            this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'auto play started!');
+						this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.AutoPlayStatus, { details: { autoplay: true } }));
+          }
+					this._autoPlayStatusEventSent = true;
+				}.bind(this)).catch(function() {
+					// Autoplay was prevented.
+					// Show a "Play" button so that user can start playback.
+					if (!this._autoPlayStatusEventSent) {
+            this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'auto play prevented!');
+						this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.AutoPlayStatus, { details: { autoplay: false } }));
+          }
+					this._autoPlayStatusEventSent = true;
+				}.bind(this));
+			}
+			this._video.autoplay = this._videoautoplay;
+			this._pauseAfterSeek = false;
+		}
+	}
+
+	/**
+	 * Pause playback
+	 */
+	pause() {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'pause called!');
+
+		if (this._video) {
+			// NBA-4696: popup player : replay video doesn't auto play the video
+			this._video.pause();
+			this._video.autoplay = false; // for load
+			this._pauseAfterSeek = true; // for seek
+		}
+	}
+
+	/**
+	 * Stop playback
+	 * @param {Object} options 
+	 * @param {boolean} options.triggerPlayEndEvent whether or not send PlayEnd event when stop called, not send event when onError
+	 */
+	stop(options) {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'stop called!');
+		this._url = '';
+
+		if (this.getState() === AdaptivePlayer.State.IDLE) {
+			this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'skip stop call on state idle');
+			return Promise.resolve();
+		}
+
+		if (this._debugPanel) {
+			this._debugPanel.reset();
+		}
+		if (this._cuepointManager) {
+			this._cuepointManager.cleanup();
+		}
+		if (this._stateManager) {
+			this._stateManager.reset({ reason: StateManager.ActionReason.ABORT });
+		}
+		if (this._statisticManager) {
+			this._statisticManager.stop();
+		}
+		if (this._eventManager) {
+			this._eventManager.destroy();
+		}
+
+		if (this._player) {
+			return this._player.unload().then(function () {
+				if (options == null || options.triggerPlayEndEvent == null || (options &amp;&amp; options.triggerPlayEndEvent)) {
+					this._onEnded({ reason: StateManager.ActionReason.ABORT });
+				}
+				return Promise.resolve();
+			}.bind(this));
+		}
+
+		return Promise.resolve().then(function () {
+			if (options == null || options.triggerPlayEndEvent == null || (options &amp;&amp; options.triggerPlayEndEvent)) {
+				this._onEnded({ reason: StateManager.ActionReason.ABORT });
+			}
+			return Promise.resolve();
+		}.bind(this));
+	}
+
+	/**
+	 * Determine stream switch is adaptation or manual(deprecated)
+	 * @param {boolean} value true is set adaptation, false is set to not.
+	 * @deprecated Renamed to setAdaptation
+	 */
+	setAdaption(value) {
+		if (this._player) {
+			this._player.setAdaptation(value);
+		}
+	}
+
+	/**
+	 * Determine stream switch is adaptation or manual
+	 * @param {boolean} value true is set adaptation, false is set to not.
+	 */
+	setAdaptation(value) {
+		if (this._player) {
+			this._player.setAdaptation(value);
+		}
+	}
+
+	/**
+	 * Select track
+	 * @params
+	 * @param {NLTrack} track - track object
+	 * @param {boolean} [optClearBuffer] - true by default. 
+	 * Set true for clear buffer when switch, which cause to pause and resume for a while; otherwise set to false for smooth playback.
+	 * For HLS/DASH, not for Native (Safari)
+	 */
+	selectTrack(track, optClearBuffer) {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'selectTrack called, track={' + track.id + ', ' + track.name + '}' + (optClearBuffer == null ? '' : (', optClearBuffer=' + optClearBuffer)));
+		if (this._player &amp;&amp; track) {
+			this._player.selectTrack(track, (optClearBuffer == null) ? true : !!optClearBuffer);
+		}
+	}
+
+	/**
+	 * hide all text track
+	 */
+	hideAllTextTracks() {
+		let textTracks = this._video.textTracks;
+		for (let i = 0; i &lt; textTracks.length; i++) {
+			let base = textTracks[i];
+			if (this._player.type === AdaptivePlayer.PlayerType.SHAKA &amp;&amp; base.label === 'Shaka Player TextTrack') {
+				this._player.setTextTrackVisibility(false);
+			} else if (base.mode !== 'disabled') {
+				base.mode = 'hidden';
+			}
+		}
+	}
+
+	/**
+	 * Return video tracks
+	 * Return [] on Safari with native video player
+	 * @returns {NLTrack[]} Track info objects
+	 */
+	videoTracks() {
+		if (this._player) {
+			return this._player.videoTracks();
+		}
+		return [];
+	}
+
+	/**
+	 * Return audio tracks
+	 * @returns {NLTrack[]} Track info objects
+	 */
+	audioTracks() {
+		if (this._player) {
+			return this._player.audioTracks();
+		}
+		return [];
+	}
+
+	/**
+	 * Return text tracks
+	 * @returns {NLTrack[]} Track info objects
+	 */
+	textTracks() {
+		if (this._player) {
+			return this._player.textTracks();
+		}
+		return [];
+	}
+
+	/**
+	 * Return text tracks for cc control (Deprecated)
+	 * @deprecated
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/TextTrack
+	 * @returns {TextTrack[]}
+	 */
+	ccTracks() {
+		if (this._player) {
+			return this._player.ccTracks();
+		}
+		return [];
+	}
+
+	/**
+	 * @typedef {object} Cuepoint
+	 * @property {number} time time to trigger
+	 * @property {string} name name of cuepoint
+	 * @property {object} object self-defined object which will be passed when triggered
+	 * @global
+	 */
+	/**
+	 * Add cuepoint(s)
+	 * @param {Array.&lt;Cuepoint>} cues
+	 * @returns {boolean} True when Success, Otherwise False
+	 */
+	addCuepoints(cues) {
+		if (this._cuepointManager) {
+			return this._cuepointManager.addCuepoints(cues);
+		}
+	}
+
+	/**
+	 * Remove cuepoint with conditions
+	 * @param {Integer} time - time to trigger
+	 * @param {string} name - name of cuepoint
+	 * @returns {boolean} True when Success, Otherwise False
+	 */
+	removeCuepoint(time, name) {
+		if (this._cuepointManager) {
+			return this._cuepointManager.removeCuepoint(time, name);
+		}
+	}
+
+	/**
+	 * Return all cuepoints
+	 * @returns {Cuepoint[]}
+	 * @since v2.2.0
+	 */
+	getCuepoints() {
+		if (this._cuepointManager) {
+			return this._cuepointManager.getCuepoints();
+		}
+	}
+
+	/**
+	 * Remove all cuepoints
+	 */
+	removeAllCuepoints() {
+		if (this._cuepointManager) {
+			return this._cuepointManager.removeAllCuepoints();
+		}
+	}
+
+	/**
+	 * @typedef {object} ThumbnailStream
+	 * @property {number} id
+	 * @property {number} width
+	 * @property {number} height
+	 * @property {number|undefined} baseTime in seconds
+	 * @global
+	 * @since v2.0.0
+	 */
+	/**
+	 * Get thumbnail streams
+	 * @return {Array.&lt;ThumbnailStream>}
+	 * @since v2.0.0
+	 */
+	getThumbnailStreams() {
+		this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'getThumbnailStreams');
+		let thumbnails = [];
+		if (this._player &amp;&amp; this._player.getThumbnailStreams &amp;&amp;
+				(this._player.type === AdaptivePlayer.PlayerType.SHAKA ||
+				this._player.type === AdaptivePlayer.PlayerType.HLSJS ||
+				this._player.type === AdaptivePlayer.PlayerType.NATIVE)) {
+			this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'getThumbnailStreams result:');
+			thumbnails = this._player.getThumbnailStreams();
+			if (thumbnails) {
+				thumbnails.forEach(function (element) {
+					this._logger.print(AdaptivePlayer.LogLevel.WARING, 'AdaptivePlayer',
+						'id-width-height: ' + element.id + '-' + element.width + '-' + element.height);
+				}.bind(this));
+			}
+		} else {
+			this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'Failed to get thumbnail streams');
+		}
+		return thumbnails;
+	}
+
+	/**
+	 * @typedef {object} ThumbnailImage
+	 * @property {string} url
+	 * @property {number} startTime
+	 * @property {number} endTime
+	 * @property {number} topX
+	 * @property {number} topY
+	 * @property {number} width
+	 * @property {number} height
+	 * @global
+	 * @since v2.0.0
+	 */
+	/**
+	 * callback of thumbnails, return thumbnails requested
+	 *
+	 * @callback ThumbnailsCb
+	 * @param {object}
+	 * @property {array.&lt;ThumbnailImage>} images
+	 * @property {number|undefined} baseTime
+	 * @property {number} requestTime
+	 * @property {number} streamId
+	 * @global
+	 * @since v2.0.0
+	 */
+	/**
+	 * Get thumbnails.
+	 * @param {number} id id get from function getThumbnailStreams
+	 * @param {number} time absolute pts time
+	 * @param {ThumbnailsCb} cb call back function
+	 * @since v2.0.0
+	 */
+	getThumbnailStreamImages(id, time, cb) {
+		this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'getThumbnailStreamImages: id=' + id + ' time=' + time);
+		if (this._player &amp;&amp; this._player.getThumbnailStreamImages &amp;&amp;
+				(this._player.type === AdaptivePlayer.PlayerType.SHAKA ||
+				this._player.type === AdaptivePlayer.PlayerType.HLSJS ||
+				this._player.type === AdaptivePlayer.PlayerType.NATIVE)) {
+			this._player.getThumbnailStreamImages(id, time, cb);
+		} else {
+			this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'Failed to get thumbnail');
+		}
+	}
+
+	/**
+	 * Set log level
+	 * @params {LogLevel} level
+	 * @example player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+	 */
+	setLogLevel(level) {
+		this._logger.setLogLevel(level);
+	}
+
+	/**
+	 * @description set other AdaptivePlayers and make them synchronized with this AdaptivePlayer.
+	 *
+	 * @param {AdaptivePlayer[]}
+	 * @since v2.1.0
+	 */
+	setSynchronizedViews(players) {
+		this._multiViewsManager.setSyncViews(players);
+	}
+
+	/**
+	 * Return state of player
+	 * @returns {STATE}
+	 * @example [IDLE, LOADING, BUFFERING, PLAYING, PAUSED, SEEKING]
+	 */
+	getState() {
+		if (this._stateManager) {
+			return this._stateManager.getState();
+		}
+		return AdaptivePlayer.State.IDLE;
+	}
+
+	/**
+	 * get current configuration
+	 * @deprecated
+	 */
+	getConfigure() {
+		return this._config;
+	}
+
+	/**
+	 * get current configuration
+	 * @deprecated
+	 * @since v3.0.0
+	 */
+	getConfigurations() {
+		return this._config;
+	}
+
+	/**
+	 * @typedef {Object} Statistics
+	 * @property {number} bandwidth in Kbps
+	 * @property {number} bitrate in Kbps
+	 * @property {TimeRanges} buffered
+	 * @property {number} currentTime in second
+	 * @property {number} droppedFrameCount total frames dropped
+	 * @property {number} totalVideoFrames total frames decoded
+	 * @property {number|Infinity} duration in second
+	 * @property {boolean} isAutoSwitch set to adaptive or not
+	 * @property {object} bytesLoaded
+	 * @property {string} bytesLoaded.cdnName
+	 * @property {number} bytesLoaded.bytes in byte
+	 * @property {boolean} muted
+	 * @property {number} playbackRate
+	 * @property {number} readyState
+	 * @property {State} state current state of player
+	 * @property {Object} switchHistory
+	 * @property {number} switchHistory.from
+	 * @property {number} switchHistory.to
+	 * @property {boolean} switchHistory.fromAdaptation true - auto, false - manual
+	 * @property {number} switchHistory.timestamp in second
+	 * @property {string} switchInfo i.e. 'Auto: [...] -> [800]'
+	 * @property {number} videoHeight
+	 * @property {number} videoWidth
+	 * @property {number} volume
+	 * @property {number | NaN} livePointOffest offset to live point from current position, NaN for VOD
+	 * @global
+	 */
+
+	/**
+	 * Return statistics of playback
+	 * @returns {Statistics}
+	 */
+	getStats() {
+		let emptyStats = {
+			currentTime: '',
+			duration: '',
+			videoWidth: '',
+			videoHeight: '',
+			muted: '',
+			volume: 0,
+			isLive: false,
+			droppedFrameCount: '',
+			totalVideoFrames: '',
+			readyState: '',
+			buffered: '',
+			bufferingTime: 0,
+			playbackRate: '',
+			bytesLoaded: [],
+			state: '',
+			url: '',
+			bandwidth: '',
+			bitrate: '',
+			switchInfo: '',
+			switchHistory: NaN,
+			isAutoSwitch: '',
+			livePointOffest: -1
+		};
+		
+		if (!this._player || !this._video) {
+			return emptyStats;
+		}
+
+		let info = { droppedFrameCount: 0, totalVideoFrames: 0 };
+		if (this._video.readyState >= 2) {
+			if (HTMLVideoElement.prototype.getVideoPlaybackQuality) {
+				let e = this._video.getVideoPlaybackQuality();
+				info.droppedFrameCount = e.droppedVideoFrames;
+				info.totalVideoFrames = e.totalVideoFrames;
+			} else if (typeof this._video.webkitDroppedFrameCount === 'number') {
+				info.droppedFrameCount = this._video.webkitDroppedFrameCount;
+				info.totalVideoFrames = this._video.webkitDecodedFrameCount
+			}
+		}
+
+		let playerStats = this._player.getStats();
+		let switchInfo = '';
+		if (playerStats &amp;&amp; playerStats.switchInfo) {
+			switchInfo = playerStats.switchInfo.fromAdaptation ? 'Auto: ' : 'Manual: ';
+			if (playerStats.switchInfo.from) {
+				switchInfo += '[' + playerStats.switchInfo.from / 1000 + '] -> [';
+			} else {
+				switchInfo += '[...] -> [';
+			}
+			if (playerStats.switchInfo.to) {
+				switchInfo += playerStats.switchInfo.to / 1000 + ']';
+			} else {
+				switchInfo += '...]';
+			}
+		}
+
+		return {
+			currentTime: this.currentTime,
+			duration: this.duration,
+			videoWidth: this._video.videoWidth,
+			videoHeight: this._video.videoHeight,
+			muted: this._video.muted,
+			volume: this._video.volume,
+			isLive: this.isLive(),
+			url: this._url,
+			totalVideoFrames: info.totalVideoFrames,
+			droppedFrameCount: info.droppedFrameCount,
+			readyState: this._video.readyState,
+			buffered: this._video.buffered,
+			playbackRate: this._video.playbackRate,
+			state: this.getState(),
+			bufferingTime: this._stateManager.getBufferingTime() / 1000.0,
+			bytesLoaded: playerStats.bytesLoaded,
+			bandwidth: playerStats.bandwidth,
+			bitrate: playerStats.bitrate,
+			switchInfo: switchInfo,
+			switchHistory: playerStats.switchHistory,
+			isAutoSwitch: playerStats.isAutoSwitch,
+			livePointOffest: playerStats.livePointOffest
+		};
+	}
+
+	/**
+ 	 * Get/Set current sample duration of current bitrate
+ 	 * @param {number} value return 0 when something wrong
+ 	*/
+	get sampleDuration() {
+		if (this._player &amp;&amp; this._url !== '') {
+			return this._player.sampleDuration;
+		}
+		return 0;
+	}
+
+	/**
+	 * Get/Set current time of video element
+	 * @param {number} value
+	 */
+	get currentTime() {
+		if (this._player) {
+			return this._player.currentTime;
+		}
+		return 0;
+	}
+	set currentTime(value) {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'Seek to ' + value);
+		// set to 0 in case not defined or less than 0
+		if (value == null || value &lt;= 0) { 
+			value = Settings.SMALL_GAP_TO_START;
+		}
+		if (this._stateManager) {
+			this._stateManager.notifyUserSeek();
+		}
+		if (this._player) {
+			this._player.currentTime = value;
+			this._clearID3AfterSeek = true;
+		}
+	}
+
+  normalizeCurrentTime() {
+   if (this._player &amp;&amp; this._url !== '') {
+      if (this._player.type === AdaptivePlayer.PlayerType.HLSJS) {
+        this._player.setNormalizeCurrentTime();
+      }
+    }
+  }
+
+  getNormalizeCurrentTime() {
+    if (this._player &amp;&amp; this._url !== '') {
+      if (this._player.type === AdaptivePlayer.PlayerType.HLSJS) {
+        return this._player.getNormalizeCurrentTime(); 
+      } else {
+        return this._player.currentTime;
+      }
+    }
+    return 0;
+  }
+
+	/**
+	 * Get duration of video element
+	 * @returns {Number} In seconds, or NaN when not open, or Infinity when live
+	 * @readonly
+	 */
+	get duration() {
+		if (this.isLive()) {
+			return Infinity;
+		}
+		return this._video.duration;
+	}
+
+	/**
+	 * Get stream type
+	 * @returns {AdaptivePlayer.StreamType}
+	 * @readonly
+	 */
+	get streamType() {
+		if (this._player) {
+			return this._player.streamType;
+		}
+		return AdaptivePlayer.StreamType.UNKNOWN;
+	}
+
+	/**
+	 * Get type of player
+	 * @returns AdaptivePlayer.PlayerType
+	 * @readonly
+	 */
+	get playerType() {
+		if (this._player) {
+			return this._player.type;
+		}
+		return AdaptivePlayer.PlayerType.UNKNOWN;
+	}
+
+	/**
+	 * Get buffered info of video element
+	 * @readonly
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/buffered
+	 */
+	get buffered() {
+		return this._video.buffered;
+	}
+
+	/**
+	 * Get/Set mute of video element
+	 * @params {boolean} value
+	 * @example player.muted = true;
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/muted
+	 */
+	get muted() {
+		return this._video.muted;
+	}
+	set muted(value) {
+		this._video.muted = value;
+	}
+
+	/**
+	 * Get/Set volume of video element
+	 * @param {Number} value
+	 * @example
+			// 1.0 is highest volume (100%. This is default)
+			// 0.5 is half volume (50%)
+			// 0.0 is silent (same as mute)
+			player.volume = 1.0;
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/volume
+	 */
+	get volume() {
+		return this._video.volume;
+	}
+	set volume(value) {
+		this._video.volume = value;
+	}
+
+	/**
+	 * Get/set source of video element
+	 * @param {string} value
+	 * @type String
+	 * @example player.src = 'https://sample.com/test.m3u8'
+	 * @returns {String}
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/src
+	 */
+	get src() {
+		return this._video.src;
+	}
+	set src(value) {
+		this._video.src = value;
+	}
+
+	/**
+	 * Get/Set playbackRate of video element
+	 * @example
+			1.0 is normal speed
+			0.5 is half speed (slower)
+			2.0 is double speed (faster)
+	 * @default 1.0
+	 * @returns {Number}
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate
+	 */
+	get playbackRate() {
+		return this._video.playbackRate;
+	}
+	set playbackRate(value) {
+		this._video.muted = (value !== 1);
+		this._video.playbackRate = value;
+	}
+
+	/**
+	 * Indicates the readiness state of the media.
+	 * @readonly
+	 * @returns {Number}
+	 * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState
+	 */
+	get readyState() {
+		return this._video.readyState;
+	}
+
+	/**
+	 * Work-around to clear wrong cues of all text tracks during slate
+	 */
+	clearWrongCues() {
+		this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'Clear wrong cues of all text tracks during slate');
+		let textTracks = this._video.textTracks;
+		for (let i = textTracks.length - 1; i >= 0; i--) {
+			if ((textTracks[i].kind === 'subtitles' || textTracks[i].kind === 'captions') &amp;&amp;
+					(textTracks[i].mode === 'showing')) {
+				textTracks[i].mode = 'hidden';
+				// clear active cues
+				if (textTracks[i].activeCues) {
+					for (let j = textTracks[i].activeCues.length - 1; j >= 0; j--) {
+						let cue = textTracks[i].activeCues[j];
+						this._logger.print(AdaptivePlayer.LogLevel.WARING, 'AdaptivePlayer', 'Clear wrong active cue: [' + cue.startTime + ',' | cue.endTime + ']');
+						textTracks[i].removeCue(cue);
+					}
+				}
+				// clear wrong cues
+				if (textTracks[i].cues) {
+					for (let j = textTracks[i].cues.length - 1; j >= 0; j--) {
+						let cue = textTracks[i].cues[j];
+						if (cue.startTime &lt; this.currentTime &amp;&amp; cue.endTime >= this.currentTime) {
+							this._logger.print(AdaptivePlayer.LogLevel.WARING, 'AdaptivePlayer', 'Clear wrong cue: [' + cue.startTime + ',' | cue.endTime + ']');
+							textTracks[i].removeCue(cue);
+						}
+					}
+				}
+				textTracks[i].mode = 'showing';
+			}
+		}
+	}
+
+	// private functions
+
+	_createPlayer(type) {
+		if (type === AdaptivePlayer.PlayerType.NATIVE) {
+			return new BasicPlayer(this._video, this);
+		} else if (type === AdaptivePlayer.PlayerType.SHAKA) {
+			return new DashPlayer(this._video, this);
+		} else if (type === AdaptivePlayer.PlayerType.HLSJS) {
+			return new HlsPlayer(this._video, this);
+		} else if (type === AdaptivePlayer.PlayerType.WEBRTC) {
+			return new WebRTCPlayer(this._video, this);
+		} else {
+			this._logger.print(AdaptivePlayer.LogLevel.ERROR, 'AdaptivePlayer', 'Failed to create player with type=' + type);
+			return null;
+		}
+	}
+
+	// timeupdate will be thrown between about 4Hz and 66Hz (assuming the event handlers don't take longer than 250ms to run)
+	// Use 4HZ to trigger timeupdate event to upper layer
+	_onTimeUpdate(event) {
+		let data = {
+			currentTime: this.currentTime,
+			duration: this.duration,
+			buffered: this.buffered
+		};
+
+		// update cuepoint manager
+		if (this._cuepointManager) {
+			this._cuepointManager.onTimeUpdate(data);
+		}
+		// send empty advertisement only
+		this._emptyAdvertisementList.sort(function (a, b) {
+			return a.time - b.time;
+		});
+		for (let index = 0; index &lt; this._emptyAdvertisementList.length; index++) {
+			let item = this._emptyAdvertisementList[index];
+			if (item.time &lt;= this.currentTime &amp;&amp; item.time >= (this.currentTime - 1)) {
+				item.urls.forEach(function (url) {
+					this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', '+++ Posted beacon: ' + url);
+					XHRUtil.sendWithIframe(url);
+					// XHRUtil.createXHR({url: item.url}).catch(function (e) {});
+				}.bind(this));
+				// remove it
+				this._emptyAdvertisementList.splice(index, 1);
+				index--;
+			} else if (item.time > this.currentTime) {
+				break;
+			}
+		}
+
+		// call inner player timeupdate
+		if (this._player &amp;&amp; this._player._onTimeUpdate) {
+			this._player._onTimeUpdate(data);
+		}
+
+		this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'Fired TimeUpdate: ' + event + '[' + JSON.stringify(data) + ']');
+		this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.TimeUpdate, {
+			currentTime: this.currentTime,
+			duration: this.duration,
+			buffered: this.buffered,
+			details: data
+		}));
+	}
+
+	_onRateChange(event) {
+		this.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.RateChange, {
+				details: {
+					rate: event.target.playbackRate
+				}
+			}));
+		this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'Fired RateChange: ' + '[playbackRate = ' + event.target.playbackRate + ']');
+
+		/*
+      Workaround of video.onended not triggered on Edge/IE 11
+      Conditions:
+      1. IE11/Edge only
+      2. VOD only
+      3. playbackRate == 0
+      4. Remain duration less that 0.5s
+    */
+		if ((this.browserType === 'IE' || this.browserType === 'Edge') &amp;&amp;
+			!this.isLive() &amp;&amp;
+			this._video.playbackRate === 0 &amp;&amp;
+			(this._video.duration - this._video.currentTime &lt;= 1)) {
+			setTimeout(function () {
+				this._stateManager.reset({ reason: StateManager.ActionReason.ABORT });
+				this._video.pause();
+				this._onEnded({ reason: StateManager.ActionReason.ABORT });
+			}.bind(this), 1000); // Simulate onended after 1s
+		}
+	}
+
+	_onProgress(event) {
+		this.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.Progress, {
+				details: {
+					timeStamp: event.timeStamp,
+					eventPhase: event.eventPhase
+				}
+			}));
+		this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', 'Fired Progress: ' + event);
+	}
+
+	_onResize(event) {
+		this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'resize triggered');
+		if (this._player &amp;&amp; this._player.notifyProfileChanged) {
+			this._player.notifyProfileChanged({
+				videoWidth: event.target.videoWidth,
+				videoHeight: event.target.videoHeight
+			});
+		}
+	}
+
+	_onVolumeChange(event) {
+		let data = {
+			muted: event.target.muted,
+			volume: event.target.volume
+		};
+
+		this.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.VolumeChange, { details: data }));
+		this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'Fired VolumeChange: ' + event + '[' + JSON.stringify(data) + ']');
+	}
+
+	_onTextTracksChanged(event) {
+		// only notify text track change for HLS
+		if (this._player.type === AdaptivePlayer.PlayerType.HLSJS) {
+			this.dispatchEvent(
+				new FakeEvent(AdaptivePlayer.EventType.TrackChange, { details: { type: AdaptivePlayer.Kind.TEXT, track: this.textTracks() } }));
+			this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'Fired TrackChange: ' + '[' + event.track.kind + ' / ' + event.track.label + ']');
+		}
+	}
+
+	_onEnded(event) {
+		this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'Fired PlayEnd ' + JSON.stringify(event));
+		this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.PlayEnd, { details: event }));
+	}
+
+	_onVideoEvent(evt) {
+		let data = '';
+		switch (evt.type) {
+			case 'durationchange':
+				if (evt.target.duration - this._lastDuration &lt;= 0.5) {
+					// some browsers reports several duration change events with almost the same value ... avoid spamming video events
+					return;
+				}
+				this._lastDuration = evt.target.duration;
+				data = Math.round(evt.target.duration * 1000);
+				break;
+			case 'loadedmetadata':
+				data = 'duration:' + evt.target.duration + '/videoWidth:' + evt.target.videoWidth + '/videoHeight:' + evt.target.videoHeight;
+				this._oneTimeSeek = true;
+				this._firstPlayAfterMetadataLoaded = true;
+				this._oneTimeAutoPlay = true;
+				break;
+			// case 'loadeddata':
+			case 'canplay':
+				if (this._firstPlayAfterMetadataLoaded) {
+					this._firstPlayAfterMetadataLoaded = false;
+
+					this._endLoadTime = new Date();
+					this._loaded = true;
+					let data = { loadTime: (this._endLoadTime - this._startLoadTime), details: { loadTime: (this._endLoadTime - this._startLoadTime) } };
+					this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.PlayStart, data));
+					this._player.notifyPlayStarted(); // notify to player
+					this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'Fired PlayStart: ' + '[' + JSON.stringify(data) + ']');
+				}
+
+				// Firefox will not get canplaythrough sometimes,
+				// We need to add seek to buffer start here
+				// Fix bug of 146, 151
+				try {
+					if (this._oneTimeSeek &amp;&amp; this._video.currentTime === 0 &amp;&amp; this._video.buffered.length > 0) {
+						this._video.currentTime = this._video.buffered.start(0) + Settings.SMALL_GAP_TO_START; // add small offset to start play on Firefox
+						this._clearID3AfterSeek = false;
+						this._oneTimeSeek = false;
+					}
+				} catch (e) {
+					this._logger.print(AdaptivePlayer.LogLevel.WARNING, 'AdaptivePlayer', 'seek to buffer start exception: ' + e);
+				}
+				this._statisticManager.stopLoadWatchDog();
+
+				// work-around of Firefox 55 live stream paused after start play
+				if (this._pauseAfterSeek) {
+					// this.pause();
+					this._pauseAfterSeek = false;
+				} else if (this._video.autoplay &amp;&amp; this._oneTimeAutoPlay) {
+					this._oneTimeAutoPlay = false;
+					this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'work-around of Firefox 55 live stream paused after start play')
+					this.play();
+				}
+				break;
+			case 'canplaythrough':
+				break;
+			case 'seeking':
+				if (!this._isInSeeking) {
+					if (this._statisticManager) {
+						this._statisticManager.startSeekWatchDog();
+					}
+					this._isInSeeking = true;
+				}
+				break;
+			case 'seeked':
+				if (this._clearID3AfterSeek) {
+					this._cuepointManager.clearID3();
+				}
+				if (this._statisticManager) {
+					this._statisticManager.stopSeekWatchDog();
+				}
+				this._isInSeeking = false;
+
+				// for NBA-5218 NBA Timeline Inquiry
+				try {
+					if (this._video.currentTime === 0 &amp;&amp; this._video.buffered.length > 0 &amp;&amp; this._video.buffered.start(0) !== 0) {
+						this._logger.print(AdaptivePlayer.LogLevel.INFO, 'AdaptivePlayer', 'Do jump to buffered.start( ' + this._video.buffered.start(0) + ') when seek to ' + this._video.currentTime);
+						this._video.currentTime = this._video.buffered.start(0) + Settings.SMALL_GAP_TO_START; // add small offset to start play on Firefox
+					}
+				} catch (e) {
+					this._logger.print(AdaptivePlayer.LogLevel.WARNING, 'AdaptivePlayer', 'seek to buffer start exception: ' + e);
+				}
+				break;
+			case 'play':
+				break;
+			case 'playing':
+				break;
+			case 'pause':
+			case 'waiting':
+			case 'stalled':
+			default:
+				break;
+		}
+		this.dispatchEvent(evt);
+
+		this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.StreamingEvent, {
+			details: {
+				data: {
+					from: 'AdaptivePlayer',
+					data: { type: evt.type }
+				}
+			}
+		}));
+		this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'Fired streaming event: ' + evt.type + '[' + data + ']');
+	}
+
+	_onVideoError(evt) {
+		if (!evt.target.error) {
+			return;
+		}
+
+		let code = evt.target.error.code;
+		if (code === 1 /* MEDIA_ERR_ABORTED */) {
+			return;
+		}
+
+		// Extra error information from MS Edge and IE11:
+		let extended = evt.target.error.msExtendedCode;
+		if (extended) {
+			// Convert to unsigned:
+			if (extended &lt; 0) {
+				extended += Math.pow(2, 32);
+			}
+			// Format as hex:
+			extended = extended.toString(16);
+		}
+
+		let errorCode = AdaptivePlayer.ErrorCode.Playback_Generic_Error;
+		if (evt.type === 'error') {
+			let errorTxt = '';
+			let mediaError = evt.currentTarget.error;
+			let ext = UrlUtil.getExtension(this._url);
+			switch (mediaError.code) {
+				case mediaError.MEDIA_ERR_DECODE:
+					errorTxt = 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support';
+					errorCode = AdaptivePlayer.ErrorCode.Incompatible_Codecs_Error;
+					break;
+				case mediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+					errorTxt = 'The video could not be loaded, because the server or network failed';
+					/*
+							For Safari 3rd party cookie block issue, using external m3u8 parser to detect 403
+							. When BasicPlayer get 403 of external parser, set _basic_externalParser_403_found true
+							. Return 21403 on video error MEDIA_ERR_SRC_NOT_SUPPORTED if _basic_externalParser_403_found true
+							. Or return 21001
+							(one-time token used normally for non-drm stream, external parser will get 403 in this case, so can't return 403 on external parser 403 directly)
+					 */
+					errorCode = AdaptivePlayer.ErrorCode.Get_Primary_Manifest_Failed + (!!this._player._basic_externalParser_403_found ? AdaptivePlayer.ErrorDetailedCode.Cookie_Reject_Error : AdaptivePlayer.ErrorDetailedCode.Connect_Failed);
+					this._player._basic_externalParser_403_found = false;
+
+					if ((ext === 'webm' &amp;&amp; evt.target.canPlayType('video/webm; codecs="vp8, vorbis"') === '') ||
+						(ext === 'ogg' &amp;&amp; evt.target.canPlayType('video/ogg; codecs="theora"') === '')) {
+						errorTxt = 'The video could not be loaded, because the format is not supported';
+						errorCode = AdaptivePlayer.ErrorCode.Incompatible_Codecs_Error;
+					}
+					break;
+				case mediaError.MEDIA_ERR_NETWORK:
+					errorCode = AdaptivePlayer.ErrorCode.Get_Primary_Manifest_Failed + AdaptivePlayer.ErrorDetailedCode.Connect_Failed;
+					errorTxt = 'A network error caused the video download to fail part-way';
+					break;
+				default:
+					break;
+			}
+
+			let time = this.currentTime ? this.currentTime : Math.round(evt.target.currentTime * 1000);
+			errorTxt += ', playback position: ' + time + (extended ? ' extendCode: ' + extended : ' ');
+			this._statisticManager.reportNativeVideoError(errorTxt, errorCode);
+
+			// NFL-822 'The video can't be played on your device.' appear many times.
+			this.stop({ triggerPlayEndEvent: false });
+
+			this._logger.print(AdaptivePlayer.LogLevel.ERROR, 'AdaptivePlayer', 'Fired streaming error: ' + errorTxt);
+		}
+	}
+
+	/* Advertisement 
+	 @private
+	 ad end event:
+   @example  {
+            start: xxxx,
+            data: { 'type':'ADEND', 'data': {'adid':'18732270_2659078'}}
+       }
+   ad start/keep event
+   @example  {
+            start: xxxx,
+            data: {'type':'ADSTART', data: {'adid':'18732270_2659078', 'urls':[{'type':'trackClick','url':'http://xxxx'}]}}
+       }
+   */
+	_onAdvertisement(event) {
+		this._logger.print(AdaptivePlayer.LogLevel.TRACE, 'AdaptivePlayer', '_onAdvertisement');
+		/*
+		{
+			adId: '',
+			type: 'ADSTART'/'ADEND'/'ADPOST',
+			urls: []  // {name:'defaultClick/trackClick, url:'http://...'}
+		}
+		*/
+		if (event) {
+			this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', '_onAdvertisement: ' + JSON.stringify(event));
+			if (event.type === 'ADSTART' || event.type === 'ADEND') {
+				this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.AdEvent, { start: this.currentTime, data: event, details: event }));
+			} else if (event.type === 'ADPOST') {
+				event.data.urls.forEach(function (item) {
+					this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', '+++ Posted beacon: ' + item.url);
+					XHRUtil.sendWithIframe(item.url);
+					// XHRUtil.createXHR({url: item.url}).catch(function (e) {});
+				}.bind(this))
+			}
+		}
+	}
+
+	/* empty advertisement
+	 @example event: [{type: string, time: number, urls: Array[string]}]
+	 @private
+	 */
+	_onEmptyAdvertisement(event) {
+		if (event) {
+			for (let i = 0; i &lt; event.length; i++) {
+				let exist = this._emptyAdvertisementList.some(function (elem) {
+					return (elem.time === event[i].time);
+				});
+				if (exist === false) {
+					this._emptyAdvertisementList.push(event[i]);
+					this._logger.print(AdaptivePlayer.LogLevel.DEBUG, 'AdaptivePlayer', 'Add empty advertisement: ' + JSON.stringify(event[i]));
+				}
+			}
+		}
+	}
+
+	/* range
+	 @example event.detail: [{id: string, start: number, end: number}]
+	 @private
+	 */
+	_onAdRangesUpdate(event) {
+		if (event) {
+			let data = { type: AdaptivePlayer.AD.RANGE_EVENT, data: event };
+			this.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.AdEvent, { start: this.currentTime, details: data, data: data }));
+		}		
+	}
+}
+
+// global variables
+
+/**
+ * Version string
+ * @global
+ */
+AdaptivePlayer.version = __VERSION__;
+
+/**
+ * Version of player cores
+ * @global
+ */
+AdaptivePlayer.coreVersion = 'shaka-player: ' + DashPlayer.version +
+	', hls.js: ' + HlsPlayer.version +
+	', basic: ' + BasicPlayer.version +
+	', webrtc: ' + WebRTCPlayer.version;
+
+/**
+ * Types of player used
+ * @global
+ * @enum {string}
+ */
+AdaptivePlayer.PlayerType = {
+	SHAKA: 'shaka',
+	HLSJS: 'hls.js',
+	NATIVE: 'native',
+	/** since 3.0.0 */
+	WEBRTC: 'nlwebrtc',
+	UNKNOWN: 'unknown'
+};
+
+/**
+ * Streaming types
+ * @global
+ * @enum {string}
+ */
+AdaptivePlayer.StreamType = {
+	HTTP_VIDEO: 'HTTP',
+	DASH: 'DASH',
+	HLS: 'HLS',
+	/** since 3.0.0 */
+	WEBRTC: 'WEBRTC',
+	UNKNOWN: 'UNKNOWN'
+};
+
+/**
+ * Streaming components types
+ * @global
+ * @enum {string}
+ */
+AdaptivePlayer.Kind = {
+	VIDEO: 'VIDEO',
+	AUDIO: 'AUDIO',
+	TEXT: 'TEXT',
+	UNKNOWN: 'UNKNOWN'
+};
+
+/**
+ * Error codes
+ * @global
+ * @see NLError.Code
+ * @since v2.0.0
+ */
+AdaptivePlayer.ErrorCode = NLError.Code;
+
+/**
+ * Error detailed codes
+ * @global
+ * @see NLError.NetworkDetailCode
+ * @since v2.0.0
+ */
+AdaptivePlayer.ErrorDetailedCode = NLError.NetworkDetailCode;
+
+/**
+ * Error report levels
+ * @see NLError.SeverityLevel
+ * @global
+ * @since v2.0.0
+ */
+AdaptivePlayer.ErrorReportLevel = NLError.SeverityLevel;
+
+/**
+ * Logger levels
+ * @see LogUtil.LogLevel
+ * @global
+ */
+AdaptivePlayer.LogLevel = LogUtil.LogLevel;
+
+/**
+ * Detected OS info
+ * @global
+ * @see https://github.com/faisalman/ua-parser-js 
+ */
+AdaptivePlayer.OS = (new UAParser().getOS());
+
+/**
+ * Browser's name
+ * Use native player for iOS: browserType of iOS Webview is "WebKit"
+ * in this case, browserType of iOS Webview set to 'Mobile Safari' 
+ * @global
+ * @see https://github.com/faisalman/ua-parser-js
+ */
+AdaptivePlayer.browserType = (AdaptivePlayer.OS.name === 'iOS') ? 'Mobile Safari' : (new UAParser().getBrowser().name);
+
+/**
+ * Event types
+ * @global
+ * @see EventManager.EventType
+ */
+AdaptivePlayer.EventType = EventManager.EventType;
+
+/**
+ * State of player
+ * @global
+ * @see StateManager.State
+ */
+AdaptivePlayer.State = StateManager.State;
+
+/**
+ * Events of AD
+ * @readonly
+ * @static
+ * @enum {string}
+ * @since v2.2.2
+ */
+AdaptivePlayer.AD = {
+	START_EVENT: 'ADSTART',
+	END_EVENT: 'ADEND',
+	RANGE_EVENT: 'ADRANGES',
+	DEFAULT_CLICK: 'defaultClick',
+	TRACK_CLICK: 'trackClick'
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:24:40 GMT+0800 (GMT+08:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/Media/FairPlay/KeySessionManager.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Media/FairPlay/KeySessionManager.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as helpers from &apos;./FairPlayDRMHelpers&apos;
+import { EventManager } from &apos;../../Manager/EventManager&apos;
+import * as ObjectUtil from &apos;../../Utils/Object&apos;
+import * as StringUtil from &apos;../../Utils/String&apos;
+import * as xhr from &apos;../../Utils/Xhr&apos;
+import * as PlatformUtil from &apos;../../Utils/Platform&apos;
+import { NLError } from &apos;../NLError&apos;
+
+export class KeySessionManager {
+    constructor() {
+        this.KEY_SYSTEM_NAME = &apos;com.apple.fps.1_0&apos;;
+        this._licenseUrl = &apos;&apos;;
+        this._onError = null;
+        this._params = null;
+
+        this._eventManager = new EventManager();
+        this._sessions = [];
+    }
+
+    init(licenseUrl, params, onError) {
+        this._licenseUrl = licenseUrl;
+        this._params = params;
+        this._onError = onError;
+
+        this._eventManager.removeAll();
+        this._clearSession();
+        this._sessions = [];
+    }
+
+    createSession(videoElement, rawInitData, certCb) {
+        if (!certCb) {
+            // cert load failed, just return
+            return;
+        }
+
+        let contentId = helpers.extractContentId(rawInitData);
+        let overrideInitData = helpers.concatInitDataIdAndCertificate(
+            rawInitData,
+            contentId,
+            new Uint8Array(certCb));
+
+        videoElement.webkitSetMediaKeys(new WebKitMediaKeys(this.KEY_SYSTEM_NAME));
+
+        let keySession = videoElement.webkitKeys.createSession(&apos;video/mp4&apos;, overrideInitData);
+        if (!keySession) {
+            this._onError({ error: NLError.Basic.DRM.KEY_SESSION_CREATE_ERROR });
+            return;
+        }
+        this._eventManager.listen(keySession, &apos;webkitkeymessage&apos;, this._onKeyMessage.bind(this));
+        this._eventManager.listen(keySession, &apos;webkitkeyerror&apos;, this._onKeyError.bind(this));
+
+        this._sessions.push({ keySession: keySession, contentId: contentId });
+    }
+
+    reset() {
+        this.init(&apos;&apos;, null, null);
+    }
+
+    destroy() {
+        this.reset();
+        this._eventManager.destroy();
+        this._video = null;
+    }
+
+    _onKeyMessage(event) {
+        let keySession = event.target;
+        let session = this._getSession(keySession);
+
+        let spcBase64 = StringUtil.base64EncodeUint8Array(event.message);
+        let licenseServer = this._licenseUrl;
+
+        let headers = {};
+        let params = &apos;&apos;;
+
+        if (this._params) {
+            // saffron request
+            // {
+            //  &apos;content_id&apos;: &apos;53504841B2694F515BCDCCE20810656E&apos;,
+            //  &apos;device_id&apos;:&apos;8d025a8a-d0fa-47f4-8eaa-a4627d11e045&apos;,
+            //  &apos;challenge&apos;:&apos;AAAAAQAAAACNCi9C3uGspgtxwmW&#xFFFD;&apos;,
+            //  &apos;client&apos;:&apos;Tribeca&apos;,
+            //  &apos;cro&apos;:&apos;bearer eyJhbGciOiJIUzI1NiIsInR5cC&#xFFFD;&apos; 
+            // }
+            params = &apos;{&quot;content_id&quot;:&quot;&apos; + session.contentId + 
+                &apos;&quot;,&quot;device_id&quot;:&quot;&apos; + PlatformUtil.getDeviceId() + 
+                &apos;&quot;,&quot;challenge&quot;:&quot;&apos; + spcBase64 + 
+                &apos;&quot;,&quot;client&quot;:&quot;&apos; + (this._params.provider || &apos;NeuLion&apos;) + 
+                &apos;&quot;,&quot;cro&quot;:&quot;&apos; + this._params.token + &apos;&quot;}&apos;;
+
+            headers[&apos;Content-type&apos;] = &apos;application/x-www-form-urlencoded&apos;;
+            headers[&apos;Content-Type&apos;] = &apos;application/x-www-form-urlencoded&apos;;
+            headers[&apos;Accept&apos;] = &apos;application/json, text/plain, */*&apos;;
+        }
+
+        let async = xhr.createXHR({
+            url: licenseServer,
+            method: &apos;POST&apos;,
+            headers: headers,
+            params: params
+        });
+
+        async.then(function (responseText) {
+            let key = helpers.parseLicense(responseText);
+            if (!key.result) {
+                this._onError({
+                    error: {
+                        code: NLError.Basic.DRM.LICENSE_ERROR.code,
+                        message: NLError.Basic.DRM.LICENSE_ERROR.message + key.message
+                    }
+                });
+            } else {
+                delete session.async;
+                keySession.update(key.result);
+            }
+        }.bind(this)).catch(function (e) {
+            delete session.async;
+            this._onError({ error: NLError.Basic.DRM.LICENSE_ERROR, code: e });
+        }.bind(this));
+
+        session.async = async;
+    }
+
+    _onKeyError(event) {
+        this._onError({ error: NLError.Basic.DRM.KEY_ERROR });
+    }
+
+    _getSession(s) {
+        return ObjectUtil.find(this._sessions, &apos;keySession&apos;, s);
+    }
+
+    _clearSession() {
+        if (!this._sessions || this._sessions.length &lt;= 0) {
+            return;
+        }
+
+        this._sessions.forEach(function (s) {
+            if (s.async) {
+                s.async.abort();
+            }
+            if (s.keySession) {
+                s.keySession.close();
+            }
+        });
+    }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

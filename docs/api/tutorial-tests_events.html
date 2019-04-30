@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: tests_events</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: tests_events</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>tests_events</h2>
+</header>
+
+<article>
+    <!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+  <label>Url:</label><input type="text" id="urlValue" style="width: 400px;" value='http://172.16.0.107:8507/devclear/teststage/t594_hd.m3u8'>
+  <button onclick="load_Url()">Load</button>
+  <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  <button onclick="unload_Url()">Unload</button>
+  <br />
+  <button onclick="create()">Create AdativePlayer</button>
+  <button onclick="destroy()">Destroy AdativePlayer</button>
+
+  <table>
+    <tr>
+      <td style="vertical-align:top;">
+        <video crossOrigin="anonymous" id="video_main" style="width: 400px;" autoplay controls>
+          Your browser doesn't support HTML5 video.
+        </video>
+      </td>
+      <td style="vertical-align:top;">
+        <b>Status:</b>
+        <label id="state"></label><br />
+        <textarea style="overflow:scroll;white-space: pre;overflow-wrap: normal;" rows="40" cols="80" id="status"></textarea>
+      </td>
+    </tr>
+  </table>
+  <script>
+    var video = document.getElementById('video_main');
+    var player;
+    create();
+
+    function onprogress(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Progress: " + JSON.stringify(e.details) + "\r\n";
+    };
+
+    function onplayStart(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Play started" + "\r\n";
+      var player = e.target;
+      // setTimeout(function() {
+      //     player.currentTime = player.duration-6;
+      //     }, 6000);            
+    }
+    function onplayEnd(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Play ended" + "\r\n";
+      var player = e.target;
+      player.stop();
+    }
+    function onstateChange(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "StateChanged:" + e.oldState + "->" + e.newState + "\r\n";
+    }
+    function onerror(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Error: " + JSON.stringify(e.details) + "\r\n";
+    }
+    function ontimeUpdate(e) {
+      var state = document.getElementById('state');
+      state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+    }
+    function onbuffering(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Buffering" + "\r\n";
+    }
+    function onprofileChange(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Profile changed to " + event.videoWidth + 'x' + event.videoHeight + "\r\n";
+    }
+    function onid3(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "ID3: " + 'start=' + event.start + ', end=' + event.end + ', value=' + JSON.stringify(event.value) + "\r\n";
+    }
+    function onadvertisement(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Ad: " + JSON.stringify(event.data) + "\r\n";
+    }
+    function onseekRangeChange(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "onSeekRangeChange: " + JSON.stringify(event.details) + "\r\n";
+    }
+
+    function create() {
+      if (player != null) {
+        destroy();
+      }
+
+      player = new AdaptivePlayer(video);
+
+      player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+      Object.values(AdaptivePlayer.EventType).forEach(function (event) {
+        player.addEventListener(event, window['on' + event]);
+      });
+    }
+
+    function destroy() {
+      var status = document.getElementById('status');
+      if (player == null) {
+        status.innerHTML = "Error: player not initialized!";
+        return;
+      }
+      status.innerHTML = "";
+      player.destroy();
+      player = null;
+    }
+
+    function load_Url() {
+      var status = document.getElementById('status');
+      if (player == null) {
+        status.innerHTML = "Error: player not initialized!";
+        return;
+      }
+      status.innerHTML = "";
+      var urlValue = document.getElementById('urlValue');
+      player.load(urlValue.value);
+    }
+
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      player.configure({ drm: { params: { token: '123' } } });
+      load_Url();
+    }
+
+    function unload_Url() {
+      var status = document.getElementById('status');
+      if (player == null) {
+        status.innerHTML = "Error: player not initialized!";
+        return;
+      }
+      status.innerHTML = "";
+      player.stop();
+    }
+  </script>
+</body>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li><li><a href="tutorial-tests_ad.html">tests_ad</a></li><li><a href="tutorial-tests_basic.html">tests_basic</a></li><li><a href="tutorial-tests_cuepoint.html">tests_cuepoint</a></li><li><a href="tutorial-tests_events.html">tests_events</a></li><li><a href="tutorial-tests_id3.html">tests_id3</a></li><li><a href="tutorial-tests_startparams.html">tests_startparams</a></li><li><a href="tutorial-tests_thumbnail.html">tests_thumbnail</a></li><li><a href="tutorial-tests_tracks.html">tests_tracks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 01 2019 15:43:15 GMT+0800 (中国标准时间)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

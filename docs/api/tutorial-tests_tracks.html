@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: tests_tracks</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: tests_tracks</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>tests_tracks</h2>
+</header>
+
+<article>
+    <!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <label id="version"></label><br/>
+    <input type="text" style="width: 450px;" placeholder="stream url" value= 'http://172.16.0.107:8506/clear/teststage/t594_hd.m3u8' id="url">
+    <button onclick="testPlay()">Play</button>
+    <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+    <br/>
+    <table >
+        <tr>
+            <td style="vertical-align:top;">
+                <video crossOrigin="anonymous" id="video_main" style="width: 400px;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+                <br/>
+                SwitchMode:
+                <select id="switch_mode">
+                    <option value=0>Not set</option>
+                    <option value=1>True</option>
+                    <option value=2>False</option>
+                </select>
+                <br />
+                <select id="video_tracks">
+                </select>
+                Every <input id="switch_interval" style="width: 50px;" value="10">seconds <button onclick="test_adapatation()">Switch bitrates test</button>
+                <br />
+                <select id="audio_tracks">
+                </select>
+                Every <input id="switch_interval_audio" style="width: 50px;" value="10">seconds <button onclick="test_audioswitch()">Switch audios test</button>
+                <br />
+                <select id="text_tracks">
+                </select>  
+                Every <input id="switch_interval_text" style="width: 50px;" value="10">seconds <button onclick="test_subtitleswitch()">Switch subtitles test</button>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state"></label>
+                <label id='status' style="width: 500px;" ></label>
+            </td>
+        </tr>
+    </table>
+    <script>
+        document.getElementById('version').innerHTML = AdaptivePlayer.version;
+
+        var urls = [
+                // HLS
+                'http://nasatv-lh.akamaihd.net/i/NASA_101@319270/master.m3u8',
+
+                //CEA-608 captions
+                //'http://172.16.0.188:8300/dashtest/clear/cctest.mp4.mpd',
+                //'http://172.16.0.188:38300/clear/public/public.mpd',
+                //'http://172.16.0.188:8300/dashtest/clear/IFramePer2Sec/chicago/chicago.mp4.mpd',
+                'http://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd',
+                'http://w01.quickmedia.tv/mbr/x/manbeast/manbeast.smil/manifest.mpd',
+                'http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd',
+                //'http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-full-gdr/mp4-full-gdr-mpd-AV-BS.mpd',
+                //'http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1/client_manifest-events.mpd',
+                //'http://172.16.0.188:8300/dashtest/clear/IFramePer2Sec/h264-San-Francisco-3min-audio-2-44100-fix.mp4.mpd',
+                //'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
+                //'http://www.streambox.fr/playlists/x31jrg1/x31jrg1.m3u8',
+                // DASH 
+                // subtitles
+                'http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd',
+        ];        
+
+        var video = document.getElementById('video_main');    
+        var player = new AdaptivePlayer(video);
+
+        player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+        player.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart);
+        player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate);   
+        player.addEventListener(AdaptivePlayer.EventType.ProfileChange, onProfileChange);
+        player.addEventListener(AdaptivePlayer.EventType.TrackChange, onTrackChange);
+
+        var switch_mode_value = null;
+        var switch_mode = document.getElementById('switch_mode');   
+        switch_mode.addEventListener('change', function(event) {
+            switch(event.target.value) {
+                case '0': switch_mode_value = null; break;
+                case '1': switch_mode_value = true; break;
+                case '2': switch_mode_value = false; break;
+            }
+        });
+
+        var video_tracks = document.getElementById('video_tracks');   
+        video_tracks.addEventListener('change', function(event) {
+            var videoTracks = player.videoTracks();
+            var track = videoTracks.filter(function (track) {
+                return track.id.toString() === (event.target.value);
+            })[0];
+            if (track)
+                player.selectTrack(track, switch_mode_value);
+            else 
+                player.setAdaption(true);
+        });
+
+        var audio_tracks = document.getElementById('audio_tracks'); 
+        audio_tracks.addEventListener('change', function(event) {
+            var audioTracks = player.audioTracks();
+            player.selectTrack(audioTracks.filter(function (track) {
+                return track.id.toString() === (event.target.value);
+            })[0]);
+            var videoTracks = player.videoTracks();
+            if (videoTracks) {
+                var videoOptions = videoTracks.reduce(function (previousValue, currentValue) {
+                    //console.log(currentValue.bandwidth + ':' + currentValue.active);
+                    return previousValue + '\n        <option value="' + currentValue.id + '" ' + (currentValue.active ? 'selected' : '') + '>' + currentValue.id + '-' + currentValue.bandwidth + '</option>';
+                }, '<option value="-1">Auto</option>');
+                video_tracks.innerHTML = videoOptions;
+            }
+        });          
+
+        var text_tracks = document.getElementById('text_tracks');   
+        text_tracks.addEventListener('change', function(event) {
+            if (event.target.value == "off") {
+                player.hideAllTextTracks();
+            } else {
+                var textTracks = player.textTracks();
+                var track = textTracks.filter(function (track) {
+                    return track.id.toString() === (event.target.value);
+                })[0];
+                player.selectTrack(track);
+            }
+        }); 
+
+        var bitrate_switch_interval = null;
+        var audio_switch_interval = null;
+        var text_switch_interval = null;
+        function test_adapatation() {
+            var interval_ = document.getElementById('switch_interval').value;
+            if (bitrate_switch_interval) 
+                clearInterval(bitrate_switch_interval);
+            bitrate_switch_interval = setInterval(function() {
+                var tracks = player.videoTracks();
+                var index = 0;
+                for(index=0; index<tracks.length; index++) {
+                    if (tracks[index].active)
+                        break;
+                }
+                if ( ++index >= tracks.length)
+                    index = 0;
+                player.selectTrack(tracks[index], switch_mode_value);
+                video_tracks.value = tracks[index].id.toString();
+            }, interval_*1000);
+        }
+        
+        function test_audioswitch() {
+            var interval_ = document.getElementById('switch_interval_audio').value;
+            if (audio_switch_interval)
+                clearInterval(audio_switch_interval);
+            audio_switch_interval = setInterval(function() {
+                var tracks = player.audioTracks();
+                var index = 0;
+                for(index=0; index<tracks.length; index++) {
+                    if (tracks[index].active)
+                        break;
+                }
+                if ( ++index >= tracks.length)
+                    index = 0;
+                player.selectTrack(tracks[index], switch_mode_value);
+                audio_tracks.value = tracks[index].id.toString();
+            }, interval_*1000);
+        }       
+        
+        function test_subtitleswitch() {
+            var interval_ = document.getElementById('switch_interval_text').value;
+            if (text_switch_interval)
+                clearInterval(text_switch_interval);
+            text_switch_interval = setInterval(function() {
+                var tracks = player.textTracks();
+                var index = 0;
+                for(index=0; index<tracks.length; index++) {
+                    if (tracks[index].active)
+                        break;
+                }
+                if ( ++index >= tracks.length)
+                    index = 0;
+                player.selectTrack(tracks[index], switch_mode_value);
+                text_tracks.value = tracks[index].id;
+            }, interval_*1000);
+        }
+
+        function onPlayStart(e) {
+            var status = document.getElementById('status'); 
+            //status.innerHTML = "<p>Play started";
+            var audioTracks = player.audioTracks();
+            audioTracks.forEach(function (element) {
+                console.log("audio: id=" + element.id + " active=" + element.active);
+            });
+            var videoTracks = player.videoTracks();
+            videoTracks.forEach(function (element) {
+                console.log("video: id=" + element.id + " active=" + element.active);
+            });
+            var textTracks = player.textTracks();
+            textTracks.forEach(function (element) {
+                console.log("text: id=" + element.id + " active=" + element.active);
+            });
+            if (videoTracks) {
+                var videoOptions = videoTracks.reduce(function (previousValue, currentValue) {
+                    //console.log(currentValue.bandwidth + ':' + currentValue.active);
+                    return previousValue + '\n        <option value="' + currentValue.id + '" ' + (currentValue.active ? 'selected' : '') + '>' + currentValue.id + '-' + currentValue.bandwidth + '</option>';
+                }, '<option value="-1">Auto</option>');
+                video_tracks.innerHTML = videoOptions;
+            }
+            if (audioTracks) {
+                var audioOptions = audioTracks.reduce(function (previousValue, currentValue) {
+                    return previousValue + '\n        <option value="' + currentValue.id + '" ' + (currentValue.active ? 'selected' : '') + '>' + currentValue.id + '-' + currentValue.name + '</option>';
+                }, '');
+                audio_tracks.innerHTML = audioOptions;
+            }
+            if (textTracks) {
+                var textOptions = textTracks.reduce(function (previousValue, currentValue) {
+                    return previousValue + '\n        <option value="' + currentValue.id + '" ' + (currentValue.active ? 'selected' : '') + '>' + currentValue.name + '</option>';
+                }, '<option value="off" selected>OFF</option>');
+                text_tracks.innerHTML = textOptions;
+            }              
+        }
+        function updateTracks(event) {
+            if (event && event.details) {
+                if (event.details.type == AdaptivePlayer.Kind.AUDIO) {
+                    var audioTracks = event.details.tracks;
+                    audioTracks.forEach(function (element) {
+                        console.log("audio: id=" + element.id + " active=" + element.active);
+                    });
+                    if (audioTracks) {
+                        var audioOptions = audioTracks.reduce(function (previousValue, currentValue) {
+                            return previousValue + '\n        <option value="' + currentValue.base.id + '" ' + (currentValue.active ? 'selected' : '') + '>' + currentValue.id + '-' + currentValue.name + '</option>';
+                        }, '');
+                        console.log(audioOptions);
+                        audio_tracks.innerHTML = audioOptions;
+                    }
+                } else if (event.details.type == AdaptivePlayer.Kind.VIDEO) {
+                    var videoTracks = event.details.tracks;
+                    videoTracks.forEach(function (element) {
+                        console.log("video: id=" + element.id + " active=" + element.active);
+                    });
+                    if (videoTracks) {
+                        var videoOptions = videoTracks.reduce(function (previousValue, currentValue) {
+                            return previousValue + '\n        <option value="' + currentValue.id + '" ' + (currentValue.active ? 'selected' : '') + '>' + currentValue.id + '-' + currentValue.bandwidth + '</option>';
+                        }, '<option value="-1">Auto</option>');
+                        console.log(videoOptions);
+                        video_tracks.innerHTML = videoOptions;
+                    }
+                } else if (event.details.type == AdaptivePlayer.Kind.TEXT) {
+                    var textTracks = event.details.tracks;
+                    textTracks.forEach(function (element) {
+                        console.log("text: id=" + element.id + " active=" + element.active);
+                    });
+                    if (textTracks) {
+                        var textOptions = textTracks.reduce(function (previousValue, currentValue) {
+                            return previousValue + '\n        <option value="' + currentValue.id + '" ' + (currentValue.active ? 'selected' : '') + '>' + currentValue.name + '</option>';
+                        }, '<option value="off" selected>OFF</option>');
+                        console.log(textOptions);
+                        text_tracks.innerHTML = textOptions;
+                    }
+                }
+            }
+        }
+       
+        function onTimeUpdate(e) {
+            var state = document.getElementById('state'); 
+            state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+        }        
+        var switch_test_number = 0;  
+        function onProfileChange(event) {
+            var status = document.getElementById('status'); 
+            status.innerHTML = "<p>No." + (++switch_test_number) + ": Profile changed to " + event.videoWidth + 'x' + event.videoHeight;
+            //video_tracks.value = event.id;
+            //test_adapatation();            
+        }
+        function onTrackChange(event) {
+			updateTracks(event);
+        }
+        function testPlay() {    
+            var status = document.getElementById('status');   
+            status.innerHTML = "";  
+            switch_test_number = 0;
+
+            var url = document.getElementById('url').value;//'http://nlds159.cdnak.neulion.com/nldsu/univision/as/live/uni_hd_pc.m3u8';   
+            player.load(url);
+        }
+
+        // HLS uses native player on Safari
+        function reloadWithNative() {
+            player.configure({ drm: { params: { token: '123' } } });
+            testPlay();
+        }
+
+    </script>
+</body>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li><li><a href="tutorial-tests_ad.html">tests_ad</a></li><li><a href="tutorial-tests_basic.html">tests_basic</a></li><li><a href="tutorial-tests_cuepoint.html">tests_cuepoint</a></li><li><a href="tutorial-tests_events.html">tests_events</a></li><li><a href="tutorial-tests_id3.html">tests_id3</a></li><li><a href="tutorial-tests_startparams.html">tests_startparams</a></li><li><a href="tutorial-tests_thumbnail.html">tests_thumbnail</a></li><li><a href="tutorial-tests_tracks.html">tests_tracks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 01 2019 15:43:15 GMT+0800 (中国标准时间)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

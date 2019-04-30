@@ -1,0 +1,40 @@
+[
+  {
+    "name": "AdaptivePlayer#setSynchronizedViews",
+    "filePath": "src/AdaptivePlayer.js",
+    "lines": [
+      {
+        "lineNumber": 765,
+        "line": "\t/**"
+      },
+      {
+        "lineNumber": 766,
+        "line": "\t * @description set other AdaptivePlayers and make them synchronized with this AdaptivePlayer."
+      },
+      {
+        "lineNumber": 767,
+        "line": "\t *"
+      },
+      {
+        "lineNumber": 768,
+        "line": "\t * @param {AdaptivePlayer[]}"
+      },
+      {
+        "lineNumber": 769,
+        "line": "\t * @since v2.1.0"
+      },
+      {
+        "lineNumber": 770,
+        "line": "\t */"
+      },
+      {
+        "lineNumber": 771,
+        "line": "\tsetSynchronizedViews(players) {"
+      }
+    ],
+    "codeParams": [
+      "players"
+    ],
+    "docParams": []
+  }
+]

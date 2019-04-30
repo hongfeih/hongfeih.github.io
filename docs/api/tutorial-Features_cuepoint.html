@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Cuepoints</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Cuepoints</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Cuepoints</h2>
+</header>
+
+<article>
+    <pre class="prettyprint source"><code>var video = document.getElementById('video_main');
+var player = new AdaptivePlayer(video);
+
+player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+player.addEventListener(AdaptivePlayer.EventType.ID3Event, onID3);
+
+function onID3(event) {
+  var text = 'start=' + event.start + ', end=' + event.end + ': ';
+  if (event.value.dict)
+    text += JSON.stringify(event.value.dict) + '\r\n';
+  else
+    text += '\r\n';
+  var status = document.getElementById('status');
+  status.innerHTML += event.value.dict.type + &quot;: &quot; + text;
+  if (event.value.dict.name == 'testcuepoint') {
+    addTestCuepoints();
+  }
+}
+
+function load() {
+  var status = document.getElementById('status');
+  status.innerHTML = &quot;&quot;;
+  player.load(document.getElementById('urlValue').value);
+}
+
+// HLS uses native player on Safari
+function reloadWithNative() {
+  player.configure({
+    drm: {
+      params: {
+        token: '123'
+      }
+    }
+  });
+  load();
+}
+
+var current = 0;
+
+function addCuepoints() {
+  current = Math.round(player.currentTime);
+  var cues = [];
+  for (var i = 1; i &lt; 10; i++) {
+    cues.push({
+      time: current + i * 5,
+      dict: {
+        name: &quot;test&quot; + i + '-' + current,
+        object: {
+          a: 'test',
+          b: 'adaptiveplayer'
+        }
+      }
+    });
+  }
+  player.removeAllCuepoints()
+  player.addCuepoints(cues);
+}
+
+function addTestCuepoints() {
+  current = Math.round(player.currentTime);
+  player.removeAllCuepoints();
+  var cues = [{
+    time: current + 0.5,
+    dict: {
+      name: &quot;testcuepoint&quot;,
+      object: {
+        a: 'test',
+        b: 'adaptiveplayer'
+      }
+    }
+  }];
+  player.addCuepoints(cues);
+}
+
+function removeCuepoint() {
+  var ret = player.removeCuepoint(current + 10, 'test2' + '-' + current);
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;remove Cuepoint: {&quot; + (current + 10) + &quot;, &quot; + 'test2' + '-' + current + &quot;} = &quot; + ret + &quot;\r\n&quot;;
+  ret = player.removeCuepoint(current + 15, 'test2' + '-' + current);
+  status.innerHTML += &quot;remove Cuepoint: {&quot; + (current + 15) + &quot;, &quot; + 'test2' + '-' + current + &quot;} = &quot; + ret + &quot;\r\n&quot;;
+  ret = player.removeCuepoint(current + 20, 'test4' + '-' + current);
+  status.innerHTML += &quot;remove Cuepoint: {&quot; + (current + 20) + &quot;, &quot; + 'test4' + '-' + current + &quot;} = &quot; + ret + &quot;\r\n&quot;;
+}
+
+function removeAllCuepoints() {
+  player.removeAllCuepoints();
+}
+
+function getCuepoints() {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Cuepoints: &quot; + JSON.stringify(player.getCuepoints()) + &quot;\r\n&quot;;
+}</code></pre>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:24:40 GMT+0800 (GMT+08:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

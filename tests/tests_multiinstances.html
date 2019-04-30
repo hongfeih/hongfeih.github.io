@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <button onclick="create2()">Play DASH</button>
+    <button onclick="create1()">Play HLS</button>
+    <button onclick="destroy()">Destroy AdativePlayer</button>
+    
+    <table >
+        <tr>
+            <td style="vertical-align:top;">
+                <video crossOrigin="anonymous" id="video1" style="width: 400px;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state1"></label><br/>
+                <textarea style="overflow:scroll;white-space: pre;overflow-wrap: normal;" rows="20" cols="80" id="status1"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top;">
+                <video crossOrigin="anonymous" id="video2" style="width: 400px;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state2"></label><br />
+                <textarea style="overflow:scroll;white-space: pre;overflow-wrap: normal;" rows="20" cols="80" id="status2"></textarea>
+            </td>
+        </tr>
+    </table>
+    <script>
+        var urls = [
+                // HLS
+                'http://nasatv-lh.akamaihd.net/i/NASA_101@319270/master.m3u8',
+                'http://nlds14.cdnak.neulion.com/nlds_vod/mls/vod/2015/02/24/1295/2_1295_mtl_pac_2014_h_whole_1_ced.mp4.m3u8',
+                //CEA-608 captions
+                'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
+                'http://www.streambox.fr/playlists/x31jrg1/x31jrg1.m3u8',
+                'http://nlds159.cdnak.neulion.com/nldsu/univision/as/live/uni_hd_ipad.m3u8',
+                // DASH 
+                'http://storage.googleapis.com/shaka-demo-assets/sintel/dash.mpd',
+                
+                // subtitles
+                'http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd',
+        ];        
+
+          
+        var player1 = null;
+        var player2 = null;
+
+        function onProgress(e) {
+            var status;
+            if (e.target._video == document.getElementById('video1'))
+                status = document.getElementById('status1'); 
+            else if (e.target._video ==  document.getElementById('video2'))
+                status = document.getElementById('status2'); 
+            status.innerHTML += "\r\nProgress: " + e.timeStamp + ", " + e.eventPhase;  
+        };
+
+        function onPlayStart1(e) {
+            var status = document.getElementById('status1'); 
+            status.innerHTML += "\r\nPlay started";   
+            var player = e.target;
+            // setTimeout(function() {
+            //     player.currentTime = player.duration-6;
+            //     }, 6000);            
+        }
+        function onPlayEnd1(e) {
+            var status = document.getElementById('status1'); 
+            status.innerHTML += "\r\nPlay ended";
+            var player = e.target;
+            player.stop();
+        }
+        function onStateChange1(e) { 
+            var status = document.getElementById('status1'); 
+            status.innerHTML += "\r\nStateChanged:" + e.oldState + "->" + e.newState;   
+        }
+        function onError1(e) {
+            var status = document.getElementById('status1'); 
+            status.innerHTML += "\r\nError: " + JSON.stringify(e.details); 
+        }
+        function onTimeUpdate1(e) {
+            var state = document.getElementById('state1'); 
+            state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+        } 
+        function onBuffering1(e) {
+            var state = document.getElementById('status1'); 
+            status.innerHTML += "Buffering";
+        }               
+        function onProfileChange1(event) {
+            var status = document.getElementById('status1'); 
+            status.innerHTML += "\r\nProfile changed to " + event.videoWidth + 'x' + event.videoHeight;
+        }
+        function onID31(event) {
+            var text = event.value.data + ', start=' + event.start + ', end=' + event.end + '\r\n';
+            var status = document.getElementById('status1'); 
+            status.innerHTML += "\r\nID3: " + text ;                 
+        }
+        function onPlayStart2(e) {
+            var status = document.getElementById('status2'); 
+            status.innerHTML += "\r\nPlay started";   
+            var player = e.target;
+            // setTimeout(function() {
+            //     player.currentTime = player.duration-6;
+            //     }, 6000);            
+        }
+        function onPlayEnd2(e) {
+            var status = document.getElementById('status2'); 
+            status.innerHTML += "\r\nPlay ended";
+            var player = e.target;
+            player.stop();
+        }
+        function onStateChange2(e) { 
+            var status = document.getElementById('status2'); 
+            status.innerHTML += "\r\nStateChanged:" + e.oldState + "->" + e.newState;   
+        }
+        function onError2(e) {
+            var status = document.getElementById('status2'); 
+            status.innerHTML += "\r\nError: " + JSON.stringify(e.details); 
+        }
+        function onTimeUpdate2(e) {
+            var state = document.getElementById('state2'); 
+            state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+        } 
+        function onBuffering2(e) {
+            var state = document.getElementById('status2'); 
+            status.innerHTML += "Buffering";
+        }               
+        function onProfileChange2(event) {
+            var status = document.getElementById('status2'); 
+            status.innerHTML += "\r\nProfile changed to " + event.videoWidth + 'x' + event.videoHeight;
+        }
+        function onID32(event) {
+            var text = event.value.data + ', start=' + event.start + ', end=' + event.end + '\r\n';
+            var status = document.getElementById('status2'); 
+            status.innerHTML += "\r\nID3: " + text ;                 
+        }
+        function load_dash() {    
+            var status = document.getElementById('status');   
+            status.innerHTML = "";
+
+            player.load(urls[5], 0);
+        }
+        function load_hls() {    
+            var status = document.getElementById('status');   
+            status.innerHTML = "";
+
+            player.load(urls[2], 0);
+        }        
+
+        function create1() {
+            var video = document.getElementById('video1');  
+            player1 = new AdaptivePlayer(video);
+                
+            player1.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+            player1.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart1);
+            player1.addEventListener(AdaptivePlayer.EventType.PlayEnd, onPlayEnd1);      
+            player1.addEventListener(AdaptivePlayer.EventType.StateChange, onStateChange1);    
+            player1.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate1);   
+            player1.addEventListener(AdaptivePlayer.EventType.Error, onError1);  
+            player1.addEventListener(AdaptivePlayer.EventType.ProfileChange, onProfileChange1);
+            player1.addEventListener(AdaptivePlayer.EventType.Buffering, onBuffering1);
+            player1.addEventListener(AdaptivePlayer.EventType.ID3Event, onID31);
+            //player1.addEventListener(AdaptivePlayer.EventType.Progress, onProgress);   
+            var status = document.getElementById('status1');   
+            status.innerHTML = "";
+            player1.load('http://nlds159.cdnak.neulion.com/nldsu/univision/as/live/uni_hd_pc.m3u8');
+        }
+        function create2() {
+            var video = document.getElementById('video2');  
+            player2 = new AdaptivePlayer(video);
+                
+            player2.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+            player2.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart2);
+            player2.addEventListener(AdaptivePlayer.EventType.PlayEnd, onPlayEnd2);      
+            player2.addEventListener(AdaptivePlayer.EventType.ID3Event, onID32);
+            player2.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate2); 
+            //player2.addEventListener(AdaptivePlayer.EventType.Progress, onProgress);   
+
+            var status = document.getElementById('status2');   
+            status.innerHTML = "";
+            player2.load('http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd');
+        }        
+        function destroy(){
+            if (player1) {
+              player1.destroy();
+              player1 = null;
+            }
+            if (player2) {
+              player2.destroy();
+              player2 = null;
+            }
+        }
+    </script>
+</body>

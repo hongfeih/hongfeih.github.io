@@ -1,0 +1,257 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>HTML5 Player SDK Test Page</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <label id="version"></label><br/>
+    <table style="width: 900px;">
+        <tbody><tr>
+            <td style="width: 80px;">
+                <label>Url 1: </label>
+            </td>
+            <td>
+                <input type="text" style="width: 450px;" placeholder="stream url" id="url1">
+                <input type="checkbox" id="withCredentials1"> Request With Credentials
+            </td>        
+        </tr>
+        <tr>
+            <td style="width: 100px;">
+                <label>Token 1: </label>
+            </td>        
+            <td>
+                <input type="text" style="width: 450px;" placeholder="stream token" id="token1">
+            </td>
+        </tr>
+        <tr>   
+        </tr><tr>
+            <td style="width: 80px;">
+                <label>Url 2: </label>
+            </td>
+            <td>
+                <input type="text" style="width: 450px;" placeholder="stream url" id="url2">
+                <input type="checkbox" id="withCredentials2"> Request With Credentials
+            </td>        
+        </tr>
+        <tr>
+            <td style="width: 100px;">
+                <label>Token 2: </label>
+            </td>        
+            <td>
+                <input type="text" style="width: 450px;" placeholder="stream token" id="token2">
+            </td>
+        </tr>         
+        <tr>
+            <th colspan="2" align="left">
+                <input type="text" style="width: 450px;" value="nl:testclient:1" id="client">
+                <input type="text" style="width: 450px;" placeholder="stream id" id="streamId">
+                <button onclick="getToken1()">Get Token 1</button>
+                <button onclick="getToken2()">Get Token 2</button>
+            </th> 
+        </tr>
+        <tr>
+            <th colspan="2" align="left">
+                <button onclick="setPOC()">POC</button>
+                <button onclick="setStaging()">Staging</button>
+                <button onclick="setProd()">Prod</button>
+            </th> 
+        </tr>  
+        <tr>
+            <td style="width: 100px;">
+                <label>Playready: </label>
+            </td> 
+            <td>
+                <input type="text" class="form-control" style="width:100%" value="https://staging-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx" placeholder="PlayReady License Server" id="licenseServer_PR">
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 100px;">
+                <label>Widevine: </label>
+            </td>             
+            <td>
+                <input type="text" class="form-control" style="width:100%" value="https://staging-lic2widevine.sd-ngp.net/proxy" placeholder="Widevine License Server" id="licenseServer_WV">
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 100px;">
+                <label>FairpPlay: </label>
+            </td>             
+            <td>
+                <input type="text" class="form-control" style="width:100%" value="https://staging-lic2fairplay.sd-ngp.net/licensing" placeholder="FairPlay_License Server" id="licenseServer_FP">
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 120px;">
+                <label>FairPlay Cert: </label>
+            </td>             
+            <td>
+                <input type="text" class="form-control" style="width:100%" value="https://staging-lic2fairplay.sd-ngp.net/licensing" ng-hide="browser.indexOf(&#39;Safari&#39;) != 0" placeholder="Certificate URL" id="certUrl">
+            </td>
+        </tr>
+    </tbody></table>  
+    <button onclick="testDRM(1)">Play 1</button>
+    <button onclick="switchDRM()">Switch 1-&gt;2</button>
+    <table>
+        <tbody><tr>
+            <td style="vertical-align:top;">
+                <video id="video_main" style="width: 400px;" autoplay="" controls="">
+                    Your browser doesn't support HTML5 video.
+                </video>
+                <br>
+                <label id="seekRange"></label>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state">0.00/NaN</label>
+                <label id="status" style="width: 500px;"></label>
+                
+            </td>
+        </tr>
+    </tbody></table>
+    <script>  
+        document.getElementById('version').innerHTML = AdaptivePlayer.version;
+
+        var video = document.getElementById('video_main');    
+        var player = new AdaptivePlayer(video);
+        player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+        player.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart);
+        player.addEventListener(AdaptivePlayer.EventType.PlayEnd, onPlayEnd);      
+        player.addEventListener(AdaptivePlayer.EventType.StateChange, onStateChange);    
+        player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate);   
+        player.addEventListener(AdaptivePlayer.EventType.Error, onError);  
+        player.addEventListener(AdaptivePlayer.EventType.ProfileChange, onProfileChange);
+        player.addEventListener(AdaptivePlayer.EventType.Buffering, onBuffering);
+        player.addEventListener(AdaptivePlayer.EventType.ID3Event, onID3);
+        player.addEventListener(AdaptivePlayer.EventType.SeekRangeChange, onSeekRangeChange);
+
+        function onPlayStart(e) {
+            var status = document.getElementById('status'); 
+            status.innerHTML += "<p>Play started";
+            /*       
+            var player = e.target;
+            setTimeout(function() {
+                player.currentTime = player.duration-6;
+                }, 6000);       
+            */                
+        }
+        function onPlayEnd(e) {
+            var status = document.getElementById('status'); 
+            status.innerHTML += "<p>Play ended";
+            var player = e.target;
+            player.stop();
+        }
+        function onStateChange(e) { 
+            var status = document.getElementById('status'); 
+            status.innerHTML += "<p>StateChanged:" + e.oldState + "->" + e.newState;   
+        }
+        function onError(e) {
+            var status = document.getElementById('status'); 
+            status.innerHTML += "<p>Error: " + JSON.stringify(e.details); 
+        }
+        function onTimeUpdate(e) {
+            var state = document.getElementById('state'); 
+            state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+        } 
+        function toDateString(epoch) {
+            var date = new Date(epoch*1000);
+            return  (date.getMonth() + 1) + "/" +
+                    date.getDate() + "/" +
+                    date.getFullYear() + " " +
+                    date.getHours() + ":" +
+                    date.getMinutes() + ":" +
+                    date.getSeconds()
+        }
+        function onSeekRangeChange(e) { 
+            document.getElementById('seekRange').innerHTML = "[" + toDateString(e.data.start) + ", " + toDateString(e.data.end) + "]";   
+        }
+        function onBuffering(e) {
+            var state = document.getElementById('status'); 
+            status.innerHTML += "Buffering";
+        }               
+        function onProfileChange(event) {
+            var status = document.getElementById('status'); 
+            status.innerHTML += "<p>Profile changed to " + event.videoWidth + 'x' + event.videoHeight;
+        }
+        function onID3(event) {
+            var text = String.fromCharCode.apply(null, event.data) + ', start=' + event.start + ', end=' + event.end + '\r\n';
+            var status = document.getElementById('status'); 
+            status.innerHTML += "<p>ID3: " + text ;                 
+        }
+        var license_type = "staging";
+        function getToken1() {
+            var request = new XMLHttpRequest();
+            request.open('GET', 'http://172.16.0.188:8889/token?ls=' + license_type + '&client=' + document.getElementById('client').value + '&eid=' + document.getElementById('streamId').value + '&offline=false', false);  // `false` makes the request synchronous
+            request.send(null);
+            document.getElementById('token1').value = request.responseText;
+        }
+        function getToken2() {
+            var request = new XMLHttpRequest();
+            request.open('GET', 'http://172.16.0.188:8889/token?ls=' + license_type + '&client=' + document.getElementById('client').value + '&eid=' + document.getElementById('streamId').value + '&offline=false', false);  // `false` makes the request synchronous
+            request.send(null);
+            document.getElementById('token2').value = request.responseText;
+        }
+        function setPOC() {
+            document.getElementById('licenseServer_PR').value = 'https://poc-dynopkgplayready.sd-ngp.net/standard-licensing/rightsmanager.asmx';
+            document.getElementById('licenseServer_WV').value = 'https://poc-dynopkgwidevine.sd-ngp.net/proxy';
+            document.getElementById('licenseServer_FP').value = 'https://poc-dynopkgfairplay.sd-ngp.net/licensing';
+            document.getElementById('certUrl').value = 'https://poc-dynopkgfairplay.sd-ngp.net/licensing';
+            license_type = "poc";
+        }
+        function setStaging() {
+            document.getElementById('licenseServer_PR').value = 'https://staging-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx';
+            document.getElementById('licenseServer_WV').value = 'https://staging-lic2widevine.sd-ngp.net/proxy';
+            document.getElementById('licenseServer_FP').value = 'https://staging-lic2fairplay.sd-ngp.net/licensing';
+            document.getElementById('certUrl').value = 'https://staging-lic2fairplay.sd-ngp.net/licensing';
+            license_type = "staging";
+        }
+        function setProd() {
+            document.getElementById('licenseServer_PR').value = 'https://prod-lic2playready.sd-ngp.net/standard-licensing/rightsmanager.asmx';
+            document.getElementById('licenseServer_WV').value = 'https://prod-lic2widevine.sd-ngp.net/proxy';
+            document.getElementById('licenseServer_FP').value = 'https://prod-lic2fairplay.sd-ngp.net/licensing';
+            document.getElementById('certUrl').value = 'https://prod-lic2fairplay.sd-ngp.net/licensing';
+            license_type = "prod";
+        }
+        function testDRM(index) {    
+            var status = document.getElementById('status');   
+            status.innerHTML = "";
+            var url = document.getElementById('url' + index).value;
+            var token = document.getElementById('token' + index).value;
+            var withCredentials = document.getElementById('withCredentials' + index).checked;
+            var licenseServer_PR = document.getElementById('licenseServer_PR').value;
+            var licenseServer_WV = document.getElementById('licenseServer_WV').value;
+            var licenseServer_FP = document.getElementById('licenseServer_FP').value;
+            var certUrl = document.getElementById('certUrl').value;
+            player.configure({
+                debug: false,
+                drm: {
+                    widevine: {
+                        server: licenseServer_WV,
+                    },
+                    playready: {
+                        server: licenseServer_PR,
+                    },
+                    fairplay: {
+                        server: licenseServer_FP,
+                        serverCertificate: certUrl
+                    },
+                    params: {
+                        token: token
+                    }
+                },
+                withCredentials: withCredentials
+            });
+            player.stop();
+            player.load(url);
+        }
+        function switchDRM() {
+            var index = 0;          
+            //player.addEventListener(AdaptivePlayer.EventType.PlayStart, function(){
+                setInterval(function(){
+                    testDRM(index%2 + 1)
+                    index ++;                        
+                }, 5000);
+            //});
+        }
+    </script>
+</body></html>

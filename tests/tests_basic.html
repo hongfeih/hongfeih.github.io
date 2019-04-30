@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page - Basic</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+    <div>
+        <video crossOrigin="anonymous" id="video_main" style="width: 800px;" autoplay muted controls preload="auto">
+            Your browser doesn't support HTML5 video.
+        </video>
+    </div>
+    <script>
+        var video = document.getElementById('video_main');
+        var player = new AdaptivePlayer(video);
+        player.load('http://172.16.0.188:8300/vod/cars_sub/cars_sub.mp4.mpd');
+
+        // HLS uses native player on Safari
+        function reloadWithNative() {
+            player.configure({ drm: { params: { token: '123' } } });
+            player.load('http://172.16.0.188:8300/vod/cars_sub/cars_sub.mp4.mpd');
+        }
+    </script>
+</body>

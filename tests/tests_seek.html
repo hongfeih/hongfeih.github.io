@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+  <label id="version"></label><br />
+
+  <div>
+    <label>Url:</label><input type="text" id="urlValue" style="width: 400px;" value='http://172.16.0.107:8507/devclear/teststage/t594_hd.m3u8'>
+    <button onclick="load_Url()">Load</button>
+    <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  </div>
+  Max seek step: <input id="seek_step" style="width: 50px;" value="1000">
+  Seek Interval: <input id="seek_interval" style="width: 50px;" value="30">seconds
+  <button onclick="test_seek()">Test Seek</button>
+  <label id='times'></label> 
+  <br/>
+  <video crossOrigin="anonymous" id="video_main" style="height: 100%;" autoplay controls preload="auto">
+    Your browser doesn't support HTML5 video.
+  </video>
+  <script>
+    document.getElementById('version').innerHTML = AdaptivePlayer.version;
+
+    var video = document.getElementById('video_main');
+    var player = new AdaptivePlayer(video);
+    player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+    var seekInterval = null;
+    var test_times = 0;
+    function test_seek() {
+      clearInterval(seekInterval);
+      var times = 0;
+      var seekStep = Number(document.getElementById('seek_step').value);
+      var seekIntervalInSeconds = Number(document.getElementById('seek_interval').value);
+      seekInterval = setInterval(function () {
+        var timeoffset = Math.random() * seekStep;
+        player.currentTime += ((times++ % 2) ? -1 : 1) * timeoffset;
+        test_times ++;
+        document.getElementById('times').innerHTML = '(' + test_times + ' times tested.)';
+      }, seekIntervalInSeconds * 1000);
+    }
+
+    function load_Url() {
+      test_times = 0;
+      document.getElementById('times').innerHTML = '';
+      var urlValue = document.getElementById('urlValue');
+      player.load(urlValue.value);
+    }
+
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      player.configure({ drm: { params: { token: '123' } } });
+      load_Url();
+    }    
+  </script>
+</body>

@@ -1,3 +1,606 @@
-<a href='https://hongfeih.github.io/original/stream.m3u8'>https://hongfeih.github.io/original/stream.m3u8</a>
-<br/>
-<a href='https://hongfeih.github.io/fixed/stream.m3u8'>https://hongfeih.github.io/fixed/stream.m3u8</a>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Test Player</title>
+    <!-- 3rd  library-->
+    <script src="3rd/jquery/jquery-2.2.2.min.js"></script>
+
+    <script src="3rd/jquery-ui/jquery-ui-1.12.0.min.js"></script>
+    <link rel="stylesheet" href="3rd/jquery-ui/jquery-ui-1.12.0.min.css">
+
+    <script src="3rd/ua-parser/ua-parser.min.js"></script>
+
+    <script src="3rd/angular_1.6.5/angular.min.js"></script>
+    <script src="3rd/angular_1.6.5/angular-cookies.min.js"></script>
+    <script src="3rd/angular_1.6.5/angular-animate.min.js"></script>
+    <script src="3rd/angular_1.6.5/angular-touch.min.js"></script>
+    <script src="3rd/angular_1.6.5/angular-aria.min.js"></script>
+    <script src="3rd/angular_1.6.5/angular-messages.min.js"></script>
+    <script src="3rd/angular_1.6.5/angular-sanitize.min.js"></script>
+
+    <link href="3rd/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="3rd/bootstrap/css/bootstrap-theme.min.css">
+    <script src="3rd/bootstrap/js/bootstrap.min.js"></script>
+    <script src="3rd/angular_1.6.5/ui-bootstrap.min.js"></script>
+    <script src="3rd/angular_1.6.5/ui-bootstrap-tpls.min.js"></script>
+    <!-- end 3rd library -->
+
+    <!-- load player relative library -->
+
+    <script src="js/nltrack.js"></script>
+    <script src="js/nlqos.js"></script>
+    <script src="js/utils.js"></script>
+
+    <script src="dist/nladaptiveplayer.js"></script>
+    
+    <link rel="stylesheet" href="css/playercontrols.css">
+	<link href="css/main.css" rel="stylesheet">
+	
+    <script src="js/playercontrols.js"></script>
+    <!-- end player relative library -->
+</head>
+
+<body ng-app="myApp" class="container" ng-cloak ng-controller="AppCtrl">
+    <div class="form-horizontal well">
+        <div class="form-group row">
+            <div id="desktop-streams" class="col-sm-2">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Stream
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                    <li class="dropdown-submenu" ng-if="item.submenu" ng-repeat="item in availableStreams" ng-mouseover="onStreamItemHover(item)">
+                        <a tabindex="-1" href="#">{{item.name}}</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-submenu" ng-repeat="subitem in item.submenu" ng-if="subitem.submenu">
+                                <a tabindex="-1" href="#">{{subitem.name}}</a>
+                                <ul class="dropdown-menu">
+                                    <li ng-repeat="subsubitem in subitem.submenu">
+                                        <a title="{{ subsubitem.moreInfo && 'See ' + subsubitem.moreInfo + ' for more information' || undefined }}" ng-click="setStream(subsubitem)">{{subsubitem.name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li ng-repeat="subitem in item.submenu" ng-if="subitem.url">
+                                <a title="{{ subitem.moreInfo && 'See ' + subitem.moreInfo + ' for more information' || undefined }}" ng-click="setStream(subitem)">{{subitem.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="col-sm-8">
+                <input type="text" class="form-control" style="width: 100%" placeholder="stream url" ng-model="ui.ppt">
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger" id="protocol-group" val="LF" ng-click="selectProtocol()">
+                        AUTO
+                    </button>
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#" ng-click="selectProtocol('AUTO')">AUTO</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="selectProtocol('HTTP')">HTTP</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="selectProtocol('DASH')">DASH</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="selectProtocol('HLS')">HLS</a>
+                        </li>
+                    </ul>
+                </div>
+                <label style="padding-right: 4em">
+                    <input type="checkbox" ng-init="ui.withCredentials=false;" ng-model="ui.withCredentials"> Request With Credentials
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 control-label">token: </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" style="width: 100%" placeholder="cro_token" ng-model="ui.cro_token">
+            </div>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#getTokenModal">Get Token</button>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="getTokenModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                Get Token
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped table-condensed">
+                                <tr>
+                                    <td>Token Server:</td>
+                                    <td style="padding-left: 1em;">
+                                        <select class="form-control" id="token_server">
+                                            <option ng-repeat="item in tokenServers" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>License server:</td>
+                                    <td style="padding-left: 1em;">
+                                        <select class="form-control" id="token_license_server">
+                                            <option ng-repeat="item in drmServers" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Client:</td>
+                                    <td style="padding-left: 1em;">
+                                        <select class="form-control" id="token_client" >
+                                            <option ng-repeat="item in tokenClients" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Stream ID:</td>
+                                    <td style="padding-left: 1em;">
+                                        <input type="text" class="form-control" placeholder="stream id" ng-model="ui.drm_stream_id">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <img class="hide pull-right" id="drm_token_loading" style="width: 30px" src="css/images/loading.gif">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="getDRMToken()">
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal -->
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Start bitrate: </label>
+            <div class="col-sm-3">
+                <input type="input" class="form-control" ng-model="ui.startBitrate">
+                <label>(in Kbps)</label>
+            </div>
+
+            <label class="col-sm-2 control-label">Start position: </label>
+            <div class="col-sm-3">
+                <input type="input" class="form-control" ng-model="ui.startPosition"> 
+                <label>(in seconds)</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="row" id="main-video-row" style="padding-bottom: 0.5em">
+                <div id="video_container" class="sd-player__video-container">
+                    <div class="sd-player__buffering-spinner"></div>
+                    <video crossOrigin="anonymous" id="video_main" class="sd-video" style="width: 100%;" autoplay>
+                        Your browser doesn't support HTML5 video.
+                    </video>
+                    <div class="sd-player__video-controls-enclosure" style="z-index: 2;">
+                        <div class="sd-player__video-controls">
+                            <div id="sd_player_seek_thumbnail" class="sd-player__video-thumbnail" style="z-index: 3; position: absolute; width: 100%; height: 85%; top: -150px;">
+                            </div>
+                            <div class="sd-player__video-controls-group sd-player__video-controls-progress">
+                                <div class="sd-player__current-time" id="sd-player__current-time_id">0:00</div>
+                                <input id="sd_player_seek_bar" class="sd-player__player-control-range sd-player__seek-bar" ng-mousemove="thumbnailShowPIP($event)"
+                                    ng-mousedown="thumbnailShowPIP($event)" ng-mouseleave="thumbnailHidePIP($event)" type="range"
+                                    step="any" min="0" max="1">
+                                <div class="sd-player__total-time" id="sd-player__total-time_id">0:00</div>
+                            </div>
+                            <div class="sd-player__video-controls-group sd-player__video-controls-buttons">
+                                <div class="sd-player__video-controls-subgroup sd-player__video-controls-audio">
+                                    <button class="sd-player__player-control-button sd-player__mute-button" type="button" title="{{ 'Mute' }}"></button>
+                                    <button class="sd-player__player-control-button sd-player__unmute-button" type="button" title="{{ 'Unmute' }}"></button>
+                                    <input class="sd-player__player-control-range sd-player__volume-bar" type="range" step="any" min="0" max="1">
+                                </div>
+                                <div class="sd-player__video-controls-subgroup sd-player__video-controls-playback">
+                                    <button class="sd-player__player-control-button sd-player__skip-back-button" title="{{ 'Skip back' }}" type="button"></button>
+                                    <button class="sd-player__player-control-button sd-player__play-button" title="{{ 'Play' }}" type="button"></button>
+                                    <button class="sd-player__player-control-button sd-player__pause-button" title="{{ 'Pause' }}" type="button"></button>
+                                    <button class="sd-player__player-control-button sd-player__skip-forward-button" title="{{ 'Skip forward' }}" type="button"></button>
+                                    <button class="sd-player__player-control-button sd-player__go-live-button" title="{{ 'Go Live' }}" type="button"></button>
+                                </div>
+                                <div class="sd-player__video-controls-subgroup sd-player__video-controls-accessibility">
+                                    <button class="sd-player__player-control-button sd-player__fullscreen-button" title="{{ 'Full screen mode' }}" type="button"></button>
+                                    <button class="sd-player__player-control-button sd-player__options-button" title="Settings"></button>
+                                    <button class="sd-player__player-control-button sd-player__closed-captions-on-button" title="{{ 'Turn off subtitles' }}"
+                                        type="button"></button>
+                                    <button class="sd-player__player-control-button sd-player__closed-captions-off-button" title="{{ 'Turn on subtitles' }}"
+                                        type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="pip_video_container" class="ui-widget-content draggable" ng-init="isPIP=true;" ng-dblclick="switchPIPtoMain(isPIP);isPIP=!isPIP;"
+                    style="position:absolute; top: 10px; left:10px; width: 200px;height: 150px;display:none">
+                    <!--<button class="btn btn-xs" type="button"  ng-click="closePIP(event)">X</button>-->
+                    <video id="pipVideo" class="sd-video" style="width: 100%;height: 100%;" autoplay loop>
+                        Your browser doesn't support HTML5 video.
+                    </video>
+                    <a type="button" class="btn btn-link btn-sm" ng-click="closePIP(event)" style="position: absolute; right: 0; top:0; ">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0.5em">
+                <div class="alert alert-warning" ng-show="ui.error">
+                    <a href="#" class="close">
+                        &times;
+                    </a>
+                    <strong id="errorMsg">{{ui.error}}</strong>
+                </div>
+            </div>
+            <div class="row" ng-show="ui.ctrl.fourViewsEnable">
+                <div class="col-sm-4" id="video_childview1_container" style="padding-right: 1px;padding-left: 1px;width: 225px;height: 160px;"
+                    ng-init="isChildView1=true;" ng-dblclick="switchChildtoMain(0, isChildView1, 'video_childview1');isChildView1=!isChildView1;">
+                    <video crossorigin="anonymous" class="sd-video" id="video_childview1" class="video_childview small-video small-video-col1"
+                        style="width: 100%;" autoplay>
+                        Your browser doesn't support HTML5 video.
+                    </video>
+                </div>
+                <div class="col-sm-4" id="video_childview2_container" style="padding-right: 1px;padding-left: 1px;width: 225px;height: 160px;"
+                    ng-init="isChildView2=true;" ng-dblclick="switchChildtoMain(1, isChildView2, 'video_childview2');isChildView2=!isChildView2;">
+                    <video crossorigin="anonymous" class="sd-video" id="video_childview2" class="video_childview small-video small-video-col2"
+                        style="width: 100%;" autoplay>
+                        Your browser doesn't support HTML5 video.
+                    </video>
+                </div>
+                <div class="col-sm-4" id="video_childview3_container" style="padding-right: 1px;padding-left: 1px;width: 225px;height: 160px;"
+                    ng-init="isChildView3=true;" ng-dblclick="switchChildtoMain(2, isChildView3, 'video_childview3');isChildView3=!isChildView3;">
+                    <video crossorigin="anonymous" class="sd-video" id="video_childview3" class="video_childview small-video small-video-col3"
+                        style="width: 100%;" autoplay>
+                        Your browser doesn't support HTML5 video.
+                    </video>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="row no-gutter" style="padding-bottom: 0.5em;">
+                <button class="btn btn-primary col-sm4" ng-click="basicLoad($event)">Load</button>
+                <button class="btn btn-default col-sm4" ng-click="play()">Play</button>
+                <button class="btn btn-default col-sm4" ng-click="pause()">Pause</button>
+                <button class="btn btn-danger col-sm4" ng-click="stop()">Stop</button>
+            </div>
+            <uib-tabset>
+                <uib-tab index="0" heading="Basic">
+                    <div class="container-fluid well col-no-gutter">
+                        <table class="table table-striped table-condensed">
+                            <tr>
+                                <td>Browser:</td>
+                                <td style="padding-left: 1em;">{{ui.browser}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>OS:</td>
+                                <td style="padding-left: 1em;">{{ui.os}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Player:</td>
+                                <td style="padding-left: 1em;">{{ui.playerVersion}}</td>
+                            </tr>
+                            <tr>
+                                <td>Core:</td>
+                                <td style="padding-left: 1em;">{{ui.coreVersion}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Supported DRM:</td>
+                                <td style="padding-left: 1em;">
+                                    <span class="label label-info" style="margin-right: 2px;" ng-repeat='name in ui.supportedDRMs'>{{name}}</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Native Streaming:</td>
+                                <td style="padding-left: 1em;">
+                                    <span class="label label-info" style="margin-right: 2px;" ng-repeat='name in ui.supportedStreaming'>{{name}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="Streams">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href='#collapseid'>
+                                        Video Tracks
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseid" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        <li class="list-group-item" ng-repeat="value in ui.videoTracks track by $index">
+                                            <span ng-show="value.active" class="badge badge-info track-badge">playing
+                                            </span>
+                                            {{value.id + ': ' + value.width + 'x' + value.height + ' -- ' + value.bandwidth/1000 + 'KBps'}}
+                                        </li>
+                                    </ul>
+                                    <label class="label-info" id="switchInfoLabel" style="margin-left: 1em"></label>
+                                    <div class="dropdown pull-right">
+                                        <label style="padding-right: 4em">
+                                            <input type="checkbox" ng-model="ui.isAutoSwitch" ng-change="adaptationchange(ui.isAutoSwitch)"> auto switch
+                                        </label>
+                                        <button class="btn btn-info btn-xs dropdown-toggle " id='switchBtn' data-toggle="dropdown">
+                                            switch to
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu " role="menu" aria-labelledby={{switchBtnId+trackIndex}}>
+                                            <li role="presentation" ng-repeat="value in ui.videoTracks track by $index">
+                                                <a role="menuitem" ng-show="value.active" ng-click="selectTrack(value)" tabindex="-1" href="#">
+                                                    {{value.id + ': ' + value.width + 'x' + value.height + ' -- ' + value.bandwidth/1000 + 'KBps'}}
+                                                </a>
+                                            </li>
+                                            <li role="presentation" class="divider"></li>
+                                            <li role="presentation" ng-repeat="value in ui.videoTracks track by $index">
+                                                <a role="menuitem" ng-hide="value.active" ng-click="selectTrack(value)" tabindex="-1" href="#">
+                                                    {{value.id + ': ' + value.width + 'x' + value.height + ' -- ' + value.bandwidth/1000 + 'KBps'}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+
+
+                <uib-tab index="2" heading="Playback Info">
+                    <div class="container-fluid well">
+                        <table class="table table-striped table-condensed">
+                            <tr>
+                                <td>CurrentTime</td>
+                                <td>{{ui.playerCurrentTime}}</td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td>{{ui.playerDuration}}</td>
+                            </tr>
+                            <tr>
+                                <td>Volume</td>
+                                <td>{{ui.playerVolume}}</td>
+                            </tr>
+                            <tr>
+                                <td>Video Size</td>
+                                <td>{{ui.playerVideoSize}}</td>
+                            </tr>
+                            <tr>
+                                <td>Player Size</td>
+                                <td>{{ui.playerSize}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Decoded Frames</td>
+                                <td>{{ui.totalVideoFrames}}</td>
+                            </tr>
+                            <tr>
+                                <td>Dropped Frames</td>
+                                <td>{{ui.playerDroppedFrameCount}}</td>
+                            </tr>
+                            <tr>
+                                <td>State</td>
+                                <td>{{ui.playerState}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ready State</td>
+                                <td>{{ui.playerReadyState}}</td>
+                            </tr>
+                            <tr>
+                                <td>Buffered</td>
+                                <td>{{ui.playerBuffered}}</td>
+                            </tr>
+                            <tr>
+                                <td>BufferingTime</td>
+                                <td>{{ui.bufferingTime}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Bandwidth</td>
+                                <td>{{ui.bandwidth}}</td>
+                            </tr>
+                            <tr>
+                                <td>Bitrate</td>
+                                <td>{{ui.bitrate}}</td>
+                            </tr>
+                            <tr>
+                                <td>bytesLoaded</td>
+                                <td>
+                                    <span style="word-break:break-all;">{{ui.bytesLoaded}}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>switchInfo</td>
+                                <td>{{ui.switchInfo}}</td>
+                            </tr>
+                            <tr>
+                                <td>livePointOffest</td>
+                                <td>{{ui.livePointOffest}}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ID3
+                                    <br/>
+                                    <button class="btn btn-default" type="button" ng-click="ui.id3Event=''">Clear</button>
+                                </td>
+                                <td>
+                                    <textarea style="width: 100%" ng-model="ui.id3Event"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </uib-tab>
+                <uib-tab index="3" heading="Ctrl">
+                    <div class="container-fluid well">
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" ng-model="ui.ctrl.displayQoS">QoS</label>
+                        </div>
+                        <div class="container-fluid well" ng-show="ui.ctrl.displayQoS">
+                            <div class="row">
+                                <input class="col-sm-9" type="text" placeholder="qos url" ng-model="ui.qosUrl">
+                                <label>
+                                    <input type="checkbox" ng-model="ui.qosEnable" ng-change="triggerQoS()">{{ui.qosEnable ? 'enable': 'disable'}}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" ng-model="ui.ctrl.displaySeek">Seek & Fast Forward & Rewind</label>
+                        </div>
+                        <div class="container-fluid well" ng-show="ui.ctrl.displaySeek">
+                            <div class="row" style="padding-bottom: 0.5em">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger" id="btn-group-1" val="LF" ng-click="frameSeek()">Last Frame</button>
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" ng-init='selectBtnNF()'>
+                                        <li>
+                                            <a href="#" ng-click="selectBtnLF()">Last Frame</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" ng-click="selectBtnNF()">Next Frame</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 0.5em">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-danger" id="btn-group-2" val="FF" ng-click="forwardRewind()">Fast Forward · 2×</button>
+                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" ng-init='selectBtnFF()'>
+                                        <li>
+                                            <a href="#" ng-click="selectBtnFF()">Fast Forward 2×</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" ng-click="selectBtnSF()">Slow Forward 1/2×</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" ng-click="selectBtn1x()">Normal 1×</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" ng-click="selectBtnFR()">Fast Rewind 2×</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" ng-click="selectBtnSR()">Slow Rewind 1/2×</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <input class="col-sm-6" style="margin-right: 0.5em;margin-top: 0.3em" type="text" placeholder="00:00:12.21f" id="id-col-sm-6-setpTo">
+                                <button class="btn btn-danger col-sm-3 " ng-click="stepTo()">Seek To</button>
+                            </div>
+
+                            <!--<div class="row no-gutter">-->
+                            <!--<button class="btn btn-danger col-sm-4"  ng-click="lastFrame()">Last Frame</button>-->
+                            <!--<button class="btn btn-danger col-sm-4" ng-click="nextFrame()">Next Frame</button>-->
+                            <!--</div>-->
+                        </div>
+
+                        <!--<div class="container-fluid well" >-->
+                        <!--<div class="row" style="padding-bottom: 0.5em;">-->
+                        <!--<button class="btn btn-sm col-sm-3" ng-click="fastForward()"> Fast Forward ·  2× </button>-->
+                        <!--<button class="btn btn-sm col-sm-3" ng-click="slowForword()"> Slow Forward ·  1/2× </button>-->
+                        <!--<button class="btn btn-sm col-sm-3" ng-click="fastRewind()"> Fast Rewind  · 2× </button>-->
+                        <!--<button class="btn btn-sm col-sm-3" ng-click="slowRewind()"> Slow Rewind  ·  1/2× </button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" ng-model="ui.ctrl.isDisplayPip">Picture in Picture</label>
+                        </div>
+
+                        <div class="container-fluid well" ng-show="ui.ctrl.isDisplayPip">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="input-group">
+                                        <!--<span class="input-group-addon">-->
+                                        <!--<input type="checkbox">-->
+                                        <!--</span>-->
+                                        <input type="text" class="form-control" ng-model="ui.ctrl.pipUrl" placeholder="stream url:">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" ng-click="loadPIP()">load</button>
+                                        </span>
+
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                                <!-- /.col-lg-6 -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+
+                        <div class="row">
+                            <label>
+                                <input type="checkbox" ng-model="ui.ctrl.isDisplay4Views">4Views</label>
+                        </div>
+
+                        <div class="container-fluid well" ng-show="ui.ctrl.isDisplay4Views">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ui.ctrl.smallVideoUrl1" placeholder="stream url:">
+                                </div>
+                                <!-- /.col-lg-6 -->
+                            </div>
+                            <!-- /.row -->
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ui.ctrl.smallVideoUrl2" placeholder="stream url:">
+                                </div>
+                                <!-- /.col-lg-6 -->
+                            </div>
+                            <!-- /.row -->
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" ng-model="ui.ctrl.smallVideoUrl3" placeholder="stream url:">
+                                </div>
+                                <!-- /.col-lg-6 -->
+                            </div>
+                            <!-- /.row -->
+                            <div class="row" style="margin-top: 0.5em">
+                                <div class="col-sm-6">
+                                    <label>
+                                        <input type="checkbox" ng-model="ui.ctrl.synchronize">Synchronize</label>
+                                </div>
+                                <button class="btn btn-danger col-sm-3" style="margin-left: 70%;" ng-click="load4Views()"> Load</button>
+                            </div>
+
+                            <div>{{ui.syncTimeOffset}}</div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

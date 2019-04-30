@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+  <style>
+    div {
+      margin: 0.5em
+    }
+  </style>
+</head>
+
+<body>
+  <label id="version"></label><br/>
+  <div>
+    <button onclick="StartTest()">Start Test</button>
+    <input type="text" id="urlValue" style="width: 500px;" value='http://172.16.0.187:8300/HD_web/live/t3_hd.m3u8'>
+    <label id='status' style="width: 500px;"></label>
+  </div>
+
+  <video crossOrigin="anonymous" id="video_main" style="width: 400px;" autoplay controls>
+    Your browser doesn't support HTML5 video.
+  </video>
+
+  <script>
+    document.getElementById('version').innerHTML = AdaptivePlayer.version;
+
+    var urls = [
+      // HLS
+      //'http://nlds14.cdnak.neulion.com/nlds_vod/mls/vod/2015/02/24/1295/2_1295_mtl_pac_2014_h_whole_1_ced.mp4.m3u8',
+      //CEA-608 captions
+      //'https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8',
+      //'http://www.streambox.fr/playlists/x31jrg1/x31jrg1.m3u8',
+      //'http://nlds159.cdnak.neulion.com/nldsu/univision/as/live/uni_hd_ipad.m3u8',
+      // DASH 
+      //'http://storage.googleapis.com/shaka-demo-assets/sintel/dash.mpd',
+
+      // subtitles
+      //'http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd',
+
+      //'http://172.16.0.188/mp4/sintel_trailer-720p.mp4',
+      'http://172.16.0.187:8300/HD_web/live/t3_hd.m3u8',
+      'http://univisionadsvr01.nlst.neulion.com/nlds/wsl/wsltest/as/live/wsltest_hd_iphone.m3u8?cpId=WSL&nldsid=86&nw=112214&caid=univision_simulcast&prof=univision_live_ios&csid=a.univisionnow_nonsubscriber&x-t=1'
+    ];
+
+    var video = document.getElementById('video_main');
+    var player;
+    var url;
+    var t1 = 0;
+    var index = 0;
+    var round = 9;
+    var testTimer;
+    var timeGap = [];
+
+    function onPlayStart(e) {
+      var status = document.getElementById('status');
+      var t2 = new Date();
+      timeGap.push(t2-t1);
+      var sum = timeGap.reduce((previous, current) => current += previous);
+      var avg = sum / timeGap.length;
+      status.innerHTML += "<p>Play started in " + (t2 - t1) + "ms, avg: " + avg + "ms";
+      
+      setTimeout(() => player.stop(), 0);
+      if (round-- > 0)
+        testTimer = setTimeout(() => {
+          Load(url);
+        }, 1000);
+    }
+
+    function StartTest() {
+      url = document.getElementById('urlValue').value;
+      round = 9;
+      timeGap = [];
+      Load(url);
+    }
+
+    function Load(url) {
+      t1 = new Date();
+      player = new AdaptivePlayer(video);
+      player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+      player.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart);
+      player.configure({withCredentials: true, drm:{}});
+      player.load(url);
+    }
+
+  </script>
+</body>

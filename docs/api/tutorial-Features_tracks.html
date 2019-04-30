@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Tracks</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Tracks</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Tracks</h2>
+</header>
+
+<article>
+    <pre class="prettyprint source"><code>var video = document.getElementById('video_main');
+var player = new AdaptivePlayer(video);
+var videoTracks = [];
+var audioTracks = [];
+var textTracks = [];
+
+player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+player.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart);
+player.addEventListener(AdaptivePlayer.EventType.PlayEnd, onPlayEnd);
+player.addEventListener(AdaptivePlayer.EventType.TrackChange, onTrackChange);
+
+var switch_mode_value = null;
+var switch_mode = document.getElementById('switch_mode');
+switch_mode.addEventListener('change', function (event) {
+  switch (event.target.value) {
+    case '0':
+      switch_mode_value = null;
+      break;
+    case '1':
+      switch_mode_value = true;
+      break;
+    case '2':
+      switch_mode_value = false;
+      break;
+  }
+});
+
+var video_tracks = document.getElementById('video_tracks');
+video_tracks.addEventListener('change', function (event) {
+  var index = parseInt(video_tracks.value);
+  if (index != -1)
+    player.selectTrack(videoTracks[index], switch_mode_value);
+  else
+    player.setAdaption(true);
+});
+
+var audio_tracks = document.getElementById('audio_tracks');
+audio_tracks.addEventListener('change', function (event) {
+  var index = parseInt(audio_tracks.value);
+  player.selectTrack(audioTracks[index], switch_mode_value);
+});
+
+var text_tracks = document.getElementById('text_tracks');
+text_tracks.addEventListener('change', function (event) {
+  if (event.target.value == &quot;off&quot;) {
+    player.hideAllTextTracks();
+  } else {
+    var textTracks = player.textTracks();
+    var track = textTracks.filter(function (track) {
+      return track.id.toString() === (event.target.value);
+    })[0];
+    player.selectTrack(track);
+  }
+});
+
+var bitrate_switch_interval = null;
+var audio_switch_interval = null;
+var text_switch_interval = null;
+
+function test_adapatation() {
+  var interval_ = document.getElementById('switch_interval').value;
+  if (bitrate_switch_interval)
+    clearInterval(bitrate_switch_interval);
+  var index = 0;
+  bitrate_switch_interval = setInterval(function () {
+    player.selectTrack(videoTracks[index], switch_mode_value);
+    video_tracks.value = index.toString();
+    if (++index >= videoTracks.length)
+      index = 0;
+  }, interval_ * 1000);
+}
+
+function test_audioswitch() {
+  var interval_ = document.getElementById('switch_interval_audio').value;
+  if (audio_switch_interval)
+    clearInterval(audio_switch_interval);
+  var index = 0;
+  audio_switch_interval = setInterval(function () {
+    player.selectTrack(audioTracks[index], switch_mode_value);
+    audio_tracks.value = index.toString();
+    if (++index >= audioTracks.length)
+      index = 0;
+  }, interval_ * 1000);
+}
+
+function test_subtitleswitch() {
+  var interval_ = document.getElementById('switch_interval_text').value;
+  if (text_switch_interval)
+    clearInterval(text_switch_interval);
+  text_switch_interval = setInterval(function () {
+    var tracks = textTracks;
+    var index = 0;
+    for (index = 0; index &lt; tracks.length; index++) {
+      if (tracks[index].active) break;
+    }
+    if (++index >= tracks.length)
+      index = 0;
+    player.selectTrack(tracks[index], switch_mode_value);
+    text_tracks.value = tracks[index].id;
+  }, interval_ * 1000);
+}
+
+function onPlayStart(e) {
+  var status = document.getElementById('status');
+  //status.innerHTML = &quot;&lt;p>Play started&quot;;
+  audioTracks = player.audioTracks();
+  audioTracks.forEach(function (element) {
+    console.log(&quot;audio: id=&quot; + element.id + &quot; active=&quot; + element.active);
+  });
+  videoTracks = player.videoTracks();
+  videoTracks.forEach(function (element) {
+    console.log(&quot;video: id=&quot; + element.id + &quot; active=&quot; + element.active);
+  });
+  textTracks = player.textTracks();
+  textTracks.forEach(function (element) {
+    console.log(&quot;text: id=&quot; + element.id + &quot; active=&quot; + element.active);
+  });
+  if (videoTracks) {
+    var videoOptions = videoTracks.reduce(function (previousValue, currentValue, currentIndex) {
+      //console.log(currentValue.bandwidth + ':' + currentValue.active);
+      return previousValue + '\n &lt;option value=&quot;' + currentIndex + '&quot; data-bitrate=' + currentValue.bandwidth + '>' + currentValue.id + '-' + currentValue.bandwidth + '&lt;/option>';
+    }, '&lt;option value=&quot;-1&quot;>Auto&lt;/option>');
+    video_tracks.innerHTML = videoOptions;
+  }
+  if (audioTracks) {
+    var audioOptions = audioTracks.reduce(function (previousValue, currentValue, currentIndex) {
+      return previousValue + '\n &lt;option value=&quot;' + currentIndex + '&quot; data-bitrate=' + currentValue.bandwidth + '>' + currentValue.id + '-' + currentValue.name + '&lt;/option>';
+    }, '');
+    audio_tracks.innerHTML = audioOptions;
+  }
+  if (textTracks) {
+    var textOptions = textTracks.reduce(function (previousValue, currentValue, currentIndex) {
+      return previousValue + '\n &lt;option value=&quot;' + currentIndex + '&quot; data-bitrate=' + currentValue.bandwidth + '>' + currentValue.name + '&lt;/option>';
+    }, '&lt;option value=&quot;off&quot; selected>OFF&lt;/option>');
+    text_tracks.innerHTML = textOptions;
+  }
+}
+
+function onPlayEnd(e) {
+  var status = document.getElementById('status');
+  //status.innerHTML = &quot;&lt;p>Play ended&quot;;
+  var player = e.target;
+  player.stop();
+}
+
+function onTrackChange(event) {
+  if (event && event.details) {
+    console.log('onTrackChange: ' + event.details.type)
+    if (event.details.type == AdaptivePlayer.Kind.TEXT) {
+      var textTracks = event.details.tracks;
+      textTracks.forEach(function (element) {
+        console.log(&quot;text: id=&quot; + element.id + &quot; active=&quot; + element.active);
+      });
+      if (textTracks) {
+        var textOptions = textTracks.reduce(function (previousValue, currentValue) {
+          return previousValue + '\n &lt;option value=&quot;' + currentValue.id + '&quot; ' + (currentValue.active ? ' selected' : '') + '>' + currentValue.name + '&lt;/option>';
+        }, '&lt;option value=&quot;off&quot; selected>OFF&lt;/option>');
+        console.log(textOptions);
+        text_tracks.innerHTML = textOptions;
+      }
+    }
+  }
+}
+
+function testPlay() {
+  var status = document.getElementById('status');
+  status.innerHTML = &quot;&quot;;
+  switch_test_number = 0;
+  var url = document.getElementById('url').value; 
+  player.load(url); 
+} 
+
+// HLS uses native player on Safari 
+function reloadWithNative() { 
+  player.configure({ drm: { params: { token: '123' } } }); 
+  testPlay(); 
+}</code></pre>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:24:40 GMT+0800 (GMT+08:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

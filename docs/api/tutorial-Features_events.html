@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: Events</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: Events</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>Events</h2>
+</header>
+
+<article>
+    <pre class="prettyprint source"><code>var video = document.getElementById('video_main');
+var player;
+create();
+
+function onprogress(e) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Progress: &quot; + JSON.stringify(e.details) + &quot;\r\n&quot;;
+};
+
+function onplayStart(e) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Play started&quot; + &quot;\r\n&quot;;
+  var player = e.target;
+  // setTimeout(function() {
+  //     player.currentTime = player.duration-6;
+  //     }, 6000);            
+}
+
+function onplayEnd(e) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Play ended&quot; + &quot;\r\n&quot;;
+  var player = e.target;
+  player.stop();
+}
+
+function onstateChange(e) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;StateChanged:&quot; + e.oldState + &quot;->&quot; + e.newState + &quot;\r\n&quot;;
+}
+
+function onerror(e) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Error: &quot; + JSON.stringify(e.details) + &quot;\r\n&quot;;
+}
+
+function ontimeUpdate(e) {
+  var state = document.getElementById('state');
+  state.innerHTML = e.currentTime.toFixed(2) + &quot;/&quot; + e.duration.toFixed(2);
+}
+
+function onbuffering(e) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Buffering&quot; + &quot;\r\n&quot;;
+}
+
+function onprofileChange(event) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Profile changed to &quot; + event.videoWidth + 'x' + event.videoHeight + &quot;\r\n&quot;;
+}
+
+function onid3(event) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;ID3: &quot; + 'start=' + event.start + ', end=' + event.end + ', value=' + JSON.stringify(event.value) + &quot;\r\n&quot;;
+}
+
+function onadvertisement(event) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;Ad: &quot; + JSON.stringify(event.data) + &quot;\r\n&quot;;
+}
+
+function onseekRangeChange(event) {
+  var status = document.getElementById('status');
+  status.innerHTML += &quot;onSeekRangeChange: &quot; + JSON.stringify(event.details) + &quot;\r\n&quot;;
+}
+
+function create() {
+  if (player != null) {
+    destroy();
+  }
+
+  player = new AdaptivePlayer(video);
+
+  player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+  Object.values(AdaptivePlayer.EventType).forEach(function (event) {
+    player.addEventListener(event, window['on' + event]);
+  });
+}
+
+function destroy() {
+  var status = document.getElementById('status');
+  if (player == null) {
+    status.innerHTML = &quot;Error: player not initialized!&quot;;
+    return;
+  }
+  status.innerHTML = &quot;&quot;;
+  player.destroy();
+  player = null;
+}
+
+function load_Url() {
+  var status = document.getElementById('status');
+  if (player == null) {
+    status.innerHTML = &quot;Error: player not initialized!&quot;;
+    return;
+  }
+  status.innerHTML = &quot;&quot;;
+  var urlValue = document.getElementById('urlValue');
+  player.load(urlValue.value);
+}
+
+// HLS uses native player on Safari
+function reloadWithNative() {
+  player.configure({
+    drm: {
+      params: {
+        token: '123'
+      }
+    }
+  });
+  load_Url();
+}
+
+function unload_Url() {
+  var status = document.getElementById('status');
+  if (player == null) {
+    status.innerHTML = &quot;Error: player not initialized!&quot;;
+    return;
+  }
+  status.innerHTML = &quot;&quot;;
+  player.stop();
+}</code></pre>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:24:40 GMT+0800 (GMT+08:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

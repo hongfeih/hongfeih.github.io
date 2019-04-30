@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Manager/DebugPanel.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Manager/DebugPanel.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Clipboard from &apos;../../externals/clipboard/clipboard.min&apos;
+import Dygraph from &apos;../../externals/dygraphs/dygraph.min&apos;
+
+import * as StringUtil from &apos;../Utils/String&apos;
+import { AdaptivePlayer } from &apos;../AdaptivePlayer&apos;;
+import { Settings } from &apos;../config&apos;;
+import { Logger } from &apos;../Utils/Logger&apos;;
+
+let DebugPanelInformCaptions = [&apos;Version&apos;, &apos;Url&apos;, &apos;Control&apos;, &apos;State&apos;, &apos;HttpServer&apos;, &apos;Download&apos;,
+  &apos;Switch&apos;, &apos;Buffer&apos;, &apos;Frames&apos;, &apos;VideoPlayer&apos;, &apos;Time&apos;, &apos;Event&apos;, &apos;Ad&apos;];
+let DebugPanelButtonCaptions = [{ S1: &apos;CpUrl&apos;, S2: &apos;CpUrl&apos; },
+{ S1: &apos;Copy&apos;, S2: &apos;Copy&apos; },
+{ S1: &apos;Chart&apos;, S2: &apos;Text&apos; },
+{ S1: &apos;Close&apos;, S2: &apos;Close&apos; }];
+
+function getPanelInformColumnId(type, name, row, hashId) {
+  return &apos;panel_inform_column_&apos; + type + &apos;_&apos; + name + &apos;_row_&apos; + row + &apos;_&apos; + hashId;
+}
+
+function PanelInformColumn(name, row, node, hashId, style) {
+  node.innerHTML = (row === &apos;I&apos;) ? (name + &apos;:    &apos;) : &apos;&apos;;
+  node.id = getPanelInformColumnId(&apos;caption&apos;, name, row, hashId);
+  node.style.cssText = style;
+}
+
+function PanelInformTable(tableNode, hashId, style, styleData) {
+  let trNode;
+  let tdNode;
+  tableNode.deleteTHead();
+  for (let i = 0; i &lt; DebugPanelInformCaptions.length; i++) {
+    trNode = tableNode.insertRow();
+    tdNode = trNode.insertCell();
+    PanelInformColumn(DebugPanelInformCaptions[i], &apos;I&apos;, tdNode, hashId, style);
+    tdNode = trNode.insertCell();
+    PanelInformColumn(DebugPanelInformCaptions[i], &apos;II&apos;, tdNode, hashId, styleData);
+  }
+}
+
+function DebugPanelButtons(parentNode, dealing, hashId, style) {
+  for (let i = 0; i &lt; DebugPanelButtonCaptions.length; i++) {
+    let button = document.createElement(&apos;BUTTON&apos;);
+    button.id = getPanelInformColumnId(&apos;button&apos;, DebugPanelButtonCaptions[i].S1, &apos;div_buttons&apos;, hashId);
+    button.class = &apos;debugcopybtns&apos;;
+    button.innerHTML = DebugPanelButtonCaptions[i].S1;
+    button.addEventListener(&apos;click&apos;, dealing, false);
+    button.style.cssText = style;
+    parentNode.appendChild(button);
+  }
+}
+
+export class DebugPanel extends Logger {
+  constructor(player, refreshInterval) {
+    super(player._logger);
+
+    this._video = player._video;
+    this._player = player;
+
+    let browsername = AdaptivePlayer.browserType.toLowerCase();
+    this._isFirefox = (browsername.search(&apos;firefox&apos;) !== -1);
+    this._isMacOS = (AdaptivePlayer.OS.name === &apos;Mac OS&apos;);
+
+    this._clipboardCopy = null;
+    this._clipboardCpUrl = null;
+    this._clipboardText = null;
+    this._hashId = this._uniqueid();
+
+    if (!refreshInterval || refreshInterval &lt;= 0) {
+      this._refreshInterval = Settings.DEBUG_PANEL.REFRESH_INTERVAL;
+    } else {
+      this._refreshInterval = refreshInterval;
+    }
+
+    this._panel = {
+      container: this._video.parentNode,
+      div_root: null,
+      div_informs: null,
+      table_informs: null,
+      canvas_chart: null,
+      canvas_chartCxt: null,
+      div_buttons: null,
+      div_buttons_button: null,
+      buttonsId: []
+    };
+    this._panelStyle = {
+      div_root_hidden: &apos;display:block; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; visibility: hidden; overflow: hidden; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;&apos;,
+      div_root_show: &apos;z-index: 99;display: block;position: absolute;top: 0px;left: 0px;width: 100%;height: 220px;visibility: visible;overflow: hidden;box-sizing: border-box;background: black;opacity: 0.8;&apos;,
+      div_informs: &apos;display:block; position: absolute; left: 65px; width: 90%; overflow: hidden;&apos;,
+      table_informs: &apos;display:block; position: absolute; width: 100%; height: 100%; overflow: hidden;&apos;, // table-layout:auto;
+      table_informs_colomns: &apos;font: bold 12px arial,serif; vertical-align: text-top; overflow: hidden; white-space:nowrap; text-overflow:ellipsis; word-break:keep-all; color: #FFFFFF;&apos;, // color: #003E3E; background-color: #d3d3d3; opacity:0.8;
+      table_informs_colomns_data: &apos;font: bold 12px arial,serif; vertical-align: text-top; overflow: hidden; white-space:nowrap; text-overflow:ellipsis; word-break:keep-all; color: #FFFFFF; position: absolute;&apos;, // color: #003E3E; background-color: #d3d3d3; opacity:0.8;
+      canvas_chart: &apos;display:none; position: absolute; left: 55px; width: 90px; overflow: hidden;&apos;,
+      div_buttons: &apos;display:block; position: absolute; width: 60px;&apos;,
+      div_buttons_button: &apos;font: bold 12px arial,serif; width: 100%; color: #FFFFFF; background-color: #FF0000; padding: 0px; opacity:0.8;&apos;,
+      chartCSS: &apos;.dygraph-axis-label {z-index: 10;line-height: normal;overflow: hidden;color: white;font: bold 12px arial,serif;} .dygraph-legend {position: absolute;font-size: 12px;line-height: normal;text-align: left;overflow: hidden;color: white;font: bold 12px arial,serif;}&apos;
+    };
+
+    this._init = false;
+    this._showPanel = null;
+
+    this._downloadDataset = [];
+    this._bufferSize = Settings.DEBUG_PANEL.DATA_BUFFER_SIZE; // keep download info in 2 minutes
+    this.ACTIVATE_AREA = Settings.DEBUG_PANEL.ACTIVATE_AREA;
+    this._seekRange = { start: 0, end: 0 };
+
+    this._player.addEventListener(AdaptivePlayer.EventType.ID3Event, this._onID3.bind(this));
+    this._player.addEventListener(AdaptivePlayer.EventType.AdEvent, this._onAds.bind(this));
+    this._player.addEventListener(AdaptivePlayer.EventType.SeekRangeChange, this._onSeekRangeChanged.bind(this));
+    this._player.addEventListener(AdaptivePlayer.EventType.PlayStart, this._onPlayStart.bind(this));
+    this._player.addEventListener(AdaptivePlayer.EventType.PlayEnd, this.reset.bind(this));
+
+    this.init();
+  }
+
+  destroy() {
+    this.stopDebug();
+
+    this._video = null;
+    this._player = null;
+    this._panel &amp;&amp; this._panel.container.removeChild(this._panel.div_root);
+    this._panel = null;
+    this._init = false;
+    this._browserType = null;
+    this._clipboardCopy = null;
+    this._clipboardCpUrl = null;
+    this._clipboardText = null;
+    this._hashId = null;
+  }
+
+  clipboaddCB() {
+    return this._clipboardText;
+  }
+
+  init() {
+    if (this._init === false) {
+      this.initHtmlElement_();
+
+      for (let i = 0; i &lt; DebugPanelButtonCaptions.length; i++) {
+        let id = getPanelInformColumnId(&apos;button&apos;, DebugPanelButtonCaptions[i].S1, &apos;div_buttons&apos;, this._hashId);
+        this._panel.buttonsId.push(id);
+      }
+      let cpUrlElement = document.getElementById(this._panel.buttonsId[0]);
+      if (cpUrlElement) {
+        this._clipboardCpUrl = new Clipboard(cpUrlElement, {
+          text: this.clipboaddCB.bind(this)
+        });
+      }
+      let copyElement = document.getElementById(this._panel.buttonsId[1]);
+      if (copyElement) {
+        this._clipboardCopy = new Clipboard(copyElement, {
+          text: this.clipboaddCB.bind(this)
+        });
+      }
+      let chartElement = document.getElementById(this._panel.buttonsId[2]);
+      if (chartElement) {
+        // chartElement.setAttribute(&apos;style&apos;, &apos;display: none;&apos;);
+      }
+      this._init = true;
+    }
+  }
+
+  initHtmlElement_() {
+    // let videoParam = this._video.getBoundingClientRect();
+    this._panel.div_root = document.createElement(&apos;div&apos;);
+    this._panel.div_root.id = &apos;debug_panel_id_&apos; + this._hashId;
+
+    this._panel.div_root.style.cssText = this._panelStyle.div_root_hidden;
+    this._panel.container.appendChild(this._panel.div_root);
+
+    this._panel.div_buttons = document.createElement(&apos;div&apos;);
+    this._panel.div_buttons.style.cssText = this._panelStyle.div_buttons;
+    this._panel.div_buttons_button = DebugPanelButtons(this._panel.div_buttons, this.buttonClick_.bind(this), this._hashId, this._panelStyle.div_buttons_button);
+    this._panel.div_root.appendChild(this._panel.div_buttons);
+
+    this._panel.div_informs = document.createElement(&apos;div&apos;);
+    this._panel.div_informs.style.cssText = this._panelStyle.div_informs;
+    this._panel.div_root.appendChild(this._panel.div_informs);
+
+    this._panel.table_informs = document.createElement(&apos;table&apos;);
+    this._panel.table_informs.id = getPanelInformColumnId(&apos;table&apos;, &apos;table_informs&apos;, &apos;I&apos;, this._hashId);
+    PanelInformTable(this._panel.table_informs, this._hashId, this._panelStyle.table_informs_colomns, this._panelStyle.table_informs_colomns_data);
+    this._panel.div_informs.appendChild(this._panel.table_informs);
+
+    this._panel.canvas_chart = document.createElement(&apos;div&apos;);
+    this._panel.canvas_chart.id = getPanelInformColumnId(&apos;canvas&apos;, &apos;chart&apos;, &apos;I&apos;, this._hashId);
+    this._panel.canvas_chart.style.cssText = this._panelStyle.canvas_chart;
+    this._panel.div_root.appendChild(this._panel.canvas_chart);
+
+    let sheet = document.createElement(&apos;style&apos;)
+    sheet.innerHTML = this._panelStyle.chartCSS;
+    document.body.appendChild(sheet);
+
+    this._video.addEventListener(&apos;dblclick&apos;, this.doubleClick_.bind(this), false);
+  }
+
+  startDebug() {
+    if (this._showPanel === null) {
+      this._panel.div_root.style.cssText = this._panelStyle.div_root_show;
+      // if (this._panelStyle.videoPosition) {
+      //   this._panel.div_root.style.cssText += this._panelStyle.videoPosition;
+      // }
+      this._refreshPanelInfo();
+      this._showPanel = setInterval(this._refreshPanelInfo.bind(this), this._refreshInterval);
+    }
+  }
+
+  reset() {
+    this._downloadDataset = [];
+    this._loadTime = 0;
+
+    this.updateInfo(&apos;Control&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Url&apos;, &apos;&apos;);
+    this.updateInfo(&apos;State&apos;, &apos;&apos;);
+    this.updateInfo(&apos;HttpServer&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Download&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Switch&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Buffer&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Frames&apos;, &apos;&apos;);
+    this.updateInfo(&apos;VideoPlayer&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Time&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Event&apos;, &apos;&apos;);
+    this.updateInfo(&apos;Ad&apos;, &apos;&apos;);
+  }
+
+  _onPlayStart(event) {
+    this.reset();
+
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DebugPanel&apos;, &apos;_onPlayStart&apos;);
+    if (event.loadTime) {
+      this._loadTime = event.loadTime;
+    }
+  }
+
+  stopDebug() {
+    this.reset();
+    clearTimeout(this._showPanel);
+    this._showPanel = null;
+  }
+
+  start() {
+    this.resizeUI_();
+    this.startDebug();
+  }
+
+  doubleClick_(e) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DebugPanel&apos;, &apos;dclick event&apos;);
+    if ((!Settings.DEBUG_PANEL.HOTKEYS.alt || (Settings.DEBUG_PANEL.HOTKEYS.alt &amp;&amp; e.altKey)) &amp;&amp; 
+      (!Settings.DEBUG_PANEL.HOTKEYS.shift || (Settings.DEBUG_PANEL.HOTKEYS.shift &amp;&amp; e.shiftKey)) &amp;&amp; 
+      (!Settings.DEBUG_PANEL.HOTKEYS.ctrl || ((e.ctrlKey &amp;&amp; !this._isMacOS) || this._isMacOS))) {
+      let videoWidth = this._video.clientWidth;
+      let videoHeight = this._video.clientHeight;
+      if ((e.offsetX &lt;= videoWidth * this.ACTIVATE_AREA) &amp;&amp; (e.offsetY &lt;= videoHeight * this.ACTIVATE_AREA)) {
+        // this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DebugPanel&apos;, &apos;effect dclick event&apos;);
+        this.start();
+      }
+    }
+  }
+
+  buttonClick_(e) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DebugPanel&apos;, &apos;click event&apos;);
+    let elem;
+    if (this._isFirefox) {
+      if (e.originalTarget &amp;&amp; e.originalTarget.id) {
+        elem = document.getElementById(e.originalTarget.id);
+      }
+    } else {
+      if (e.srcElement &amp;&amp; e.srcElement.id) {
+        elem = document.getElementById(e.srcElement.id);
+      }
+    }
+    if (elem) {
+      if (elem.innerHTML === &apos;CpUrl&apos;) {
+        let id = getPanelInformColumnId(&apos;caption&apos;, &apos;Url&apos;, &apos;II&apos;, this._hashId);
+        let valueElem = document.getElementById(id);
+        this._clipboardText = valueElem.innerHTML;
+      } else if (elem.innerHTML === &apos;Copy&apos;) {
+        this._clipboardText = this._panel.table_informs.innerText;
+      } else if (elem.innerHTML === &apos;Chart&apos;) {
+        this.drawText_();
+        elem.innerHTML = &apos;Text&apos;;
+      } else if (elem.innerHTML === &apos;Text&apos;) {
+        this.drawChart_();
+        elem.innerHTML = &apos;Chart&apos;
+      } else if (elem.innerHTML === &apos;Close&apos;) {
+        this.close_();
+      }
+    }
+  }
+
+  updateInfo(name, value) {
+    let id = getPanelInformColumnId(&apos;caption&apos;, name, &apos;II&apos;, this._hashId);
+    let infoItem = document.getElementById(id);
+    if (infoItem) {
+      infoItem.innerHTML = value;
+    }
+  }
+
+  drawChart_() {
+    this._panel.canvas_chart.style.display = &apos;none&apos;;
+    this._panel.div_informs.style.display = &apos;block&apos;;
+    this._panel.div_informs.style.width = (this._video.clientWidth - 65) + &apos;px&apos;;
+  }
+
+  drawText_() {
+    this._panel.canvas_chart.style.display = &apos;block&apos;;
+    this._panel.canvas_chart.style.height = this._panel.div_informs.clientHeight + &apos;px&apos;;
+    this._panel.canvas_chart.style.width = (this._video.clientWidth - 65) + &apos;px&apos;;
+
+    this._panel.div_informs.style.display = &apos;none&apos;;
+  }
+
+  close_() {
+    this._panel.div_root.style.display = &apos;none&apos;;
+    this.stopDebug();
+  }
+
+  resizeUI_(fullScreen) {
+    if (this._init) {
+      // fixed
+      // if ((fullScreen === undefined &amp;&amp; this._showPanel === null)
+      //     || (fullScreen !== undefined &amp;&amp; this._showPanel)) {
+      //   let videoParam = this._video.getBoundingClientRect();
+      //   this._panelStyle.videoPosition = &apos;;top:&apos; + videoParam.top + &apos;px;left:&apos; + videoParam.left +
+      //       &apos;px;width:&apos; + videoParam.width + &apos;px;height:&apos; + videoParam.height + &apos;px;&apos;;
+
+      //   this._panel.div_root.style.cssText = this._panelStyle.div_root_show + this._panelStyle.videoPosition;
+      //   this._panel.div_root.style.cssText = this._panelStyle.div_root_show;
+      //   this._panel.div_buttons.style.cssText = this._panelStyle.div_buttons;
+      //   this._panel.div_informs.style.cssText = this._panelStyle.div_informs;
+      // }
+
+      // absolute
+      this._panel.div_root.style.cssText = this._panelStyle.div_root_show;
+      this._panel.div_buttons.style.cssText = this._panelStyle.div_buttons;
+      // this._panel.div_informs.style.cssText = this._panelStyle.div_informs;
+    }
+  }
+
+  isInit() {
+    return this._init;
+  }
+
+  _uniqueid() {
+    // always start with a letter (for DOM friendlyness)
+    let idstr = String.fromCharCode(Math.floor((Math.random() * 25) + 65));
+    do {
+      // between numbers and characters (48 is 0 and 90 is Z (42-48 = 90)
+      let ascicode = Math.floor((Math.random() * 42) + 48);
+      if (ascicode &lt; 58 || ascicode &gt; 64) {
+        // exclude all chars between : (58) and @ (64)
+        idstr += String.fromCharCode(ascicode);
+      }
+    } while (idstr.length &lt; 32);
+
+    return (idstr);
+  }
+
+  _refreshPanelInfo() {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DebugPanel&apos;, &apos;_refreshPanelInfo&apos;);
+    let playerVersion = AdaptivePlayer.version + &apos; / &apos; + AdaptivePlayer.coreVersion;
+    this.updateInfo(&apos;Version&apos;, playerVersion);
+
+    let height = 0;
+    if (this._panel.div_informs.clientHeight &gt; 0) {
+      this._panel.div_informs.style.width = (this._video.clientWidth - 65) + &apos;px&apos;;
+      height = this._panel.div_informs.clientHeight;
+    } else {
+      height = this._panel.canvas_chart.clientHeight;
+      this._panel.canvas_chart.style.width = (this._video.clientWidth - 65) + &apos;px&apos;;
+    }
+    this._panel.div_root.style.height = height + &apos;px&apos;;
+
+    let playerStats = this._player.getStats();
+    if (playerStats.url === &apos;&apos;) {
+      return;
+    }
+
+    let url = this._player._url;
+    this.updateInfo(&apos;Url&apos;, url);
+
+    let control = JSON.stringify(this._player.getConfigure());
+    this.updateInfo(&apos;Control&apos;, control);
+
+    let state = (this._player.streamType + (this._player.isLive() ? &apos; Live&apos; : &apos; VOD&apos;));
+    state += &apos;(&apos; + this._player.playerType + &apos;), &apos; + this._player.getState();
+    if (this._loadTime &gt; 0) state += &apos;, LoadTime=&apos; + this._loadTime / 1000 + &apos;s&apos;;
+    this.updateInfo(&apos;State&apos;, state);
+
+    let httpServer = &apos;&apos;;
+    if (playerStats.bytesLoaded &amp;&amp; playerStats.bytesLoaded.length &gt; 0) {
+      for (let i = 0; i &lt; playerStats.bytesLoaded.length; i++) {
+        let byteLoaded = playerStats.bytesLoaded[i];
+        httpServer += (&apos;H&apos; + i + &apos;: &apos; + byteLoaded.cdnName +
+          &apos; B: &apos; + byteLoaded.bandwidthRate + &apos; P: &apos; + byteLoaded.priority +
+          &apos; S: &apos; + byteLoaded.onlineSpeed + &apos;Kbps &apos; + StringUtil.formatBytes(byteLoaded.bytes) + &apos;; &apos;);
+      }
+    }
+    this.updateInfo(&apos;HttpServer&apos;, httpServer);
+
+    let download = &apos;&apos;;
+    if (!isNaN(playerStats.bitrate) &amp;&amp; !isNaN(playerStats.bandwidth)) {
+      download = &apos;bitrate=&apos; + playerStats.bitrate + &apos; bandwidth=&apos; + playerStats.bandwidth;
+    }
+    this.updateInfo(&apos;Download&apos;, download);
+
+    this._downloadDataset.push([new Date(), playerStats.bandwidth, playerStats.bitrate]);
+    if (this._downloadDataset.length &gt; (this._bufferSize / this._refreshInterval)) {
+      this._downloadDataset.splice(0, 1);
+    }
+
+    if (this._panel.canvas_chartCxt === null &amp;&amp; this._panel.canvas_chart.clientHeight &gt; 0) {
+      this._panel.canvas_chartCxt = new Dygraph(this._panel.canvas_chart, this._downloadDataset, {
+          drawPoints: false,
+          showRoller: false,
+          colors: [&apos;rgb(0,255,255)&apos;, &apos;rgb(255,10,10)&apos;],
+          axisLineColor: &apos;white&apos;,
+          gridLineColor: &apos;white&apos;,
+          legend: &apos;never&apos;,
+          labels: [&apos;Time&apos;, &apos;bandwidth&apos;, &apos;bitrate&apos;]
+        });
+    }
+    if (this._panel.canvas_chartCxt !== null) {
+      this._panel.canvas_chartCxt.resize(this._panel.canvas_chart.clientWidth, this._panel.canvas_chart.clientHeight)
+      this._panel.canvas_chartCxt.updateOptions({ &apos;file&apos;: this._downloadDataset });
+    }
+
+    this.updateInfo(&apos;Switch&apos;, playerStats.switchInfo);
+
+    let buffer = &apos;&apos;;
+    if (playerStats.buffered) {
+      for (let i = 0; i &lt; playerStats.buffered.length; i++) {
+        buffer += (&apos;[&apos; + (playerStats.buffered.start(i)).toFixed(2) +
+          &apos;, &apos; + (playerStats.buffered.end(i)).toFixed(2) + &apos;];&apos;);
+      }
+    }
+    if (this._player.isLive() &amp;&amp; playerStats.livePointOffest) {
+      buffer += &apos; liveDelay:&apos; + (playerStats.livePointOffest).toFixed(2);
+    }
+    this.updateInfo(&apos;Buffer&apos;, buffer);
+
+    let frames = &apos;&apos;;
+    frames = &apos;decoded: &apos; + playerStats.totalVideoFrames +
+      &apos; dropped:&apos; + playerStats.droppedFrameCount +
+      &apos; ratio:&apos; + (playerStats.droppedFrameCount / playerStats.totalVideoFrames).toFixed(2);
+
+    this.updateInfo(&apos;Frames&apos;, frames);
+
+    let videoPlayer = &apos;&apos;;
+
+    videoPlayer += (&apos;player=&apos; + playerStats.videoWidth + &apos;x&apos; + playerStats.videoHeight);
+    videoPlayer += (&apos; screen=&apos; + this._video.clientWidth + &apos;x&apos; + this._video.clientHeight);
+    videoPlayer += (&apos; mute: &apos; + this._video.muted);
+    videoPlayer += (&apos; volume: &apos; + this._video.volume.toFixed(2));
+    videoPlayer += (&apos; playbackRate: &apos; + this._video.playbackRate);
+
+    this.updateInfo(&apos;VideoPlayer&apos;, videoPlayer);
+
+    let time = &apos;P:&apos;;
+    if (this._player.isLive()) {
+      time += StringUtil.toDateString(playerStats.currentTime);
+      time += (&apos; [&apos; + StringUtil.toDateString(this._seekRange.start) + &apos;, &apos; + StringUtil.toDateString(this._seekRange.end) + &apos;]&apos;);
+    } else {
+      time += StringUtil.formatSeconds(playerStats.currentTime);
+      time += (&apos; [0, &apos; + StringUtil.formatSeconds(playerStats.duration) + &apos;]&apos;);
+    }
+    this.updateInfo(&apos;Time&apos;, time);
+  }
+
+  _onID3(event) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DebugPanel&apos;, &apos;_debugPanelEvent&apos;);
+    if (event.start &amp;&amp; event.value) {
+      let time = this._player.isLive() ? StringUtil.toDateString(event.start) : StringUtil.formatSeconds(event.start);
+      this.updateInfo(&apos;Event&apos;, (time + &apos;: &apos; + JSON.stringify(event.value)));
+    }
+  }
+
+  _onAds(event) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DebugPanel&apos;, &apos;_debugPanelEvent&apos;);
+    let time = this._player.isLive() ? StringUtil.toDateString(event.start) : StringUtil.formatSeconds(event.start);
+    let msg = time + &apos;: &apos; + JSON.stringify(event.data);
+    this.updateInfo(&apos;Ad&apos;, msg);
+  }
+
+  _onSeekRangeChanged(event) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DebugPanel&apos;, &apos;_onSeekRangeChanged&apos;);
+    if (event.details) {
+      this._seekRange = event.details;
+    }
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

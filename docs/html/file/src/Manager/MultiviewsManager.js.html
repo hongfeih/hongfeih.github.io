@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Manager/MultiviewsManager.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Manager/MultiviewsManager.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { AdaptivePlayer } from &apos;../AdaptivePlayer&apos;;
+import { Logger } from &apos;../Utils/Logger&apos;;
+
+export class MultiviewsManager extends Logger {
+  constructor(player) {
+    /**
+     * player should have following interface:
+     * currentTime, play(), pause(), stop(), getState. event:StateChange,
+     */
+    super(player._logger);
+
+    this._player = player;
+    this._syncupPlayers = null;
+    this._syncTimer = null;
+    this._resumeTimer = null;
+    
+    this.MIN_TIME_OFFSET = 0.2; // in seconds
+    this.SEEK_RANGE = 3; // in seconds
+    this.SYNC_TIMER_INTERVAL = 200; // in milliseconds
+  }
+
+  _onStateChanged(evt) {
+    this._syncUp(evt.target);
+  }
+
+  _getTimeOffset() {
+    if (!this._syncupPlayers) {
+      return 0;
+    }
+    if (!this._player.src === &apos;&apos;) {
+      return 0;
+    }
+
+    let minTime = this._player.currentTime;
+    let maxTime = minTime;
+
+    for (let i = 0; i &lt; this._syncupPlayers.length; i++) {
+      let syncPlayer = this._syncupPlayers[i];
+      if (!syncPlayer.src || syncPlayer.readyState &lt; 2) {
+        continue;
+      }
+      let time = syncPlayer.currentTime;
+      if (time &lt; minTime) {
+        minTime = time;
+      }
+      if (time &gt; maxTime) {
+        maxTime = time;
+      }
+    }
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;sync timeOffset: &apos; + Math.abs(maxTime - minTime));
+    return Math.abs(maxTime - minTime);
+  }
+
+  _onCheckTimer() {
+    if (!this._syncupPlayers &amp;&amp; this._syncTimer) {
+      this._syncTimer = window.clearInterval(this._syncTimer);
+    }
+    this._syncUp(this._player);
+  }
+
+  setSyncViews(array) {
+    if (this._syncupPlayers) {
+      this._syncupPlayers.forEach(function (player) {
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;remove secondary player: &apos; + player.viewId);
+        player.removeEventListener(AdaptivePlayer.EventType.StateChange, this._onStateChanged.bind(this));
+      }.bind(this));
+      this._player.removeEventListener(AdaptivePlayer.EventType.StateChange, this._onStateChanged.bind(this));
+      clearInterval(this._syncTimer);
+    }
+
+    if (array.length &gt; 0) {
+      this._syncupPlayers = [];
+      let viewId = 0;
+      array.forEach(function (player) {
+        if (player) {
+          player.viewId = &apos;player&apos; + viewId++;
+          this._syncupPlayers.push(player);
+          // add event
+          player.addEventListener(AdaptivePlayer.EventType.StateChange, this._onStateChanged.bind(this));
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary player: &apos; + player.viewId + &apos; added!&apos;);
+        }
+      }.bind(this));
+      // reset event listener
+      this._player.addEventListener(AdaptivePlayer.EventType.StateChange, this._onStateChanged.bind(this));
+
+      this._syncTimer = window.setInterval(this._onCheckTimer.bind(this), &apos;MultiviewManager&apos;.SYNC_TIMER_INTERVAL);
+    }
+  }
+
+  _syncUp() {
+    if (!this._syncupPlayers) {
+      return;
+    }
+    let syncPlayer = this._syncupPlayers.filter(function (item) {
+      return !!item.src &amp;&amp; item.readyState &gt; 2;
+    });
+    if (syncPlayer.length &lt;= 0) {
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player not ready&apos;);
+      return;
+    }
+
+    // Check all the speed
+    let playbackRate = this._player.playbackRate;
+    this._syncupPlayers.forEach(function (syncPlayer) {
+      if (Math.abs(syncPlayer.playbackRate - playbackRate) &gt; 0.1) {
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;sync secondary playbackRate: &apos; + syncPlayer.viewId + &apos; : &apos; + syncPlayer.playbackRate + &apos;-&gt;&apos; + playbackRate);
+        syncPlayer.playbackRate = playbackRate;
+      }
+    }.bind(this));
+
+    // Check and make sure all player are playing
+    let playerState = this._player.getState();
+    if (playerState === AdaptivePlayer.State.BUFFERING || playerState === AdaptivePlayer.State.PLAYING || playerState === AdaptivePlayer.State.PAUSED || playerState === AdaptivePlayer.State.SEEKING) {
+      this._syncupPlayers.forEach(function (syncPlayer) {
+        if (syncPlayer.getState() === AdaptivePlayer.State.IDLE &amp;&amp; syncPlayer.src) {
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;load secondary Player: &apos; + syncPlayer.viewId);
+          syncPlayer.load();
+        }
+      }.bind(this));
+
+      if (this._player._playerType === AdaptivePlayer.PlayerType.NATIVE) {
+        this._syncNativePlay();
+      } else {
+        this._syncPlay();
+      }
+    }
+
+    // Check and make sure the videoDisplay is stopped
+    if (this._player.getState() === AdaptivePlayer.State.IDLE) {
+      this._syncupPlayers.forEach(function (syncPlayer) {
+        if (syncPlayer.getState() !== AdaptivePlayer.State.IDLE) {
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;stop secondary Player: &apos; + syncPlayer.viewId);
+          syncPlayer.stop();
+        }
+      }.bind(this));
+    }
+  }
+
+  _innerSeek(player, targetTime, seekEnd) {
+    if (!player || !player.src) {
+      return;
+    }
+    let onSeeking = function () {
+      player.removeEventListener(&apos;seeking&apos;, onSeeking);
+      player.addEventListener(&apos;seeked&apos;, onSeeked);
+    };
+    let onSeeked = function () {
+      player.removeEventListener(&apos;seeked&apos;, onSeeked);
+      player.addEventListener(&apos;timeupdate&apos;, onTimeUpdate);
+      window.setTimeout(function () {
+        player.removeEventListener(&apos;timeupdate&apos;, onTimeUpdate);
+        seekEnd(player.currentTime);
+      }, 500);
+    };
+    let onTimeUpdate = function () {
+      player.removeEventListener(&apos;timeupdate&apos;, onTimeUpdate);
+      seekEnd(player.currentTime);
+    };
+
+    player.addEventListener(&apos;seeking&apos;, onSeeking);
+    player.currentTime = targetTime;
+  }
+
+  _syncPlay() {
+    let playheadTime = this._player.currentTime;
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;Main Player CurrentTime: &apos; + playheadTime);
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;Main Player State: &apos; + this._player.getState());
+
+    let syncPlayer = this._syncupPlayers.filter(function (item) {
+      return !!item.src &amp;&amp; item.readyState &gt; 2;
+    });
+    if (syncPlayer.length &lt;= 0) {
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player not ready&apos;);
+      return;
+    }
+
+    if (this._player.getState() === AdaptivePlayer.State.PAUSED) {
+      this._syncupPlayers.forEach(function (syncPlayer) {
+        if (syncPlayer.getState() === AdaptivePlayer.State.PLAYING || syncPlayer.getState() === AdaptivePlayer.State.BUFFERING) {
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;made secondary Player Paused : &apos; + syncPlayer.viewId);
+          syncPlayer.pause();
+        }
+      }.bind(this));
+
+      this._syncupPlayers.forEach(function (syncPlayer) {
+        if (syncPlayer.getState() === AdaptivePlayer.State.PAUSED) {
+          let deltaTime = playheadTime - syncPlayer.currentTime;
+          if (Math.abs(deltaTime) &gt; this.MIN_TIME_OFFSET) {
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;made secondary Player seek to main Player playheadTime: &apos; + syncPlayer.viewId + &apos; : &apos; + syncPlayer.currentTime + &apos;-&gt;&apos; + playheadTime);
+            syncPlayer.currentTime = playheadTime;
+          }
+        }
+      }.bind(this));
+      return;
+    }
+
+    if (this._player.getState() === AdaptivePlayer.State.PLAYING) {
+      let halfOffset = this.MIN_TIME_OFFSET / 2.0;
+      let playbackRate = this._player.playbackRate;
+      if (playbackRate &gt; 0) {
+        halfOffset *= playbackRate;
+      }
+      let timeLeftOfOffset = playheadTime - halfOffset;
+      let timeRightOfOffset = playheadTime + halfOffset;
+
+      let timeSeek = playheadTime + this.SEEK_RANGE; // 4s
+      this._syncupPlayers.forEach(function (syncPlayer) {
+        if (syncPlayer.getState() === AdaptivePlayer.State.SEEKING || syncPlayer.getState() === AdaptivePlayer.State.IDLE) {
+          return;
+        }
+        let time0 = syncPlayer.currentTime;
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player CurrentTime: &apos; + syncPlayer.viewId + &apos; : &apos; + time0 + &apos;,&apos; + timeSeek + &apos;, [&apos; + timeLeftOfOffset + &apos;, &apos; + timeRightOfOffset + &apos;]&apos;);
+        if (time0 &lt; timeLeftOfOffset || time0 &gt; timeSeek) {
+          if (syncPlayer.getState() === AdaptivePlayer.State.PLAYING || syncPlayer.getState() === AdaptivePlayer.State.BUFFERING || syncPlayer.getState() === AdaptivePlayer.State.PAUSED) {
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;made secondary Player Paused &apos; + syncPlayer.viewId + &apos;:&apos;);
+            syncPlayer.pause();
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;made secondary Player seek to main Player playheadTime: &apos; + syncPlayer.viewId + &apos; : &apos; + time0 + &apos;-&gt;&apos; + timeSeek);
+            syncPlayer.currentTime = timeSeek;
+          }
+        } else if (time0 &gt; timeRightOfOffset) {
+          if (syncPlayer.getState() === AdaptivePlayer.State.PLAYING) {
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;made secondary Player Paused&apos; + syncPlayer.viewId + &apos; :&apos;);
+            syncPlayer.pause();
+          }
+        } else if (time0 &gt;= timeLeftOfOffset &amp;&amp; time0 &lt;= timeRightOfOffset) {
+          if (syncPlayer.getState() === AdaptivePlayer.State.PAUSED) {
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;made secondary Player Play&apos; + syncPlayer.viewId + &apos; :&apos;);
+            syncPlayer.play();
+          }
+        }
+      }.bind(this));
+
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;Main Player State: &apos; + this._player.getState());
+      this._syncupPlayers.forEach(function (player) {
+        if (!player.src || player.readyState &lt; 2) {
+          return;
+        }
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player State: &apos; + player.viewId + &apos;/&apos; + player.getState());
+      }.bind(this));
+    }
+  }
+
+  _syncNativePlay() {
+    let syncPlayer = this._syncupPlayers.filter(function (item) {
+      return !!item.src &amp;&amp; item.readyState &gt; 2;
+    })[0];
+    if (!syncPlayer) {
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player not ready&apos;);
+      return;
+    }
+
+    let playheadTime = this._player.currentTime;
+    let halfOffset = this.MIN_TIME_OFFSET / 2.0;
+    let playbackRate = this._player.playbackRate;
+    if (playbackRate &gt; 0) {
+      halfOffset *= playbackRate;
+    }
+    let timeLeftOfOffset = playheadTime - halfOffset;
+    let timeRightOfOffset = playheadTime + halfOffset;
+    let timeSeek = playheadTime + this.SEEK_RANGE; // 4s
+    let syncPause = false;
+    let inSyncing = false;
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;Main Player CurrentTime: &apos; + playheadTime);
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;Main Player State: &apos; + this._player.getState());
+
+    if (this._player.getState() === AdaptivePlayer.State.PAUSED) {
+      if (syncPlayer.getState() === AdaptivePlayer.State.PLAYING || syncPlayer.getState() === AdaptivePlayer.State.BUFFERING || syncPlayer.getState() === AdaptivePlayer.State.PAUSED) {
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player CurrentTime: &apos; + syncPlayer.currentTime);
+        let deltaTime = playheadTime - syncPlayer.currentTime;
+        if (Math.abs(deltaTime) &gt; this.MIN_TIME_OFFSET) {
+          if (inSyncing) {
+            return;
+          }
+          this._innerSeek(syncPlayer, timeSeek, function (timeSeekResult) {
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;inner seek: &apos; + &apos;currentTime: &apos; + syncPlayer.currentTime + &apos; to: &apos; + timeSeek + &apos; accurate: &apos; + timeSeekResult);
+            if (timeSeekResult &gt;= timeLeftOfOffset) {
+              this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;set secondary Player inSyncing true, made secondary player pause&apos;);
+              syncPlayer.pause();
+            }
+          }.bind(this));
+          inSyncing = true;
+        } else if (syncPause) {
+          syncPlayer.play();
+          this._player.play();
+          inSyncing = false;
+          syncPause = false;
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;set secondary Player inSyncing false, made MainPlayer &amp; SecondarayPlayer play&apos;);
+        }
+      }
+      return;
+    }
+
+    if (this._player.getState() === AdaptivePlayer.State.PLAYING) {
+      if (syncPlayer.getState() === AdaptivePlayer.State.SEEKING || syncPlayer.getState() === AdaptivePlayer.State.IDLE) {
+        return;
+      }
+      let time0 = syncPlayer.currentTime;
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player CurrentTime: &apos; + syncPlayer.viewId + &apos; : &apos; + time0);
+      if (time0 &lt; timeLeftOfOffset || time0 &gt; timeSeek) {
+        if (syncPlayer.getState() === AdaptivePlayer.State.PLAYING || syncPlayer.getState() === AdaptivePlayer.State.BUFFERING || syncPlayer.getState() === AdaptivePlayer.State.PAUSED) {
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player currentTime: &apos; + time0);
+          if (inSyncing) {
+            return;
+          }
+          this._innerSeek(syncPlayer, timeSeek, function (timeSeekResult) {
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;inner seek: &apos; + &apos;currentTime: &apos; + syncPlayer.currentTime + &apos; to: &apos; + timeSeek + &apos; accurate: &apos; + timeSeekResult);
+            if (timeSeekResult &gt; timeRightOfOffset) {
+              this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;set secondary Player inSyncing true, made secondary player pause&apos;);
+              syncPlayer.pause();
+            } else if (timeSeekResult &lt; timeLeftOfOffset) {
+              this._player.pause();
+              syncPause = true;
+              this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;set MainPlayer inSyncing true, made MainPlayer pause&apos;);
+            } else {
+              inSyncing = false;
+              this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;set MainPlayer inSyncing false, seek point is in sync range&apos;);
+            }
+          }.bind(this));
+          inSyncing = true;
+        }
+      } else if (time0 &gt;= timeLeftOfOffset &amp;&amp; time0 &lt;= timeRightOfOffset) {
+        if (syncPlayer.getState() === AdaptivePlayer.State.PAUSED) {
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;set secondary Player inSyncing false, made secondary player play&apos;);
+          syncPlayer.play();
+        }
+        if (inSyncing) {
+          inSyncing = false;
+        }
+      }
+
+      return;
+    }
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;Main Player State: &apos; + this._player.getState());
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;MultiviewManager&apos;, &apos;secondary Player State: &apos; + syncPlayer.getState());
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

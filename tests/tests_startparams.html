@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page</title>
+<!--
+    <script src="3rd/jquery/jquery-2.2.2.min.js"></script>
+
+    <script src="shaka/third_party/closure/goog/base.js"></script>
+    <script src="shaka/dist/deps.js"></script>
+    <script src="shaka/shaka-player.uncompiled.js"></script>
+    <script src="neulion/uncompiled.extend.js"></script>
+    <script src="hls.js/hls.js"></script>
+    <script src="js/uncompiled.js"></script>
+-->
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <label>Url: </label>
+    <input type="text" style="width: 450px;" placeholder="stream url" id="url" value="http://172.16.0.107:8507/devclear/teststage/t594_hd.mpd">
+    <input type="checkbox" id="withCredentials"> Request With Credentials
+    <br />
+    <label>Start Bitrate: </label>
+    <input type="text" style="width: 450px;" placeholder="150000" id="startBitrate">
+    <br />
+    <label>Start Time: </label>
+    <input type="text" style="width: 450px;" placeholder="100" id="startTime">
+    <br />
+    <label>Preferred Audio Language: </label>
+    <input type="text" style="width: 50px;" placeholder="eng" id="preferredAudioLanguage">
+    <label>Preferred Text Language: </label>
+    <input type="text" style="width: 50px;" placeholder="ara" id="preferredTextLanguage">
+    <br />
+    <button onclick="play(false)">Play</button>
+    <button onclick="play(true);">Reload with native player on Safari</button>
+    <div>
+        <video crossOrigin="anonymous" id="video_main" style="height: 100%;" autoplay controls>
+            Your browser doesn't support HTML5 video.
+        </video>
+        <div id='currentTime'></div>
+    </div>
+    <script>  
+        var video = document.getElementById('video_main');    
+        var player = new AdaptivePlayer(video);
+        player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+        player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, function(e) {
+            document.getElementById('currentTime').innerHTML = 'Current Time: ' + player.currentTime;
+        });
+        player.addEventListener(AdaptivePlayer.EventType.PlayStart, function(e) {
+            console.log('Start bitrate:' + player.getStats().bitrate);
+        });
+        function play(isDRM) {    
+            var url = document.getElementById('url').value;
+            var config = {
+                abr: {
+                    enabled: true
+                },
+                withCredentials: false,
+            }
+            var withCredentials = document.getElementById('withCredentials').checked;
+            var startBitrate = Number(document.getElementById('startBitrate').value);
+            var startTime = Number(document.getElementById('startTime').value);
+            if (startBitrate > 0) {
+                config.abr.enabled = false;
+                config.abr.startBitrate = startBitrate;
+            }
+            var preferredAudioLanguage = document.getElementById('preferredAudioLanguage').value;
+            if (preferredAudioLanguage !== "") {
+                config.preferredAudioLanguage = preferredAudioLanguage;
+            }
+            var preferredTextLanguage = document.getElementById('preferredTextLanguage').value;
+            if (preferredTextLanguage !== "") {
+                config.preferredTextLanguage = preferredTextLanguage;
+            }
+            // HLS uses native player on Safari
+            if (isDRM) {
+                config.drm = '{ params: { token: "123" }';
+            }
+            player.configure(config);
+            player.load(url, startTime > 0 ? startTime : null);
+        }
+    </script>
+</body>

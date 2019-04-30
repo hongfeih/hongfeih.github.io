@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: tests_thumbnail</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: tests_thumbnail</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>tests_thumbnail</h2>
+</header>
+
+<article>
+    
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <label id="version"></label><br/>
+    <label >Test Url: </label>
+	<input style="width:800px" value="http://172.16.0.107:8507/devclear/teststage/t594_hd.mpd" type="text" id="urlAdress"></input>
+	<br />
+	<button onclick="playStream()">Play Stream</button>
+	<button onclick="stopStream()">Stop Stream</button>
+    <button onclick="useBasicPlayer()">Fake DRM</button>
+    <button onclick="seekback()">Seek back one minutes</button><br />
+	<br />
+    <table >
+        <tr>
+            <td style="vertical-align:top;">
+                <div style="width: 400px;position: relative;" >
+                <video crossOrigin="anonymous" id="video_main" style="width:100%;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+                </div>
+                <br/>
+                <label id="seekRange"></label>
+            </td>              
+            <td>
+                <div>
+                    <b>Current Time:</b>
+                    <label style="width:500px" id="state"></label>
+                </div>
+                <div>
+                    <b>ImageInfo:</b>
+                    <label style="width:500px" id="ImageInfo"></label>
+                </div>
+                <div>
+                    <b>ImageDuration:</b>
+                    <label id="duration"></label>
+                </div>
+                <div>
+                    <b>lastDuration:</b>
+                    <label id="lastDuration"></label>
+                </div>
+                <div>
+                    <b>Thumbnail request:</b>
+                    <label style="width:150px" id="SelectImageIndex">SelectImageIndex: null</label>
+                    <br />
+                </div>
+                <button onclick="testImage()">Get Current Thumbnail</button><br />
+                <label>Thumbnail set: </label>
+                <br />
+                <img style="visibility:hidden" src="" id="wholeImage" />
+                <br />
+                <label>Current Thumbnail: </label>
+                <br />
+                <img style="visibility:hidden" src="" id="partImage" />
+            </td>        
+        </tr>
+    </table>
+    
+    <script>
+        document.getElementById('version').innerHTML = AdaptivePlayer.version;
+
+        var video = document.getElementById('video_main');
+        var player = new AdaptivePlayer(video);
+        var streams = [];
+		var lastImageIndex = -1;
+		var lastRequestTime = 0;
+		var imageDuration = 0;
+
+        player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+        player.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart);
+        player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate);
+        video.addEventListener('seeked', onSeeked);
+
+        function onPlayStart(e) {
+            GrapImageInfo();  
+        }
+        function onTimeUpdate(e) {
+            e.currentTime = e.currentTime.toFixed(2);
+			document.getElementById('state').time = e.currentTime;
+            document.getElementById('state').innerHTML = e.currentTime + "/" + e.duration.toFixed(2);
+            testImage();
+        }
+		function playStream() {
+            document.getElementById('state').innerHTML = "";
+            document.getElementById('seekRange').innerHTML = "";
+
+            streams = [];
+            player.stop();
+			var url = document.getElementById('urlAdress').value;
+            player.load(url);
+		}
+		function stopStream() {
+            document.getElementById('state').innerHTML = "";
+            document.getElementById('seekRange').innerHTML = "";
+
+            player.stop();
+            streams = [];
+		}
+        function testImage() {
+            if (streams.length > 0) {
+                player.getThumbnailStreamImages(streams[0].id , player.currentTime, thumbnailsCb);
+            }  
+        }
+        function onSeeked() {
+            setTimeout(function() {
+                testImage();
+                //player.pause();
+            }, 100);
+        }
+        function GrapImageInfo() {
+			var info = document.getElementById('GrapImageInfo');
+			streams = player.getThumbnailStreams();
+			var labelInfo;
+			for(var i = 0; i < streams.length; i++) {
+				labelInfo = ((labelInfo === undefined) ? "" : labelInfo + ",") + "{id:" + streams[i].id + " , " + "resulution:" + streams[i].width + " x " + streams[i].height + "}";
+			}
+			document.getElementById('ImageInfo').innerHTML = labelInfo;
+        }
+
+		function thumbnailsCb(thumbnails) {
+			var requestTime = thumbnails.requestTime;
+			var baseTime = thumbnails.baseTime;
+			var images = thumbnails.images;
+			var checkImage = false;
+			var wholeWidth = 0;
+            var wholeHeight = 0;
+            var text = 'requestTime=' + requestTime + '<br\>';
+			if (images.length > 0) {
+				var  index = 0;
+				for (var i = 0; i < images.length; i++) {
+                     text += 'image ' + i + ': [' + images[i].startTime + ', ' + images[i].endTime + ']' + '<br\>';
+					if (requestTime >= images[i].startTime && requestTime < images[i].endTime) {
+						index = i;
+						checkImage = true;
+					}
+					if(wholeWidth < Number(images[i].topX)) {
+						wholeWidth = Number(images[i].topX);
+					}
+					if(wholeHeight < Number(images[i].topY)) {
+						wholeHeight = Number(images[i].topY);
+					}
+				}
+                var selectIndex = document.getElementById("SelectImageIndex");
+                text += "SelectImageIndex: " + index;
+				selectIndex.innerHTML = text;
+				drawSprite(images[index].url, images[index].topX,
+					images[index].topY, images[index].width, images[index].height,
+					wholeWidth+Number(images[index].width), wholeHeight+Number(images[index].height));
+
+				if (lastImageIndex != -1) {
+					if (lastImageIndex == index) {
+						imageDuration += (requestTime - lastRequestTime);
+					} else {
+						imageDuration += (requestTime - lastRequestTime);
+						var lastDurationElem = document.getElementById("lastDuration");
+						lastDurationElem.innerHTML = 'lastIndex= ' + lastImageIndex + ' duration=' + imageDuration;						
+						imageDuration = 0;
+					}
+					lastRequestTime = requestTime;
+					lastImageIndex = index;
+					var durationElem = document.getElementById("duration");
+					durationElem.innerHTML = 'ImageDuration: index= ' + lastImageIndex + ' duration=' + imageDuration;
+				} else {
+					lastImageIndex = index;
+					lastRequestTime = requestTime;
+				}
+
+			}
+		};
+
+		function drawSprite(pic_url, x, y, w, h, ww, wh) {
+			var wholeImage = document.getElementById("wholeImage");
+			wholeImage.style.visibility = "visible";
+			wholeImage.style.background = 'url(' + pic_url + ') ';
+			wholeImage.style.width = ww + 'px';
+			wholeImage.style.height = wh + 'px';
+			wholeImage.style.backgroundPosition = '-' + ww + 'px -' + wh + 'px';
+
+			var partImage = document.getElementById("partImage");
+			partImage.style.visibility = "visible";
+			partImage.style.background = 'url(' + pic_url + ') ';
+			partImage.style.width = w + 'px';
+			partImage.style.height = h + 'px';
+			partImage.style.backgroundPosition = '-' + x + 'px -' + y + 'px';
+
+        };
+        
+		function seekback() {
+			var currentTime = player.currentTime;
+			player.currentTime = currentTime - 90;
+        };
+        
+		function useBasicPlayer() {
+			player.configure({drm: {params: {token: '123'}}});
+		}
+    </script>
+</body>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li><li><a href="tutorial-tests_ad.html">tests_ad</a></li><li><a href="tutorial-tests_basic.html">tests_basic</a></li><li><a href="tutorial-tests_cuepoint.html">tests_cuepoint</a></li><li><a href="tutorial-tests_events.html">tests_events</a></li><li><a href="tutorial-tests_id3.html">tests_id3</a></li><li><a href="tutorial-tests_startparams.html">tests_startparams</a></li><li><a href="tutorial-tests_thumbnail.html">tests_thumbnail</a></li><li><a href="tutorial-tests_tracks.html">tests_tracks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 01 2019 15:43:15 GMT+0800 (中国标准时间)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

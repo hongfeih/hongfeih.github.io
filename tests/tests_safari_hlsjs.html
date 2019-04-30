@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+    <style>
+        div {
+            margin: 0.5em
+        }
+    </style>
+</head>
+
+<body>
+    <label id="version"></label><br/>
+    <div>
+        <button onclick="load_nondrm()">Play HLS Non-DRM</button>
+        <button onclick="load_drm()">Play HLS DRM</button>
+    </div>
+
+    <table >
+        <tr>
+            <td style="vertical-align:top;">
+                <video crossOrigin="anonymous" id="video_main" style="width: 400px;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state"></label>
+                <label id='status' style="width: 500px;" ></label>
+                
+            </td>
+        </tr>
+    </table>
+    <script>   
+        document.getElementById('version').innerHTML = AdaptivePlayer.version;
+
+        var video = document.getElementById('video_main');    
+        player = new AdaptivePlayer(video);
+                
+        player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+        player.addEventListener(AdaptivePlayer.EventType.PlayStart, onPlayStart);
+
+        function onPlayStart(e) {
+            var status = document.getElementById('status'); 
+            status.innerHTML += "<p>Play started";   
+            var player = e.target;
+            status.innerHTML += "<p>" + player.playerType + " used!";            
+        }
+
+        function load_nondrm() {    
+            var status = document.getElementById('status');   
+            status.innerHTML = "";
+            player.configure({});
+            player.load('https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8');
+        } 
+        function load_drm() {    
+            var status = document.getElementById('status');   
+            status.innerHTML = "";
+            player.configure({drm: true});
+            player.load('https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8');
+        }                 
+    </script>
+</body>

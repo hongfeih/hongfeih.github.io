@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page - AD</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+  <label>Url:</label><input type="text" id="urlValue" style="width: 400px;" value='http://172.16.0.107:8507/devclear/teststage/t594_hd.m3u8'>
+  <button onclick="load_Url()">Load</button>
+  <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  <button onclick="unload_Url()">Unload</button>
+  <div>
+    <video crossOrigin="anonymous" id="video_main" style="width:500px;" autoplay muted controls preload="auto">
+      Your browser doesn't support HTML5 video.
+    </video>
+    <div id='ad-ranges' />
+  </div>
+  <script>
+    var video = document.getElementById('video_main');
+    var player = new AdaptivePlayer(video);
+    player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, function (event) {
+      var ranges = document.getElementById('ad-ranges');
+      ranges.value = player.currentTime;
+    });
+    player.addEventListener(AdaptivePlayer.EventType.SeekRangeChange, function (event) {
+      var ranges = document.getElementById('ad-ranges');
+      ranges.innerHTML = 'Seek Range: [' + event.details.start + ', ' + event.details.end + ']';
+      ranges.innerHTML += '<ul>'
+      event.details.ranges.forEach(function(item){
+        ranges.innerHTML += '<li>[' + item.begin + ', ' + item.end + ']</li>';
+      })
+      ranges.innerHTML += '</ul>'
+    });
+
+    function load_Url() {
+      var urlValue = document.getElementById('urlValue');
+      player.load(urlValue.value);
+    }
+
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      player.configure({ drm: { params: { token: '123' } } });
+      load_Url();
+    }
+
+    function unload_Url() {
+      player.stop();
+    }
+  </script>
+</body>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>NeuLion HTML5 Player Demo Page</title>
+		<script src="../dist/nladaptiveplayer.js"></script>
+		<link href="../3rd/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="../3rd/bootstrap/css/bootstrap-theme.min.css">
+		<script src="../3rd/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../3rd/angular_1.6.5/ui-bootstrap.min.js"></script>
+		<script src="../3rd/angular_1.6.5/ui-bootstrap-tpls.min.js"></script>
+		<style>
+			body {
+				margin: 15px
+			}
+		</style>
+	</head>
+	<body>
+		<h4>NeuLion HTML5 Player</h4>
+		<div id="version">version</div>
+		<h3>Samples:</h3>
+		<table class="table table-dark" style="width:80%">
+			<thead>
+				<tr>
+					<th scope="col">Page</th>
+					<th scope="col">Description</th>
+					<th scope="col">HTML file</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Basic</td>
+					<td>Basic playback</td>
+					<td><a href="tests_basic.html" target="_blank">tests_basic.html</a></td>
+				</tr>
+				<tr>
+					<td>Basic</td>
+					<td>All events</td>
+					<td><a href="tests_events.html" target="_blank">tests_events.html</a></td>
+				</tr>
+				<tr>
+					<td>Basic</td>
+					<td>Start parameters including startBitrate, startTime and preferred language</td>
+					<td><a href="tests_startparams.html" target="_blank">tests_startparams.html</a></td>
+				</tr>
+				<tr>
+					<td>Basic</td>
+					<td>Test seek</td>
+					<td><a href="tests_seek.html" target="_blank">tests_seek.html</a></td>
+				</tr>
+				<tr>
+					<td>Basic</td>
+					<td>Switch between bitrates, audios and subtitles </td>
+					<td>
+						<a href="tests_tracks.html" target="_blank">Refresh tracks on TrackChange</a><br />
+						<a href="tests_tracks1.html" target="_blank">Keep tracks on TrackChange </a>
+					</td>
+				</tr>
+				<tr>
+					<td>Basic</td>
+					<td>DRM playback with NeuLion License server</td>
+					<td><a href="tests_drm.html" target="_blank">tests_drm.html</a></td>
+				</tr>
+				<tr>
+					<td>Basic</td>
+					<td>Multiple instances in a page</td>
+					<td><a href="tests_multiinstances.html" target="_blank">tests_multiinstances.html</a></td>
+				</tr>
+				<tr>
+					<td>Features</td>
+					<td>NeuLion AD-stitching</td>
+					<td><a href="tests_ad.html" target="_blank">tests_ad.html</a></td>
+				</tr>
+				<tr>
+					<td>Features</td>
+					<td>ID3 / EMSG</td>
+					<td><a href="tests_id3.html" target="_blank">tests_id3.html</a></td>
+				</tr>
+				<tr>
+					<td>Features</td>
+					<td>Add/remove self-defined cuepoint, and trigger automaticlly by player (AdaptivePlayer.EventType.ID3Event)</td>
+					<td><a href="tests_cuepoint.html" target="_blank">tests_cuepoint.html</a></td>
+				</tr>
+				<tr>
+					<td>Features</td>
+					<td>Play stream with thumbnail stream and extract thumbnail of certain position </td>
+					<td><a href="tests_thumbnail.html" target="_blank">tests_thumbnail.html</a></td>
+				</tr>
+				<tr>
+					<td>Features</td>
+					<td>Sync between players, add secondary player and keep sync with main player</td>
+					<td><a href="tests_syncviews.html" target="_blank">tests_syncviews.html</a></td>
+				</tr>
+				<tr>
+					<td>Others</td>
+					<td>Simple player with logging</td>
+					<td><a href="logit/index.html" target="_blank">logit/index.html</a></td>
+				</tr>
+				<tr>
+				<tr>
+					<td>Others</td>
+					<td>Play DASH/HLS test streams (randomly)</td>
+					<td><a href="tests_switch.html" target="_blank">tests_switch.html</a></td>
+				</tr>
+				<tr>
+					<td>Others</td>
+					<td>Use hls.js on Mac Safari when config.drm not defined</td>
+					<td><a href="tests_safari_hlsjs.html" target="_blank">tests_safari_hlsjs.html</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+	<script>
+		document.getElementById('version').innerHTML = AdaptivePlayer.version + '<br/> - ' + AdaptivePlayer.coreVersion;
+	</script>
+</html>

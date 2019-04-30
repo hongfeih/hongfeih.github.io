@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: tests_ad</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: tests_ad</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>tests_ad</h2>
+</header>
+
+<article>
+    <!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page - AD</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+  <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  <div>
+    <div id="ad_on" style="display:none;position: absolute;top: 30px;background-color: red;left: 15px;font-size: 25px;z-index: 2;">AD is on</div>
+    <a id='defaultClick' target='_blank' style="width: 100%;height: 100%;">
+      <video crossOrigin="anonymous" id="video_main" style="height:100% !important;width: auto !important;" autoplay muted controls preload="auto">
+        Your browser doesn't support HTML5 video.
+      </video>
+    </a>
+  </div>
+  <script>
+    function sendWithIframe(url) {
+      var id = 'url_iframe_' + rand(16);
+      var iframe = document.getElementById(id);
+      if (!iframe) {
+          iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.id = id;
+          document.body.appendChild(iframe);
+      }
+      iframe.src = url;
+      if (iframe.attachEvent) {
+          iframe.attachEvent('onload', function () {
+              iframe.parentNode.removeChild(iframe);
+          });
+      } else {
+          iframe.onload = function () {
+              iframe.parentNode.removeChild(iframe);
+          };
+      }
+    }
+
+    var video = document.getElementById('video_main');
+    var player = new AdaptivePlayer(video);
+    player.addEventListener(AdaptivePlayer.EventType.AdEvent, function(e) {
+      console.log("Ad: " + JSON.stringify(event.details));
+      if (e.details.type === AdaptivePlayer.AD.START_EVENT) {
+        // disable seek bar
+        video.controls = false;
+        document.getElementById('ad_on').style.display = 'block';
+        if (e.details.data && e.details.data.urls) {
+          e.details.data.urls.forEach(function(item) {
+            if (item.type === AdaptivePlayer.AD.TRACK_CLICK) {
+              // post url
+              sendWithIframe(item.url);
+            } else if(item.type === AdaptivePlayer.AD.DEFAULT_CLICK) {
+              // open url
+              document.getElementById('defaultClick').href = item.url;              
+            }  
+          })
+        }
+      } else if (e.details.type === AdaptivePlayer.AD.END_EVENT) {
+        document.getElementById('ad_on').style.display = 'none';
+        document.getElementById('defaultClick').removeAttribute('href');
+        // enable seek bar
+        video.controls = true;
+      }
+    });
+
+    player.load('http://172.16.0.63/live/t3_hd_ipad.m3u8?cpId=UNIVISIONNOW&x-t=abc');
+    
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      player.configure({ drm: { params: { token: '123' } } });
+      player.load('http://172.16.0.63/live/t3_hd_ipad.m3u8?cpId=UNIVISIONNOW&x-t=abc');
+    }
+  </script>
+</body>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li><li><a href="tutorial-tests_ad.html">tests_ad</a></li><li><a href="tutorial-tests_basic.html">tests_basic</a></li><li><a href="tutorial-tests_cuepoint.html">tests_cuepoint</a></li><li><a href="tutorial-tests_events.html">tests_events</a></li><li><a href="tutorial-tests_id3.html">tests_id3</a></li><li><a href="tutorial-tests_startparams.html">tests_startparams</a></li><li><a href="tutorial-tests_thumbnail.html">tests_thumbnail</a></li><li><a href="tutorial-tests_tracks.html">tests_tracks</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Feb 01 2019 15:43:15 GMT+0800 (中国标准时间)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

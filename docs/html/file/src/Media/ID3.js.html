@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Media/ID3.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Media/ID3.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+import * as StringUtil from &apos;../Utils/String&apos;
+
+export class ID3 {
+    constructor(data) {
+        this._dict = {};
+        this._hasTimeStamp = false;
+        let offset = 0;
+        let byte1;
+        let byte2;
+        let byte3;
+        let byte4;
+        let tagSize;
+        let endPos;
+        let header;
+        let len;
+        do {
+            header = this._readUTF(data, offset, 3);
+            offset += 3;
+            // first check for ID3 header
+            if (header === &apos;ID3&apos;) {
+                // skip 24 bits
+                offset += 3;
+                // retrieve tag(s) length
+                byte1 = data[offset++] &amp; 0x7f;
+                byte2 = data[offset++] &amp; 0x7f;
+                byte3 = data[offset++] &amp; 0x7f;
+                byte4 = data[offset++] &amp; 0x7f;
+                tagSize = (byte1 &lt;&lt; 21) + (byte2 &lt;&lt; 14) + (byte3 &lt;&lt; 7) + byte4;
+                endPos = offset + tagSize;
+
+                // read ID3 tags
+                this._parseID3Frames(data, offset, endPos);
+                offset = endPos;
+            } else if (header === &apos;3DI&apos;) {
+                // http://id3.org/id3v2.4.0-structure chapter 3.4.   ID3v2 footer
+                offset += 7;
+                offset = endPos;
+            } else {
+                offset -= 3;
+                len = offset;
+                if (len) {
+                    if (!this._hasTimeStamp) {
+                        // ID3 tag found, but no timestamp
+                    }
+                    this._length = len;
+                    this._payload = data.subarray(0, len);
+                }
+                return;
+            }
+        } while (offset &lt; endPos);
+    }
+
+    _readUTF(data, start, len) {
+        let result = &apos;&apos;;
+        let offset = start;
+        let end = start + len;
+        do {
+            result += String.fromCharCode(data[offset++]);
+        } while (offset &lt; end);
+        return result;
+    }
+
+    _getFrameSize(data, offset) {
+        let size = 0;
+        size = ((data[offset] &amp; 0x7f) &lt;&lt; 21);
+        size |= ((data[offset + 1] &amp; 0x7f) &lt;&lt; 14);
+        size |= ((data[offset + 2] &amp; 0x7f) &lt;&lt; 7);
+        size |= (data[offset + 3] &amp; 0x7f);
+        return size;
+    }
+
+    _decodeTextFrame(frame, offset, type, size) {
+        if (size &lt; 2) {
+            return null;
+        }
+
+        if (type === &apos;TXXX&apos;) {
+            /*
+            Format:
+            [0]   = {Text Encoding}
+            [1-?] = {Description}\0{Value}
+            */
+            let index = 1;
+            let description = StringUtil.utf8ArrayToStr(frame.subarray(offset + index));
+
+            index += description.length + 1;
+            let value = StringUtil.utf8ArrayToStr(frame.subarray(offset + index));
+
+            return { info: description, data: value };
+        } else {
+            /*
+            Format:
+            [0]   = {Text Encoding}
+            [1-?] = {Value}
+            */
+            let text = StringUtil.utf8ArrayToStr(frame.subarray(offset + 1));
+            return { info: &apos;&apos;, data: text };
+        }
+    }
+
+    _decodeURLFrame(frame, offset, type, size) {
+        if (type === &apos;WXXX&apos;) {
+            /*
+            Format:
+            [0]   = {Text Encoding}
+            [1-?] = {Description}\0{URL}
+            */
+            if (size &lt; 2) {
+                return null;
+            }
+
+            let index = 1;
+            let description = StringUtil.utf8ArrayToStr(frame.subarray(offset + index));
+
+            index += description.length + 1;
+            let value = StringUtil.utf8ArrayToStr(frame.subarray(offset + index));
+
+            return { info: description, data: value };
+        } else {
+            /*
+            Format:
+            [0-?] = {URL}
+            */
+            let url = StringUtil.utf8ArrayToStr(frame.data);
+            return { info: &apos;&apos;, data: url };
+        }
+    }
+
+    _parseID3Frames(data, offset, endPos) {
+        let tagId;
+        // let tagStart;
+        // let tagLen;
+        // let tagFlags;
+        let timestamp;
+        if (offset + 8 &lt;= endPos) {
+            tagId = this._readUTF(data, offset, 4);
+            offset += 4;
+            this._dict[&apos;key&apos;] = tagId;
+            switch (tagId) {
+                case &apos;GEOB&apos;:
+                    // skip tag flags and len;
+                    offset += 7;
+                    if (this._readUTF(data, offset, 15) === &apos;application/xml&apos;) {
+                        offset += 15;
+
+                        offset += 1;
+                        if (this._readUTF(data, offset, 18) === &apos;substitution.plist&apos;) {
+                            offset += 18;
+
+                            offset += 2;
+
+                            let xmlStr = this._readUTF(data, offset, endPos - offset);
+                            offset += endPos - offset;
+                            let parser = new DOMParser();
+                            let xmlDoc = parser.parseFromString(xmlStr, &apos;application/xml&apos;);
+                            if (xmlDoc.getElementsByTagName(&apos;dict&apos;).length &gt; 1) {
+                                // assert(xmlDoc.getElementsByTagName(&apos;dict&apos;)[0].childNodes[0].nodeValue === &apos;ad-list&apos;);
+                                let nodes = xmlDoc.getElementsByTagName(&apos;dict&apos;)[1].childNodes;
+                                let nodeValues = [];
+                                for (let i = 0; i &lt; nodes.length; i++) {
+                                    if (nodes[i].nodeType === 1 &amp;&amp; nodes[i].nodeName) { // element type and had the node name
+                                        nodeValues.push({ node: nodes[i].nodeName, value: nodes[i].textContent.trim() });
+                                    }
+                                }
+                                // assert(nodeValues.length % 2 === 0);
+                                for (let j = 0; j &lt; nodeValues.length; j++) {
+                                    let keyIndex = j++;
+                                    // assert(nodeValues[keyIndex].node === &apos;keyIndex&apos;);
+                                    this._dict[nodeValues[keyIndex].value] = nodeValues[j].value;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case &apos;PRIV&apos;:
+                    // tagLen = data[offset++] &lt;&lt; 24 +
+                    //     data[offset++] &lt;&lt; 16 +
+                    //     data[offset++] &lt;&lt; 8 +
+                    //     data[offset++];
+
+                    // tagFlags = data[offset++] &lt;&lt; 8 +
+                    //     data[offset++];
+
+                    // tagStart = offset;
+
+                    // owner should be &apos;com.apple.streaming.transportStreamTimestamp&apos;
+                    if (this._readUTF(data, offset, 44) === &apos;com.apple.streaming.transportStreamTimestamp&apos;) {
+                        offset += 44;
+                        // smelling even better ! we found the right descriptor
+                        // skip null character (string end) + 3 first bytes
+                        offset += 4;
+
+                        // timestamp is 33 bit expressed as a big-endian eight-octet number, with the upper 31 bits set to zero.
+                        let pts33Bit = data[offset++] &amp; 0x1;
+                        this._hasTimeStamp = true;
+
+                        timestamp = ((data[offset++] &lt;&lt; 23) +
+                            (data[offset++] &lt;&lt; 15) +
+                            (data[offset++] &lt;&lt; 7) +
+                            data[offset++]) / 45;
+
+                        if (pts33Bit) {
+                            timestamp += 0x100000000;
+                        }
+                        timestamp = Math.round(timestamp);
+                        this._dict[&apos;info&apos;] = timestamp;
+                        this._dict[&apos;type&apos;] = &apos;transportStreamTimestamp&apos;;
+                    } else {
+                        this._dict[&apos;info&apos;] = this._readUTF(data, offset, endPos - offset - 2);
+                        this._dict[&apos;type&apos;] = &apos;data&apos;;
+                    }
+                    break;
+                default:
+                    {
+                        let size = this._getFrameSize(data, offset);
+                        let result = null;
+                        if (tagId[0] === &apos;T&apos; &amp;&amp; endPos &gt; 20) {
+                            result = this._decodeTextFrame(data, 20, tagId, size);
+                        } else if (tagId[0] === &apos;W&apos; &amp;&amp; endPos &gt; 20) {
+                            result = this._decodeURLFrame(data, 20, tagId, size);
+                        } else {
+                            this._dict[&apos;info&apos;] = &apos;Unknown&apos;;
+                        }
+                        if (result !== null &amp;&amp; this._freeWheelIAB(tagId, result) === false) {
+                            this._dict[&apos;info&apos;] = result.info;
+                            this._dict[&apos;data&apos;] = result.data;
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    _freeWheelIAB(tagId, tit) {
+        let freeWheelAd = false;
+        if (tagId === &apos;TIT2&apos; || tagId === &apos;TIT3&apos;) {
+            let freeWheelReg = new RegExp(&apos;.*(fw_(.*)_(firstQuartile|midPoint|thirdQuartile|complete|defaultImpression|default))&apos;);
+            let result = freeWheelReg.exec(tit.data);
+            if (result) {
+                this._dict[&apos;id&apos;] = result[2];
+                this._dict[&apos;adType&apos;] = result[3];
+                this._dict[&apos;value&apos;] = result[0]; // keep same with ios, for example, keep the &apos;_&apos; in _fw_9529098_318_defaultImpression.
+                freeWheelAd = true;
+            }
+        }
+        return freeWheelAd;
+    }
+
+    dict() {
+        return this._dict;
+    }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

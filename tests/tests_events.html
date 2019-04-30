@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+  <label>Url:</label><input type="text" id="urlValue" style="width: 400px;" value='http://172.16.0.107:8507/devclear/teststage/t594_hd.m3u8'>
+  <button onclick="load_Url()">Load</button>
+  <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  <button onclick="unload_Url()">Unload</button>
+  <br />
+  <button onclick="create()">Create AdativePlayer</button>
+  <button onclick="destroy()">Destroy AdativePlayer</button>
+
+  <table>
+    <tr>
+      <td style="vertical-align:top;">
+        <video crossOrigin="anonymous" id="video_main" style="width: 400px;" autoplay controls>
+          Your browser doesn't support HTML5 video.
+        </video>
+      </td>
+      <td style="vertical-align:top;">
+        <b>Status:</b>
+        <label id="state"></label><br />
+        <textarea style="overflow:scroll;white-space: pre;overflow-wrap: normal;" rows="40" cols="80" id="status"></textarea>
+      </td>
+    </tr>
+  </table>
+  <script>
+    var video = document.getElementById('video_main');
+    var player;
+    create();
+
+    function onprogress(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Progress: " + JSON.stringify(e.details) + "\r\n";
+    };
+
+    function onplayStart(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Play started" + "\r\n";
+      var player = e.target;
+      // setTimeout(function() {
+      //     player.currentTime = player.duration-6;
+      //     }, 6000);            
+    }
+    function onplayEnd(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Play ended" + "\r\n";
+      var player = e.target;
+      player.stop();
+    }
+    function onstateChange(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "StateChanged:" + e.oldState + "->" + e.newState + "\r\n";
+    }
+    function onerror(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Error: " + JSON.stringify(e.details) + "\r\n";
+    }
+    function ontimeUpdate(e) {
+      var state = document.getElementById('state');
+      state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+    }
+    function onbuffering(e) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Buffering" + "\r\n";
+    }
+    function onprofileChange(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Profile changed to " + event.videoWidth + 'x' + event.videoHeight + "\r\n";
+    }
+    function onid3(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "ID3: " + 'start=' + event.start + ', end=' + event.end + ', value=' + JSON.stringify(event.value) + "\r\n";
+    }
+    function onadvertisement(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "Ad: " + JSON.stringify(event.data) + "\r\n";
+    }
+    function onseekRangeChange(event) {
+      var status = document.getElementById('status');
+      status.innerHTML += "onSeekRangeChange: " + JSON.stringify(event.details) + "\r\n";
+    }
+
+    function create() {
+      if (player != null) {
+        destroy();
+      }
+
+      player = new AdaptivePlayer(video);
+
+      player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+      Object.values(AdaptivePlayer.EventType).forEach(function (event) {
+        player.addEventListener(event, window['on' + event]);
+      });
+    }
+
+    function destroy() {
+      var status = document.getElementById('status');
+      if (player == null) {
+        status.innerHTML = "Error: player not initialized!";
+        return;
+      }
+      status.innerHTML = "";
+      player.destroy();
+      player = null;
+    }
+
+    function load_Url() {
+      var status = document.getElementById('status');
+      if (player == null) {
+        status.innerHTML = "Error: player not initialized!";
+        return;
+      }
+      status.innerHTML = "";
+      var urlValue = document.getElementById('urlValue');
+      player.load(urlValue.value);
+    }
+
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      player.configure({ appendXPLAYForStitching: true, drm: { params: { token: '123' } } });
+      load_Url();
+    }
+
+    function unload_Url() {
+      var status = document.getElementById('status');
+      if (player == null) {
+        status.innerHTML = "Error: player not initialized!";
+        return;
+      }
+      status.innerHTML = "";
+      player.stop();
+    }
+  </script>
+</body>

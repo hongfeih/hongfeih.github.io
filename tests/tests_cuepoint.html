@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <label>Url:</label><input type="text" id="urlValue" style="width: 400px;" value='http://172.16.0.107:8507/devclear/teststage/t594_hd.m3u8'>
+    <button onclick="load()">Load</button>
+    <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+    <br />
+    <button onclick="addCuepoints()">Add Cuepoints</button>
+    <button onclick="addTestCuepoints()">Add Cuepoints in callback</button>
+    <br/>
+    <button onclick="getCuepoints()">Get Cuepoints</button>
+    <br/>
+    <button onclick="removeCuepoint()">Remove Cuepoint</button>
+    <button onclick="removeAllCuepoints()">Remove All Cuepoints</button>
+    <br />
+    <table >
+        <tr>
+            <td style="vertical-align:top;">
+                <video crossOrigin="anonymous" id="video_main" style="width: 400px;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state"></label><br />
+                <textarea style="overflow:scroll;white-space: pre;overflow-wrap: normal;" rows="40" cols="80" id="status"></textarea>
+            </td>
+        </tr>
+    </table>
+    <script>
+        var video = document.getElementById('video_main');    
+        var player = new AdaptivePlayer(video);
+                
+        player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+
+        player.addEventListener(AdaptivePlayer.EventType.ID3Event, onID3);
+   
+        function onID3(event) {
+            var text = 'start=' + event.start + ', end=' + event.end + ': ';
+            if(event.value.dict) 
+                text += JSON.stringify(event.value.dict) + '\r\n';
+            else 
+                text += '\r\n';
+            var status = document.getElementById('status'); 
+            status.innerHTML += event.value.dict.type + ": " + text;   
+            if (event.value.dict.name == 'testcuepoint') {
+                addTestCuepoints();
+            }              
+        }
+        function load() {    
+            var status = document.getElementById('status');   
+            status.innerHTML = "";
+            player.load(document.getElementById('urlValue').value);
+        }
+
+        // HLS uses native player on Safari
+        function reloadWithNative() {
+            player.configure({ drm: { params: { token: '123' } } });
+            load();
+        }
+
+        var current = 0;
+        function addCuepoints() {
+            current = Math.round(player.currentTime);
+            var cues = [];
+            for (var i=1; i<10; i++) {
+                cues.push({time: current+i*5, dict: {name: "test" + i + '-' + current, object: {a: 'test', b: 'adaptiveplayer'}}});
+            }
+            player.removeAllCuepoints()
+            player.addCuepoints(cues);
+        }
+
+        function addTestCuepoints() {
+            current = Math.round(player.currentTime);
+            player.removeAllCuepoints();
+            var cues = [{time: current+0.5, dict: {name: "testcuepoint", object: {a: 'test', b: 'adaptiveplayer'}}}];
+            player.addCuepoints(cues);
+        }
+
+        function removeCuepoint() {
+            var ret = player.removeCuepoint(current + 10, 'test2' + '-' + current);
+            var status = document.getElementById('status'); 
+            status.innerHTML += "remove Cuepoint: {" + (current + 10) + ", " +  'test2' + '-' + current + "} = " + ret + "\r\n";   
+            ret = player.removeCuepoint(current + 15, 'test2' + '-' + current);
+            status.innerHTML += "remove Cuepoint: {" + (current + 15) + ", " +  'test2' + '-' + current + "} = " + ret + "\r\n";
+            ret = player.removeCuepoint(current + 20, 'test4' + '-' + current);
+            status.innerHTML += "remove Cuepoint: {" + (current + 20) + ", " +  'test4' + '-' + current + "} = " + ret + "\r\n";
+        }
+
+        function removeAllCuepoints() {
+            player.removeAllCuepoints();
+        }
+
+        function getCuepoints() {
+            var status = document.getElementById('status'); 
+            status.innerHTML += "Cuepoints: " + JSON.stringify(player.getCuepoints()) + "\r\n";   
+        }
+    </script>
+</body>

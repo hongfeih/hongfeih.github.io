@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Player SDK Test Page</title>
+    <script src="../dist/nladaptiveplayer.js"></script>
+</head>
+
+<body>
+    <label id="version"></label><br/>
+    <input type="text" style="width: 450px;" placeholder="stream url" value='http://172.16.0.107:8505/common/live/t3_hd.m3u8' id="url_main">
+    <input type="checkbox" id="withCredentials1"> Request With Credentials
+    <br/>
+    <input type="text" style="width: 450px;" placeholder="stream url" value='http://172.16.0.107:9505/common/live/t3_hd.m3u8' id="url_sub">
+    <input type="checkbox" id="withCredentials1"> Request With Credentials    
+    <br/>
+    <button onclick="start()">Play Sync Streams</button>
+    <table >
+        <tr>
+            <td style="vertical-align:top;">
+                <video crossOrigin="anonymous" id="video1" style="width: 400px;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state1"></label>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align:top;">
+                <video crossOrigin="anonymous" id="video2" style="width: 400px;" autoplay controls>
+                    Your browser doesn't support HTML5 video.
+                </video>
+            </td>
+            <td style="vertical-align:top;">
+                <b>Status:</b>
+                <label id="state2"></label>
+            </td>
+        </tr>
+    </table>
+    <script>
+        document.getElementById('version').innerHTML = AdaptivePlayer.version;
+          
+        var player1 = null;
+        var player2 = null;
+
+        function onTimeUpdate1(e) {
+            var state = document.getElementById('state1'); 
+            state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+        } 
+
+        function onTimeUpdate2(e) {
+            var state = document.getElementById('state2'); 
+            state.innerHTML = e.currentTime.toFixed(2) + "/" + e.duration.toFixed(2);
+        } 
+
+        function start() {
+            if (player1) {
+                player1.destroy();
+                player1 = null;
+            }
+            if (player2) {
+                player2.destroy();
+                player2 = null;
+            }
+            create1();
+            create2();
+        }
+
+        function create1() {
+            var video = document.getElementById('video1');  
+            player1 = new AdaptivePlayer(video);                
+            player1.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+            player1.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate1);   
+            var status = document.getElementById('status1');  
+            var url = document.getElementById('url_main').value; 
+            player1.load(url);
+        }
+
+        function create2() {
+            var video = document.getElementById('video2');  
+            player2 = new AdaptivePlayer(video);
+            player2.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+            player2.addEventListener(AdaptivePlayer.EventType.TimeUpdate, onTimeUpdate2); 
+
+            var status = document.getElementById('status2');   
+            var url = document.getElementById('url_sub').value;
+            player2.load(url);
+            player1.setSynchronizedViews([player2]);
+        }        
+    </script>
+</body>

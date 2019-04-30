@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+  <style>
+    div {
+      margin: 0.5em
+    }
+  </style>
+</head>
+
+<body>
+  <label id="version"></label><br/>
+  <div>
+    <button onclick="StartTest()">Start Test</button><button onclick="StopTest()">Stop Test</button>
+    <br/>
+    DASH Url:<input type="text" id="urlDash" style="width: 500px;" value='http://172.16.0.107:8506/clear/teststage/t594_hd.mpd'>
+    <br/>
+    HLS Url:<input type="text" id="urlHls" style="width: 500px;" value='http://172.16.0.107:8506/clear/teststage/t594_hd.m3u8'>
+  </div>
+  <br />
+  Now playing: <label id="streamType"></label><br/>
+  <video crossOrigin="anonymous" id="video_main" style="width: 400px;" autoplay controls>
+    Your browser doesn't support HTML5 video.
+  </video>
+
+  <script>
+    document.getElementById('version').innerHTML = AdaptivePlayer.version;
+
+    var urls = [];
+    var curUrlIndex = 0;
+    var intervalId = 0;
+
+    var video = document.getElementById('video_main');
+    var player = new AdaptivePlayer(video);
+    player.configure({debug:true});
+    player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+    player.addEventListener(AdaptivePlayer.EventType.PlayStart, function(){
+      document.getElementById('streamType').innerHTML = player.streamType;
+    });
+      
+    function StartTest() {
+      if (player)
+        player.stop();
+
+      urls.push(document.getElementById('urlDash').value);
+      urls.push(document.getElementById('urlHls').value);
+
+      player.load(urls[curUrlIndex]);
+      intervalId = setInterval(function () {
+        if (curUrlIndex >= urls.length - 1)
+          curUrlIndex = 0;
+        else
+          curUrlIndex++;
+        player.load(urls[curUrlIndex]);
+      }, 10000);
+    }
+
+    function StopTest() {
+      clearInterval(intervalId);
+      if (player)
+        player.destroy();
+    }
+
+  </script>
+</body>

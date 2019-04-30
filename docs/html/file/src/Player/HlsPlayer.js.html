@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Player/HlsPlayer.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Player/HlsPlayer.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import Hlsjs from &apos;../../3rd/hls.js/dist/hls.min&apos;
+import { AdaptivePlayer } from &apos;../AdaptivePlayer&apos;
+import { PlayerBase } from &apos;./PlayerBase&apos;
+import { FakeEvent } from &apos;../Utils/FakeEvent&apos;;
+import { NLError } from &apos;../Media/NLError&apos;;
+import { NLTrack } from &apos;../Media/NLTrack&apos;;
+import { Settings } from &apos;../config&apos;;
+import * as TimeRangeUtil from &apos;../Utils/TimeRange&apos;;
+import * as XHRUtil from &apos;../Utils/Xhr&apos;;
+
+let HlsInner = typeof Hls === &apos;undefined&apos; ? Hlsjs : Hls;
+export default class HlsPlayer extends PlayerBase {
+  constructor(video, parent) {
+    super(video, parent);
+
+    this._player = null;
+    this._isLive = false;
+
+    this._userConfig = {};
+    this._config = {};
+    this._currentLevel = -1;
+    this._startLevel = -1;
+    this._switchInfo = [];
+    /** used for LTE CVOD, need to seek to startPostion */
+    this._firstSeekforLTECVOD = false;
+    this.streamType = AdaptivePlayer.StreamType.HLS;
+
+    this._timeline = {
+      init: false,
+      targetDuration: 0,
+      absStart: 0,
+      curAbsStart: 0,
+      curAbsEnd: 0,
+      timeRanges: []
+    };
+
+    this.type = AdaptivePlayer.PlayerType.HLSJS;
+    this.streamType = AdaptivePlayer.StreamType.HLS;
+
+    this._seekEndTime = 0;
+    this._seekBeginTime = 0;
+    this.print(AdaptivePlayer.LogLevel.INFO, &apos;HlsPlayer&apos;, &apos;Instance created!&apos;);
+  }
+
+  destroy() {
+    this.print(AdaptivePlayer.LogLevel.INFO, &apos;HlsPlayer&apos;, &apos;Instance destroyed!&apos;);
+    return this.unload();
+  }
+
+  configure(config) {
+    this.print(AdaptivePlayer.LogLevel.INFO, &apos;HlsPlayer&apos;, &apos;configure called!&apos;);
+    this._userConfig = config;
+
+    this._config = {
+      startFragPrefetch: true,
+      maxMaxBufferLength: 60,
+      abrMaxWithRealBitrate: true,
+      maxBufferLength: 30,
+      startBitrate: -1,
+      startPosition: -1,
+      autoLevelEnabled: true,
+      liveSyncDurationCount: 4,
+      withCredentialsFragmentPattern: [],
+      nudgeMaxRetry: 10,
+      fragLoadingMaxRetry: 6,
+      captionsTextTrack1Label: &apos;English&apos;,
+      captionsTextTrack1LanguageCode: &apos;en&apos;,
+      lteMode: false
+    };
+    if (config) {
+      this._config.debug = !!config.debug;
+      if (config.abr) {
+        this._config.autoLevelEnabled = !!config.abr.enabled;
+        if (!!config.abr.startBitrate) {
+          this._config.startBitrate = config.abr.startBitrate;
+        }
+      }
+      if (config.preferredAudioLanguage) {
+        this._config.preferredAudioLanguage = config.preferredAudioLanguage.toLowerCase();
+      }
+      if (config.preferredTextLanguage) {
+        this._config.preferredTextLanguage = config.preferredTextLanguage.toLowerCase();
+      }
+      if (config.withCredentialsFragmentPattern) {
+        this._config.withCredentialsFragmentPattern = config.withCredentialsFragmentPattern;
+      }
+      if (config.withCredentials) {
+        this._config.xhrSetup = function (xhr, url) {
+          xhr.withCredentials = true; // do send cookies
+        }
+      }
+      if (config.closedCaption) {
+        if (config.closedCaption.label) {
+          this._config.captionsTextTrack1Label = config.closedCaption.label;
+        }
+        if (config.closedCaption.language) {
+          this._config.captionsTextTrack1LanguageCode = config.closedCaption.language;
+        }
+      }
+      if (config.debugConfig.logServer) {
+        this._config.logServer = config.debugConfig.logServer;
+      }
+      this._config.lteMode = !!config.enableLTEmode;
+      if (this._config.lteMode) {
+        this._config.maxBufferLength = 120;
+        this._config.maxFragLookUpTolerance = 0.15;
+      }
+    }
+  }
+
+  load(url, startTime) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;load called!&apos;);
+
+    this._url = url;
+
+    this._clearTextTracks();
+
+    this._currentLevel = -1;
+    this._startLevel = -1;
+    this._switchInfo = [];
+    this._firstSeekforLTECVOD = false;
+
+    // start from certain position in seconds
+    if (typeof (startTime) === &apos;number&apos; &amp;&amp; startTime &gt;= 0) {
+      this._config.startPosition = startTime;
+      if (this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode) {
+        // HLS CVOD need to seek after level loaded
+        this._userConfig.startPosition = startTime;
+      }
+    }
+
+    this._player = new HlsInner(this._config);
+    this._player.attachMedia(this._video);
+    this._player.setSysInfo(AdaptivePlayer.browserType, AdaptivePlayer.OS);
+    this._player.on(HlsInner.Events.MEDIA_ATTACHED, function () {
+      this._player.loadSource(url);
+      (!this._config.autoLevelEnabled) &amp;&amp; this.setAdaptation(this._config.autoLevelEnabled);
+
+      // register error
+      this._player.on(HlsInner.Events.ERROR, this._onError.bind(this));
+
+      // register events
+      [HlsInner.Events.MEDIA_ATTACHING,
+      HlsInner.Events.MEDIA_ATTACHED,
+      HlsInner.Events.MEDIA_DETACHING,
+      HlsInner.Events.MEDIA_DETACHED,
+      HlsInner.Events.BUFFER_RESET,
+      HlsInner.Events.BUFFER_CODECS,
+      HlsInner.Events.BUFFER_CREATED,
+      HlsInner.Events.BUFFER_APPENDING,
+      HlsInner.Events.BUFFER_APPENDED,
+      HlsInner.Events.BUFFER_EOS,
+      HlsInner.Events.BUFFER_FLUSHING,
+      HlsInner.Events.BUFFER_FLUSHED,
+      HlsInner.Events.MANIFEST_LOADING,
+      HlsInner.Events.MANIFEST_LOADED,
+      HlsInner.Events.MANIFEST_PARSED,
+      HlsInner.Events.LEVEL_LOADING,
+      HlsInner.Events.LEVEL_UPDATED,
+      HlsInner.Events.LEVEL_PTS_UPDATED,
+      HlsInner.Events.LEVEL_SWITCHING,
+      HlsInner.Events.LEVEL_SWITCHED,
+      HlsInner.Events.AUDIO_TRACKS_UPDATED,
+      HlsInner.Events.AUDIO_TRACK_LOADING,
+      HlsInner.Events.AUDIO_TRACK_LOADED,
+      HlsInner.Events.FRAG_LOADING,
+      HlsInner.Events.FRAG_LOAD_PROGRESS,
+      HlsInner.Events.FRAG_LOAD_EMERGENCY_ABORTED,
+      HlsInner.Events.FRAG_LOADED,
+      HlsInner.Events.FRAG_PARSING_INIT_SEGMENT,
+      HlsInner.Events.FRAG_PARSING_USERDATA,
+      HlsInner.Events.FRAG_PARSING_DATA,
+      HlsInner.Events.FRAG_PARSED,
+      HlsInner.Events.FRAG_BUFFERED,
+      HlsInner.Events.FRAG_DECRYPTED,
+      HlsInner.Events.FPS_DROP,
+      HlsInner.Events.FPS_DROP_LEVEL_CAPPING,
+      HlsInner.Events.DESTROYING,
+      HlsInner.Events.KEY_LOADING,
+      HlsInner.Events.KEY_LOADED,
+      HlsInner.Events.INIT_PTS_FOUND,
+      HlsInner.Events.STREAM_STATE_TRANSITION
+      ].forEach(function (event) {
+        this._player.on(event, this._onHlsjsEvent.bind(this));
+      }.bind(this));
+
+      // IE11 doesn&apos;t fire video resize event, use &apos;FRAG_CHANGED&apos; to fire ProfileChange event
+      // And need to fire it in case of resolution same between bitrates
+      // just changed to download segments of new level, not really changed source for renderring
+      // if (this._eventHandler._browserType === &apos;IE&apos;)
+      this._player.on(HlsInner.Events.FRAG_CHANGED, this._onFragChanged.bind(this));
+      // else
+      //    this._player.on(HlsInner.Events.FRAG_CHANGED, this._onHlsjsEvent.bind(this));
+
+      this._player.on(HlsInner.Events.MANIFEST_PARSED, this._onManifestParsed.bind(this));
+      // to get isLive from level loaded event
+      this._player.on(HlsInner.Events.LEVEL_LOADED, this._onLevelLoaded.bind(this));
+
+      this._player.on(HlsInner.Events.LEVEL_SWITCHING, function (event, data) {
+        this._switchInfo.push({
+          &apos;type&apos;: &apos;variant&apos;,
+          &apos;timestamp&apos;: (new Date().getTime() / 1000).toFixed(2),
+          &apos;bandwidth&apos;: data.bitrate,
+          &apos;fromAdaptation&apos;: this._player.autoLevelEnabled
+        });
+      }.bind(this));
+
+      // ID3
+      this._cuepointManager.cleanup();
+      this._player.on(HlsInner.Events.FRAG_PARSING_METADATA, this._onID3.bind(this));
+
+      // Thumbnail
+      this._player.on(HlsInner.Events.THUMBNAIL_IMAGE_ASSEMBLED, this._onThumbnailImageLoaded.bind(this));
+
+      // Advertisement
+      this._player.on(HlsInner.Events.ADVERTISEMENT_UPLOAD, this._onAdvertisement.bind(this));
+
+      // Empty Advertisement
+      this._player.on(HlsInner.Events.EMPTY_ADVERTISEMENT_UPLOAD, this._onEmptyAdvertisement.bind(this));
+
+      // Advertisement ranges
+      this._player.on(HlsInner.Events.ADVERTISEMENT_RANGE_UPDATE, this._onAdRangesUpdate.bind(this));
+
+      // Dump mp4
+      this._player.on(HlsInner.Events.FRAG_REMUXED, this._onFragRemuxed.bind(this));
+
+      this._video.addEventListener(&apos;seeked&apos;, function(event) {
+        this._seekEndTime = Date.now();
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, `_seekBeginTime=${this._seekBeginTime}, _seekEndTime=${this._seekEndTime}, cost=${this._seekEndTime - this._seekBeginTime}`);
+      }.bind(this));
+    }.bind(this));
+
+    return Promise.resolve();
+  }
+
+  unload() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;unload called!&apos;);
+
+    // clear ID3 messages
+    this._id3Cues = [];
+
+    // clear text tracks
+    this._clearTextTracks();
+
+    // unload player
+    if (this._player) {
+      this._player.stopLoad();
+      this._player.destroy();
+      this._player.detachMedia(); // unbind VideoElement from hls instance,
+      // signal the end of the stream on MediaSource
+      // reset video source (video.src = &apos;&apos;)
+    }
+
+    this._player = null;
+    this._isLive = false;
+    this._userConfig = null;
+    this._config = null;
+    this._currentLevel = -1;
+
+    this._timeline = {
+      init: false,
+      targetDuration: 0,
+      absStart: 0,
+      curAbsStart: 0,
+      curAbsEnd: 0,
+      timeRanges: []
+    };
+
+    this._seekEndTime = 0;
+    this._seekBeginTime = 0;
+
+    return Promise.resolve();
+  }
+
+  getStats() {
+    if (!this._player) {
+      return {
+        bytesLoaded: NaN,
+        currentCdnIndex: -1,
+        bandwidth: NaN,
+        bitrate: NaN,
+        switchInfo: NaN,
+        isAutoSwitch: true,
+        livePointOffest: -1
+      };
+    }
+
+    let bandwidth = 0;
+    let bitrate = 0;
+    let switchInfo = &apos;&apos;;
+    let isAutoSwitch = true;
+    let livePointOffest = -1;
+    let currentCdnIndex = -1;
+    let bytesLoaded = [];
+    let switchHistory = [];
+    if (this._player) {
+      try {
+        bandwidth = this._player.streamController.fragLastKbps;
+        if (this._player.currentLevel != null &amp;&amp; this._player.levels[this._player.currentLevel] &amp;&amp; this._player.levels[this._player.currentLevel].bitrate) {
+          bitrate = Math.floor(this._player.levels[this._player.currentLevel].bitrate / 1000);
+        }
+
+        switchHistory = this._switchInfo;
+        if (switchHistory &amp;&amp; switchHistory.length &gt; 0) {
+          let to; let from; let adaption; let timestamp;
+          for (let i = switchHistory.length - 1; i &gt;= 0; i--) {
+            if (switchHistory[i].type === &apos;variant&apos;) {
+              if (to == null) {
+                to = switchHistory[i].bandwidth;
+                adaption = switchHistory[i].fromAdaptation;
+                timestamp = switchHistory[i].timestamp;
+                continue;
+              } else if (to != null &amp;&amp; from == null &amp;&amp; timestamp !== switchHistory[i].timestamp) {
+                from = switchHistory[i].bandwidth;
+                break;
+              }
+            }
+          }
+          switchInfo = { &apos;from&apos;: from, &apos;to&apos;: to, &apos;fromAdaptation&apos;: adaption };
+        }
+
+        isAutoSwitch = this._config.autoLevelEnabled;
+        bytesLoaded = this._player.cdnsLoadBytes;
+        currentCdnIndex = this._player.currentCdnIndex;
+        let liveEdge = this._player.liveEdge;
+        if (this._isLive) {
+          livePointOffest = liveEdge - this._video.currentTime;
+        } else {
+          livePointOffest = this._player.vodDuration - this._video.currentTime;
+        }
+
+        return {
+          bandwidth: bandwidth,
+          bitrate: bitrate,
+          switchInfo: switchInfo,
+          switchHistory: switchHistory,
+          isAutoSwitch: isAutoSwitch,
+          bytesLoaded: bytesLoaded,
+          currentCdnIndex: currentCdnIndex,
+          livePointOffest: livePointOffest
+        };
+      } catch (e) {
+        // console.log(e);
+      }
+    }
+  }
+
+  setAdaptation(value) {
+    if (this._player) {
+      this._config.autoLevelEnabled = value;
+      if (value) {
+        this._player.autoLevelCapping = -1;
+        this._player.nextLevel = -1;
+      } else {
+        let level = this._player.currentLevel;
+        this._player.autoLevelCapping = level;
+        this._player.currentLevel = level;
+      }
+    }
+  }
+
+  isLive() {
+    return this._isLive;
+  }
+
+  gotoLive() {
+    if (this._timeline.timeRanges.length &gt; 0) {
+      this.currentTime = TimeRangeUtil.relTimeToAbsTime(this._getRelEndLimit(), this._timeline.timeRanges, this._timeline.absStart);
+    }
+  }
+
+  audioTracks() {
+    if (!this._player) {
+      return;
+    }
+
+    let tracks = [];
+    let audioTracks = this._player.audioTracks;
+    if (audioTracks) {
+      audioTracks.forEach(function (track, index) {
+        // if (track.url != undefined || track.url != &apos;&apos;)
+        tracks.push(new NLTrack(AdaptivePlayer.Kind.AUDIO, track, AdaptivePlayer.PlayerType.HLSJS, {
+          id: index,
+          player: this,
+          audioTrack: this._player.audioTrack
+        }));
+      }.bind(this));
+    }
+    return tracks;
+  }
+
+  textTracks() {
+    if (!this._player) {
+      return;
+    }
+
+    let tracks = [];
+    let textTracks = this._video.textTracks;
+    for (let i = 0; i &lt; textTracks.length; i++) {
+      let base = this._video.textTracks[i];
+      if (base.label !== Settings.DASHPLAYER.DEFAULT_SUBTITLE_TRACK_NAME &amp;&amp; // discard text track of shaka
+        base.mode !== &apos;disabled&apos; &amp;&amp;
+        base.hashId) {
+        if (base.kind === &apos;captions&apos;) {
+          tracks.push(new NLTrack(AdaptivePlayer.Kind.TEXT, base, AdaptivePlayer.PlayerType.NATIVE, {
+            id: base.hashId,
+            player: this._video,
+            ccInfos: this._player.getHlsCC()
+          }));
+        } else if (base.kind === &apos;subtitles&apos;) {
+          tracks.push(new NLTrack(AdaptivePlayer.Kind.TEXT, base, AdaptivePlayer.PlayerType.HLSJS, {
+            id: base.hashId,
+            player: this,
+            subtitleTrack: this._player.subtitleTrack
+          }));
+        }
+      }
+    }
+    return tracks;
+  }
+
+  ccTracks() {
+    let ccTracks = [];
+    for (let i = this._video.textTracks.length - 1; i &gt;= 0; i--) {
+      let base = this._video.textTracks[i];
+      if (base.label !== Settings.DASHPLAYER.DEFAULT_SUBTITLE_TRACK_NAME &amp;&amp; // discard text track of shaka
+        base.mode !== &apos;disabled&apos; &amp;&amp;
+        base.kind === &apos;captions&apos;) {
+        ccTracks.push(base);
+      }
+    }
+    return ccTracks;
+  }
+
+  videoTracks() {
+    if (!this._player) {
+      return;
+    }
+
+    let tracks = [];
+    let videoTracks = this._player.levels;
+    if (videoTracks) {
+      videoTracks.forEach(function (track, index) {
+        tracks.push(new NLTrack(AdaptivePlayer.Kind.VIDEO, track, AdaptivePlayer.PlayerType.HLSJS, {
+          id: index,
+          player: this,
+          startLevel: (this._player.currentLevel &gt;= 0) ? this._startLevel : null,
+          currentLevel: this._player.currentLevel,
+          levels: this._player.levels || []
+        }));
+      }.bind(this));
+    }
+    return tracks;
+  }
+
+  selectTrack(track, optClearBuffer) {
+    if (track) {
+      if (track.kind === AdaptivePlayer.Kind.AUDIO) {
+        this._player.audioTrack = track.id;
+      } else if (track.kind === AdaptivePlayer.Kind.TEXT) {
+        // hide all text tracks
+        for (let i = 0; i &lt; this._video.textTracks.length; i++) {
+          let track = this._video.textTracks[i];
+          if (track.mode === &apos;showing&apos;) {
+            track.mode = &apos;hidden&apos;;
+          }
+        }
+        if (track.type === AdaptivePlayer.PlayerType.HLSJS) {
+          this._player.subtitleTrack = track.id;
+        } else {
+          this._player.subtitleTrack = -1;
+        }
+        track.base.mode = &apos;showing&apos;;
+      } else if (track.kind === AdaptivePlayer.Kind.VIDEO) {
+        // NFL-804: when changing bitrates player hesitates
+        if (!!optClearBuffer) {
+          this._player.currentLevel = track.id;
+        } else {
+          this._player.nextLevel = track.id;
+        }
+        this._player.autoLevelCapping = track.id;
+        this._config.autoLevelEnabled = false;
+      }
+    }
+  }
+
+  getThumbnailStreams() {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;HlsPlayer&apos;, &apos;getThumbnailStreams!&apos;);
+    if (this._player) {
+      return this._player.getThumbnailStreams();
+    }
+  }
+
+  getThumbnailStreamImages(streamid, time, thumbnailsCb) {
+    if (this._player &amp;&amp; (!isNaN(time))) {
+      if (this._player.isCVodStream &amp;&amp; this._player.timelineInfo &amp;&amp; this._player.timelineInfo.init &amp;&amp; this._player.timelineInfo.absStart &gt; 0) {
+        time = TimeRangeUtil.relTimeToAbsTime(time, this._player.timelineInfo.timeRanges, this._player.timelineInfo.absStart);
+      }
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;getThumbnailStreamImages! time=&apos; + time);
+      if (!TimeRangeUtil.vacancyTime(time, this._player.timelineInfo.timeRanges)) {
+        this._player.getThumbnailStreamImages(streamid, time, thumbnailsCb);
+      } else {
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;getThumbnailStreamImages: time is out of ranges.&apos;);
+      }
+    }
+  }
+
+  get currentTime() {
+    let absTime = this._video.currentTime;
+    // this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode
+    if (this._isLive || (this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode)) {
+      absTime = TimeRangeUtil.relTimeToAbsTime(this._video.currentTime, this._timeline.timeRanges, this._timeline.absStart);
+    }
+    
+    if (this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode) {
+      // adjust for LTE
+      let streamInfos = this._player.getLteStreamInfos(this._player.currentLevel);
+      if (streamInfos) {
+        absTime -= streamInfos.fixFrameOffset;
+      }
+    }
+    return absTime;
+  }
+
+  set currentTime(value) {
+    let rawAbsTime = value;
+    // this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode
+    if (this._isLive || (this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode)) {
+      let relTime = TimeRangeUtil.absTimeToRelTime(value, this._timeline.timeRanges, this._timeline.absStart);
+      if (relTime &gt; this._getRelEndLimit()) {
+        relTime = this._getRelEndLimit();
+      }
+      if (relTime &lt; this._getRelStartLimit()) {
+        relTime = this._getRelStartLimit();
+      }
+      value = relTime;
+    }
+    let rawRelTime = value;
+    let normalizeTime = value;
+    let offsetModRelTime = value;
+
+    if (this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode) {
+      // adjust for LTE
+      let streamInfos = this._player.getLteStreamInfos(this._player.currentLevel);
+      if (streamInfos) {
+        let normalizeTime = this._normalize(value, streamInfos.fixFrameOffset);
+        value = normalizeTime;
+        offsetModRelTime = normalizeTime + streamInfos.fixFrameOffset;
+        if (offsetModRelTime &lt; 0) {
+          offsetModRelTime = 0;
+        }
+        value = offsetModRelTime;
+      }
+    }
+
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, `rawAbsTime=${rawAbsTime}, rawRelTime=${rawRelTime}, modRelTime=${normalizeTime}, offsetModRelTime=${offsetModRelTime}`);
+    this._seekBeginTime = Date.now();
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, `seekBegin=${this._seekBeginTime}`);
+
+    this._video.currentTime = value;
+  }
+
+  getNormalizeCurrentTime() {
+    let absTime = this.currentTime;
+    if (this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode) {
+      // adjust for LTE
+      let streamInfos = this._player.getLteStreamInfos(this._player.currentLevel);
+      if (streamInfos) {
+        if (absTime &lt; 0) {
+          absTime = 0;
+        }
+        absTime = this._normalize(absTime, streamInfos.fixFrameOffset);
+      }
+    }
+    return absTime;
+  }
+
+  setNormalizeCurrentTime() {
+    let current = this._player.currentTime;
+    this._player.currentTime = current;
+  }
+
+  _normalize(time, sampleDuration) {
+    let reValue = time;
+    if (!isNaN(sampleDuration) &amp;&amp; sampleDuration &gt; 0) {
+      let divisor = Math.floor(time / sampleDuration);
+      let minTime = divisor * sampleDuration;
+      let maxTime = (divisor + 1) * sampleDuration;
+      reValue = ((time - minTime) &lt;= (maxTime - time)) ? minTime : maxTime;
+    }
+    return reValue;
+  }
+
+  get sampleDuration() { 
+    if (this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode) {
+      // adjust for LTE
+      let streamInfos = this._player.getLteStreamInfos(this._player.currentLevel);
+      if (streamInfos) {
+        return streamInfos.frameDuration;
+      }
+    }
+    return 0;
+  }
+
+  notifyPlayStarted() {
+    if (this._player &amp;&amp; this._player.timelineInfo &amp;&amp; this._player.timelineInfo.timeRanges.length &gt; 0 &amp;&amp; this._player.timelineInfo.absStart &gt; 0) {
+      let range = {
+        start: this._player.timelineInfo.absStart,
+        end: this._player.timelineInfo.timeRanges[this._player.timelineInfo.timeRanges.length - 1].end,
+        ranges: this._player.timelineInfo.curTimeRanges
+      };
+      this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.SeekRangeChange, {
+        details: range,
+        data: range
+      }));
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;Fired SeekRangeChange for CVOD: &apos; + &apos;[&apos; + JSON.stringify(range) + &apos;]&apos;);
+    }
+  }
+
+  notifyProfileChanged(data) {
+    // not trigger, use _onFragChanged instead
+  }
+
+  _onID3(event, data) {
+    if (!data.samples) {
+      return;
+    }
+
+    // TODO: need to fire id3 event on exact time of id3 event
+
+    // sort first
+    data.samples.sort(function (a, b) { return a.pts - b.pts });
+
+    // push to queue
+    data.samples.forEach(function (sample) {
+      sample.pts = TimeRangeUtil.relTimeToAbsTime(sample.pts, this._timeline.timeRanges, this._timeline.absStart);
+      sample.dts = TimeRangeUtil.relTimeToAbsTime(sample.dts, this._timeline.timeRanges, this._timeline.absStart);
+      this._cuepointManager.onID3(sample);
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;HlsPlayer&apos;, &apos;Got ID3 from Player: &apos; + event + &apos;[&apos; + sample.pts + &apos;]&apos;);
+    }.bind(this));
+  }
+
+  _onThumbnailImageLoaded(event, data) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;HlsPlayer&apos;, &apos;_onThumbnailImageLoaded: id=&apos; + data.streamId +
+      &apos; requestTime=&apos; + data.requestTime + &apos; baseTime=&apos; + data.baseTime);
+    data.thumbnails.images.forEach(function (element) {
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;HlsPlayer&apos;, &apos;_onThumbnailImageLoaded: url=&apos; + element.url +
+        &apos; startTime=&apos; + element.startTime + &apos; endTime=&apos; + element.endTime);
+    }.bind(this));
+    let cb = data.cb;
+    let thumbnails = data.thumbnails;
+    if (cb != null) {
+      cb(thumbnails);
+    }
+  }
+
+  /**
+       * ad end event:
+       * @  {
+       *         start: xxxx,
+       *         data: { &apos;type&apos;:&apos;ADEND&apos;, &apos;data&apos;: {&apos;adid&apos;:&apos;18732270_2659078&apos;}}
+       *    }
+       * ad start event
+       * @  {
+       *         start: xxxx,
+       *         data: {&apos;type&apos;:&apos;ADSTART&apos;, data: {&apos;adid&apos;:&apos;18732270_2659078&apos;, &apos;urls&apos;:[{&apos;type&apos;:&apos;trackClick&apos;,&apos;url&apos;:&apos;http://xxxx&apos;}]}}
+       *    }
+       */
+  _onAdvertisement(event, data) {
+    if (data &amp;&amp; data.type) {
+      this._eventHandler._onAdvertisement(data);
+    }
+  }
+
+  /**
+   * empty advertisement
+   *     data: [{sn: number, urls: Array[string]}]
+   */
+  _onEmptyAdvertisement(event, data) {
+    if (data) {
+      this._eventHandler._onEmptyAdvertisement(data);
+    }
+  }
+
+  /**
+   * adranges
+   *     data:[{id:string,start:number,end:number}]
+   */
+  _onAdRangesUpdate(event, data) {
+    if (data) {
+      this._eventHandler._onAdRangesUpdate(data);
+    }
+  }
+
+  _onFragRemuxed(event, data) {
+    if (data &amp;&amp; this._config.logServer) {
+      let options = {
+        url: this._config.logServer + &apos;/addStreams?name=&apos; + data.name + &apos;&amp;type=&apos; + data.type,
+        method: &apos;POST&apos;,
+        headers: {
+          &apos;Content-Type&apos;: &apos;application/octet-stream&apos;
+        },
+        params: data.remuxedData.buffer
+      };
+      XHRUtil.createXHR(options).catch(function (e) { });
+    }
+  }
+
+  _onFragChanged(event, data) {
+    let level = (this._player.currentLevel === -1) ? data.frag.level : this._player.currentLevel;
+    if (this._currentLevel !== this._player.currentLevel) {
+      this._currentLevel = this._player.currentLevel;
+      this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.ProfileChange,
+        {
+          id: this._currentLevel,
+          videoWidth: this._player.levels[level].width,
+          videoHeight: this._player.levels[level].height
+        }));
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;Fired ProfileChange&apos;);
+    }
+  }
+
+  _onHlsjsEvent(event, data) {
+    this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.StreamingEvent, {
+      data: {
+        from: AdaptivePlayer.PlayerType.HLSJS,
+        data: data
+      }
+    }));
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;HlsPlayer&apos;, &apos;Fired streaming event: &apos; + event + &apos;[&apos; + data + &apos;]&apos;);
+  }
+
+  _onManifestParsed(event, data) {
+    if (this._config.startBitrate &gt; 0) {
+      let vTracks = this.videoTracks();
+      let level = -1;
+      let minBitrateLevel = -1;
+      let minBandwidth = Infinity;
+      vTracks.sort(function (a, b) {
+        return a.bandwidth - b.bandwidth;
+      }).forEach(function (item, index) {
+        if (item.bandwidth &lt;= this._config.startBitrate) {
+          level = item.id;
+        }
+        if (item.bandwidth &lt;= minBandwidth) {
+          minBandwidth = item.bandwidth;
+          minBitrateLevel = item.id;
+        }
+      }.bind(this));
+      if (level &gt;= 0) {
+        this._player.currentLevel = this._startLevel = level;
+      } else if (this._config.startBitrate &gt; 0 &amp;&amp; minBitrateLevel &gt;= 0) {
+        this._player.currentLevel = this._startLevel = minBitrateLevel;
+      }
+    }
+  }
+
+  _onLevelLoaded(event, data) {
+    this._isLive = data.details.live;
+    this._mergeProgrameTime(data);
+
+    // Live stream, need to send seek range change event
+    if (this._isLive) {
+      this._updateSeekRange();
+    } else {
+      if (!this._firstSeekforLTECVOD &amp;&amp; this._userConfig &amp;&amp; !!this._userConfig.enableLTEmode &amp;&amp; this._userConfig.startPosition &gt; 0) {
+        // HLS CVOD need to seek after level loaded
+        this.currentTime = this._userConfig.startPosition;
+        this._firstSeekforLTECVOD = true;
+      }
+    }
+
+    this._onHlsjsEvent(event, data);
+  }
+
+  _updateSeekRange() {
+    if (this._isLive) {
+      let relLivePosition = this._getRelEndLimit();
+      let range = {
+        start: this._timeline.curAbsStart,
+        end: TimeRangeUtil.relTimeToAbsTime(relLivePosition, this._timeline.timeRanges, this._timeline.absStart),
+        ranges: this._timeline.curTimeRanges
+      };
+      this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.SeekRangeChange, {
+        details: range,
+        data: range
+      }));
+      if (!!this._userConfig.enableLTEmode) {
+        this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.LTEEvent, {
+          details: {
+            type: &apos;ranges&apos;,
+            data: this._player.timelineInfo.timeRanges
+          }
+        }));
+      }
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;Fired SeekRangeChange: &apos; + &apos;[&apos; + JSON.stringify(range) + &apos;]&apos;);
+    } else {
+      if (this._userConfig &amp;&amp; (!!this._userConfig.enableLTEmode) &amp;&amp; this._player.timelineInfo.timeRanges.length &gt; 0 &amp;&amp; this._player.timelineInfo.absStart &gt; 0) {
+        let range = {
+          start: this._player.timelineInfo.absStart,
+          end: this._player.timelineInfo.timeRanges[this._player.timelineInfo.timeRanges.length - 1].end,
+          ranges: this._timeline.curTimeRanges
+        };
+        this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.SeekRangeChange, {
+          details: range,
+          data: range
+        }));
+        this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.LTEEvent, {
+          details: {
+            type: &apos;ranges&apos;, 
+            data: this._player.timelineInfo.timeRanges
+          }
+        }));
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;Fired SeekRangeChange for CVOD: &apos; + &apos;[&apos; + JSON.stringify(range) + &apos;]&apos;);
+      }
+    }
+  }
+
+  _onError(event, data) {
+    let errorInfo;
+    let url = &apos;&apos;;
+
+    let mediaTypeTestCase = [
+      { name: &apos;manifest&apos;, code: NLError.Code.Get_Primary_Manifest_Failed },
+      { name: &apos;level&apos;, code: NLError.Code.Get_Single_Bitrate_Manifest_Failed },
+      { name: &apos;frag&apos;, code: NLError.Code.Get_Chunk_Failed },
+      { name: &apos;key&apos;, code: NLError.Code.Get_Key_License_Failed }
+    ];
+
+    let errorTypeTestCase = [
+      { name: &apos;LoadError&apos;, code: NLError.NetworkDetailCode.Http_Error },
+      { name: &apos;LoadTimeOut&apos;, code: NLError.NetworkDetailCode.Timeout },
+      { name: &apos;ParsingError&apos;, code: NLError.NetworkDetailCode.Content_Error },
+      { name: &apos;DecryptError&apos;, code: NLError.NetworkDetailCode.Content_Error }
+    ];
+
+    switch (data.type) {
+      case HlsInner.ErrorTypes.NETWORK_ERROR: {
+        let networkErrorDetail = data.details;
+        let mediaType = mediaTypeTestCase.filter(function (item) {
+          if (networkErrorDetail.indexOf(item.name) &gt;= 0) return true;
+        })[0];
+        let errorType = errorTypeTestCase.filter(function (item) {
+          if (networkErrorDetail.indexOf(item.name) &gt;= 0) return true;
+        })[0];
+
+        if (!mediaType || !errorType) {
+          break;
+        }
+
+        if (mediaType &amp;&amp; mediaType.code === NLError.Code.Get_Chunk_Failed) {
+          url = data.frag ? data.frag.url : &apos;&apos;;
+        } else {
+          url = data.url ? data.url : this._url;
+        }
+
+        if (errorType &amp;&amp; errorType.code === NLError.NetworkDetailCode.Http_Error) {
+          errorType.code = data.response ? data.response.code : NLError.NetworkDetailCode.Http_Error;
+          errorType.code = (errorType.code &gt; 0 &amp;&amp; errorType.code &lt; 600) ? errorType.code : NLError.NetworkDetailCode.Connect_Failed;
+        }
+        let errorCode = mediaType.code + errorType.code;
+        let errorLevel;
+        if (mediaType.name === &apos;manifest&apos;) {
+          errorLevel = data.fatal ? NLError.SeverityLevel.Fatal : NLError.SeverityLevel.Warning;
+        } else {
+          errorLevel = data.fatal ? NLError.SeverityLevel.Error : NLError.SeverityLevel.Warning;
+        }
+
+        errorInfo = NLError.create(errorCode, errorLevel, url, data.details);
+        this._statisticManager.reportError(errorInfo);
+      }
+        break;
+      // Identifier for a media Error (video/parsing/mediasource error)
+      case HlsInner.ErrorTypes.MEDIA_ERROR: {
+        if (!data.fatal) {
+          return;
+        } else {
+          if (data.details === HlsInner.ErrorDetails.FRAG_LOOP_LOADING_ERROR) {
+            this.print(AdaptivePlayer.LogLevel.WARNING, &apos;HlsPlayer&apos;, &apos;FRAG_LOOP_LOADING_ERROR fatal error encountered, try to recover&apos;);
+            this._player.recoverMediaError();
+            return;
+          }
+        }
+        let errorCode = NLError.Code.Playback_Generic_Error;
+        let errorLevel = NLError.SeverityLevel.Error;
+        if (data.details === HlsInner.ErrorDetails.MANIFEST_INCOMPATIBLE_CODECS_ERROR) {
+          // - raised when manifest only contains quality level with codecs incompatible with MediaSource Engine.
+          errorCode = NLError.Code.Incompatible_Codecs_Error;
+          errorLevel = NLError.SeverityLevel.Fatal;
+        }
+        errorInfo = NLError.create(errorCode, errorLevel, this._url, data.details)
+        this._statisticManager.reportError(errorInfo);
+      }
+        break;
+      // Identifier for a mux Error (demuxing/remuxing)
+      case HlsInner.ErrorTypes.MUX_ERROR:
+        break;
+      // Identifier for all other errors
+      case HlsInner.ErrorTypes.OTHER_ERROR: {
+        // LTE error handling
+        let lteErrors = [
+          HlsInner.ErrorDetails.LTE_PARSE_ERROR /** The stream can&apos;t be used by LTE
+                                                1. Not NeuLion streams, filename is not appended with date time; 
+                                                2. Not float date time in filename */
+        ];
+        let foundErrors = lteErrors.filter(function (item) {
+          if (data.details.indexOf(item) &gt;= 0) return true;
+        });
+        if (foundErrors.length &gt; 0) {
+          // lte error
+          // trigger LTEEvent
+          let errorLevel = data.fatal ? NLError.SeverityLevel.Fatal : NLError.SeverityLevel.Warning;
+          this._statisticManager.reportError(
+            NLError.create(NLError.Code.Manifest_Not_For_LTE, errorLevel, this._url, data.details));
+        }
+      }
+        break;
+      default:
+        break;
+    }
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;HLS Error: &apos; + &apos;[&apos; + JSON.stringify(data.details) + &apos;]&apos;);
+  }
+
+  _clearTextTracks() {
+    if (this._video) {
+      // remove text tracks
+      let textTracks = this._video.textTracks;
+      for (let i = textTracks.length - 1; i &gt;= 0; i--) {
+        if (textTracks[i].cues &amp;&amp; textTracks[i].cues.length &gt; 0) {
+          // remove empty text cues
+          for (let j = textTracks[i].cues.length - 1; j &gt;= 0; j--) {
+            textTracks[i].removeCue(textTracks[i].cues[j]);
+          }
+        }
+        if (textTracks[i].hashId) {
+          textTracks[i].hashId = null;
+          textTracks[i].mode = &apos;disabled&apos;; // make it hidden
+        }
+        // video not reset, so all text tracks will be kept even after destroy
+        // dash &amp; hls player
+      }
+    }
+  }
+
+  _mergeProgrameTime(data) {
+    this._timeline = this._player.timelineInfo;
+  }
+
+  _getRelStartLimit() {
+    return TimeRangeUtil.absTimeToRelTime(this._timeline.curAbsStart, this._timeline.timeRanges, this._timeline.absStart);
+  }
+
+  _getRelEndLimit() {
+    let end = TimeRangeUtil.absTimeToRelTime(this._timeline.curAbsEnd, this._timeline.timeRanges, this._timeline.absStart);
+    if (this._player &amp;&amp; this._player.liveSyncPosition) {
+      end = this._player.liveSyncPosition;
+    } else {
+      // CSM-715 &quot;Begin From Start&quot; feature freezes within the first 10 seconds
+      // initialization with programDateTime + live edge by specs
+      end = end - 3 * this._timeline.targetDuration;
+    }
+    return end;
+  }
+
+  _printTimeline() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;Print timeline:&apos;);
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;\tabsStart=&apos; + this._timeline.absStart + &apos; curAbsStart=&apos; + this._timeline.curAbsStart + &apos; curAbsEnd=&apos; + this._timeline.curAbsEnd);
+    for (let i = this._timeline.timeRanges.length - 1; i &gt;= 0; i--) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;HlsPlayer&apos;, &apos;\t\t begin=&apos; + this._timeline.timeRanges[i].begin + &apos; end=&apos; + this._timeline.timeRanges[i].end);
+    }
+  }
+}
+
+HlsPlayer.version = &apos;v&apos; + HlsInner.version;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

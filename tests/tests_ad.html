@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Player SDK Test Page - AD</title>
+  <script src="../dist/nladaptiveplayer.js"></script>
+  <style type="text/css">
+    video::-webkit-media-controls-timeline {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <label> Url: </label>
+  <input type="text" id="urlValue" style="width: 400px;"
+    value='http://172.16.0.63/nldsu/teststage/t594_hd_pc.mpd?cpId=POC&x-play=4e74e0ab513e4cfbbb049ce17bdc989b' />
+  <br />
+  <input id="credential" type="checkbox" value="" />
+  <label>Credential directory: </label>
+  <input type="text" id="credentialDir" style="width: 400px;" value='/hls/' />
+  <br />
+  <button onclick="load_Url()">Load</button>
+  <button onclick="reloadWithNative();">Reload with native player on Safari</button>
+  <button onclick="unload_Url()">Unload</button>
+  <div>
+    <div id="ad_on"
+      style="display:none;position: absolute;top: 90px;background-color: red;left: 20px;font-size: 25px;z-index: 2;">AD
+      is on</div>
+    <div style="position: absolute;top: 130px;background-color: white;left: 500px;font-size: 25px;z-index: 2;">
+      <div id='whole_ranges'></div>
+      <div id='currentTime'></div>
+      <div id='ad_ranges'></div>
+    </div>
+    <a id='defaultClick' target='_blank' style="width: 100%;height: 100%;">
+      <video crossOrigin="anonymous" id="video_main" style="height:100% !important;width: auto !important;" autoplay
+        muted controls preload="auto">
+        Your browser doesn't support HTML5 video.
+      </video>
+    </a>
+  </div>
+  <script>
+    function sendWithIframe(url) {
+      var id = 'url_iframe_' + Math.floor(Math.random() * 10000);
+      var iframe = document.getElementById(id);
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.id = id;
+        document.body.appendChild(iframe);
+      }
+      iframe.src = url;
+      if (iframe.attachEvent) {
+        iframe.attachEvent('onload', function () {
+          iframe.parentNode.removeChild(iframe);
+        });
+      } else {
+        iframe.onload = function () {
+          iframe.parentNode.removeChild(iframe);
+        };
+      }
+    }
+
+    var video = document.getElementById('video_main');
+    var player = new AdaptivePlayer(video);
+    player.setLogLevel(AdaptivePlayer.LogLevel.DEBUG);
+    player.addEventListener(AdaptivePlayer.EventType.TimeUpdate, function (event) {
+      var div = document.getElementById('currentTime');
+      div.innerHTML = 'Current Time: ' + player.currentTime;
+    });
+    player.addEventListener(AdaptivePlayer.EventType.SeekRangeChange, function (event) {
+
+      var ranges = document.getElementById('whole_ranges');
+      ranges.innerHTML = 'Seek Range: [' + event.details.start + ', ' + event.details.end + ']';
+      ranges.min = event.details.start;
+      ranges.max = event.details.end;
+    });
+    player.addEventListener(AdaptivePlayer.EventType.AdEvent, function (e) {
+      console.log("Ad: " + JSON.stringify(e.details));
+      if (e.details.type === AdaptivePlayer.AD.START_EVENT) {
+
+        console.log('test html: get ad start. id=%s', e.details.data.adid);
+        // disable seek bar
+        video.controls = false;
+        document.getElementById('ad_on').innerHTML = "ad is on. id=" + e.details.data.adid;
+        document.getElementById('ad_on').style.display = 'block';
+        if (e.details.data && e.details.data.urls) {
+          e.details.data.urls.forEach(function (item) {
+            if (item.type === AdaptivePlayer.AD.TRACK_CLICK) {
+              // post url
+              sendWithIframe(item.url);
+            } else if (item.type === AdaptivePlayer.AD.DEFAULT_CLICK) {
+              // open url
+              document.getElementById('defaultClick').href = item.url;
+            }
+          })
+        }
+      } else if (e.details.type === AdaptivePlayer.AD.END_EVENT) {
+
+        console.log('test html: get ad end. id=%s', e.details.data.adid);
+        document.getElementById('ad_on').style.display = 'none';
+        document.getElementById('defaultClick').removeAttribute('href');
+        // enable seek bar
+        video.controls = true;
+      } else if (e.details.type === AdaptivePlayer.AD.RANGE_EVENT) {
+
+        var ranges = document.getElementById('ad_ranges');
+        ranges.innerHTML = 'AD Ranges:<ul>'
+        e.details.data.forEach(function (item) {
+          ranges.innerHTML += '<li>' + item.id + ': [' + item.start + ', ' + item.end + ']</li>';
+        })
+        ranges.innerHTML += '</ul>'
+      }
+    });
+
+    function load_Url() {
+      var ranges = document.getElementById('ad_ranges');
+      ranges.innerHTML = '';
+      var urlValue = document.getElementById('urlValue');
+      var credential = document.getElementById('credential');
+      if (credential.checked) {
+        var dirs = [];
+        var credentialDir = document.getElementById('credentialDir');
+        dirs.push(credentialDir.value);
+        var config = {
+          withCredentials: true,
+          withCredentialsFragmentPattern: dirs
+        };
+
+        player.configure(config);
+      }
+      player.load(urlValue.value);
+    }
+
+    // HLS uses native player on Safari
+    function reloadWithNative() {
+      player.configure({ drm: { params: { token: '123' } } });
+      load_Url();
+    }
+
+    function unload_Url() {
+      player.stop();
+    }
+  </script>
+</body>

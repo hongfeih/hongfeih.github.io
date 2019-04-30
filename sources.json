@@ -1,0 +1,648 @@
+{
+  "items": [
+      {
+      "name": "MP4",
+      "submenu": [
+        {
+          "name": "http://172.16.0.188/mp4/sintel_trailer-720p.mp4",
+          "url": "http://172.16.0.188/mp4/sintel_trailer-720p.mp4"
+        }
+      ]
+    },
+    {
+      "name": "WebRTC",
+      "submenu": [
+        {
+          "name": "Test (amazon)",
+          "url": "wss://54.193.57.57:9000"
+        },
+        {
+          "name": "Test (Local)",
+          "url": "wss://172.16.0.97:9000"
+        }
+      ]
+    },
+    {
+      "name": "Neulion DASH DRM",
+      "submenu": [
+        {
+          "name": "Live",
+          "url": "http://172.16.0.187:8300/skyfanpass_channel/live/t3_hd.mpd",
+          "type": "staging",
+          "client": "skyfanpass",
+          "eid": "06E24A40-33AA-3DE3-7693-A214AC100196"
+        },
+        {
+          "name": "VOD",
+          "url": "http://172.16.0.108:8899/hlsFp_dashWwPl_ssPl_forweb/dash/wild_hd_raw.mp4.mpd",
+          "type": "staging",
+          "client": "nba",
+          "eid": "B9066790-D2FA-3DE1-A799-B5D2AC100096"
+        },
+        {
+          "name": "Audio only",
+          "url": "http://172.16.0.108:8899/hlsFp_dashWwPl_ssPl_forweb_audio/dash/wild_hd_raw.mp4.mpd",
+          "type": "staging",
+          "client": "nba",
+          "eid": "6D1749F0-D2FD-3DE1-A799-B5D2AC100096"
+        },
+        {
+          "name": "CC",
+          "url": "http://172.16.0.188/examples/dash_wrong_cc/test35_hd_pc_20180925104000_060000.mp4.mpd",
+          "type": "staging",
+          "client": "skyboxoffice",
+          "eid": "2E2C9CF0-6667-3DE3-EF80-EAB9D05C2489"
+        },
+        {
+          "name": "Not start from 0",
+          "url": "http://172.16.0.188/examples/drm_not_start_from_0/dash/was_hd_800_smoothed1.mp4.mpd",
+          "type": "staging",
+          "client": "nl:testclient:1",
+          "eid": "hhfdrm1203"
+        },
+        {
+          "name": "SKYUK-257",
+          "url": "http://172.16.0.188/examples/SKYUK-257/skyboxoffice_20181110_38_1.mp4.mpd",
+          "type": "prod",
+          "client": "skyboxoffice",
+          "eid": "698FFEF2-8060-3DE3-B687-40B0AC10026F"
+        }
+      ]
+    },
+    {
+      "name": "Neulion HLS DRM",
+      "submenu": [
+        {
+          "name": "Live",
+          "url": "http://172.16.0.187:8300/skyfanpass_channel/live/t3_hd.m3u8",
+          "type": "staging",
+          "client": "skyfanpass",
+          "eid": "06E24A40-33AA-3DE3-7693-A214AC100196"
+        },
+        {
+          "name": "VOD",
+          "url": "http://172.16.0.108:8899/hlsFp_dashWwPl_ssPl_forweb/hls/wild_hd_raw.mp4.m3u8",
+          "type": "staging",
+          "client": "nba",
+          "eid": "B9066790-D2FA-3DE1-A799-B5D2AC100096"
+        },
+        {
+          "name": "Audio only",
+          "url": "http://172.16.0.108:8899/hlsFp_dashWwPl_ssPl_forweb_audio/hls/wild_hd_raw.mp4.m3u8",
+          "type": "staging",
+          "client": "nba",
+          "eid": "6D1749F0-D2FD-3DE1-A799-B5D2AC100096"
+        },
+        {
+          "name": "Linux",
+          "url": "http://172.16.0.113:8505/drm/teststage/t594_hd.m3u8",
+          "type": "staging",
+          "client": "nl:testclient:1",
+          "eid": "drm0903_01"
+        }        
+      ]
+    },
+    {
+      "name": "Neulion HLS",
+      "submenu": [
+        {
+          "name": "Live nonenc duration=26h    800/400kbps",
+          "url": "http://172.16.0.187:8300/common_web/live/t3_hd.m3u8"
+        },
+        {
+          "name": "Live nonenc maxbitrate=3000kbps/720P",
+          "url": "http://172.16.0.187:8300/HD_web/live/t3_hd.m3u8"
+        },
+        {
+          "name": "CC single",
+          "url": "http://172.16.0.187:8300/vod/cctest.mp4.m3u8"
+        },
+        {
+          "name": "CC",
+          "url": "http://172.16.0.187:8300/vod/cc/cctest.mp4.m3u8"
+        },
+        {
+          "name": "http://172.16.0.188:8300/vod/cars_sub/cars_sub.mp4.m3u8",
+          "url": "http://172.16.0.188:8300/vod/cars_sub/cars_sub.mp4.m3u8"
+        },
+        {
+          "name": "CC & subtitles",
+          "url": "http://172.16.0.188:8300/vod/cctest/cctest.mp4.m3u8"
+        },
+        {
+          "name": "NOT start from 0",
+          "url": "http://172.16.0.187:8300/vod/was_hd_800_smoothed1.mp4.m3u8"
+        },
+        {
+          "name": "audio only",
+          "url": "http://172.16.0.187:8300/vod_overall/wild_hd_raw_audioonly.mp4.m3u8"
+        },
+        {
+          "name": "subtitle/multiaudio/720P/4500bps/snap",
+          "url": "http://172.16.0.187:8300/vod_overall/wild_hd_raw.mp4.m3u8"
+        },
+        {
+          "name": "dragontv: 包含转场信息",
+          "url": "http://172.16.0.187:8300/dragontv/dragontv.m3u8"
+        },
+        {
+          "name": "http://172.16.0.187:8300/vod/1min_encoder.mp4.m3u8",
+          "url": "http://172.16.0.187:8300/vod/1min_encoder.mp4.m3u8"
+        },
+        {
+          "name": "http://172.16.0.187:8300/vod/30sec_football.mp4.m3u8",
+          "url": "http://172.16.0.187:8300/vod/30sec_football.mp4.m3u8"
+        },
+        {
+          "name": "http://172.16.0.187:8300/vod/4min_cctv5_720p_0.mp4.m3u8",
+          "url": "http://172.16.0.187:8300/vod/4min_cctv5_720p_0.mp4.m3u8"
+        },
+        {
+          "name": "http://172.16.0.187:8300/ENC/stream1.m3u8,",
+          "url": "http://172.16.0.187:8300/ENC/stream1.m3u8"
+        },
+        {
+          "name": "http://172.16.0.187:8300/ENC/stream2.m3u8,",
+          "url": "http://172.16.0.187:8300/ENC/stream2.m3u8"
+        },
+        {
+          "name": "http://172.16.0.187:8300/playclear/stream3.m3u8,",
+          "url": "http://172.16.0.187:8300/playclear/stream3.m3u8"
+        },
+        {
+          "name": "chicago multi-cdn",
+          "url": "http://172.16.0.23:18009/nldsu_vod/advod/chicago.mp4.m3u8"
+        },
+        {
+          "name": "wild_hd_raw (multi-cdn/thumbnail/additional audio)",
+          "url": "http://172.16.0.188:8300/vod/IFramePer2Sec/wild_hd_raw/wild_hd_raw.mp4.m3u8"
+        },
+        {
+          "name": "wild_hd_raw (multi-cdn/multi-period/thumbnail additional audio)",
+          "url": "http://172.16.0.188:8088/hls/feature/cdn/wild_hd_raw/wild_hd_raw.mp4.m3u8"
+        },
+        {
+          "name": "wild_hd_raw (multi-cdn/multi-period/redundant/thumbnail additional audio)",
+          "url": "http://172.16.0.188:8088/hls/feature/redundant-cdn/wild_hd_raw/wild_hd_raw.mp4.m3u8"
+        },
+        {
+          "name": "simulate/subtitle/float",
+          "url": "http://172.16.0.188:8583/hls/subtitle/live/float/t594_hd.m3u8?ssplayId=v1"
+        },
+        {
+          "name": "simulate/subtitle/int",
+          "url": "http://172.16.0.188:8583/hls/subtitle/live/int/t594_hd.m3u8?ssplayId=v1"
+        },
+        {
+          "name": "simulate/subtitle/index",
+          "url": "http://172.16.0.188:8583/hls/subtitle/live/index/t594_hd.m3u8?ssplayId=v1"
+        },
+        {
+          "name": "simulate/subtitle/rewind/float",
+          "url": "http://172.16.0.188/examples/hls/subtitle/rewind/float/t594_hd/t594_hd.m3u8"
+        },
+        {
+          "name": "simulate/subtitle/rewind+dis/float",
+          "url": "http://172.16.0.188/examples/hls/subtitle/rewind/float/t594_hd/t594_hd_dis.m3u8"
+        },
+        {
+          "name": "cvod/subtitle/rewind+dis/float",
+          "url": "http://172.16.0.188/examples/hls/subtitle/rewind/float/t594_hd/t594_hd_dis_cvod.m3u8"
+        },
+        {
+          "name": "simulate/subtitle/rewind/int",
+          "url": "http://172.16.0.188/examples/hls/subtitle/rewind/int/t594_hd/t594_hd.m3u8"
+        },
+        {
+          "name": "simulate/subtitle/rewind+dis/int",
+          "url": "http://172.16.0.188/examples/hls/subtitle/rewind/int/t594_hd/t594_hd_dis.m3u8"
+        },
+        {
+          "name": "cvod/subtitle/rewind+dis/int",
+          "url": "http://172.16.0.188/examples/hls/subtitle/rewind/int/t594_hd/t594_hd_dis_cvod.m3u8"
+        },
+        {
+          "name": "vod/subtitle/int",
+          "url": "http://172.16.0.188/examples/hls/subtitle/vod/int/cars_sub/cars.mp4.m3u8"
+        },
+        {
+          "name": "vod/subtitle/float",
+          "url": "http://172.16.0.188/examples/hls/subtitle/vod/float/cars_sub/cars.mp4.m3u8"
+        }
+      ]
+    },
+    {
+      "name": "Neulion AD-Stitching",
+      "submenu": [
+        {
+          "name": "Univision now test stream (HLS)",
+          "url": "http://univisionadsvr01.nlst.neulion.com/nlds/wsl/wsltest/as/live/wsltest_hd_iphone.m3u8?cpId=WSL&nldsid=86&nw=112214&caid=univision_simulcast&prof=univision_live_ios&csid=a.univisionnow_nonsubscriber&x-t=1"
+        },
+        {
+          "name": "Local test stream (HLS)",
+          "url": "http://172.16.0.63/nldsu/teststage/t594_hd_pc.m3u8?cpId=POC&x-t=xxx"
+        },
+        {
+          "name": "Amazon test stream (HLS)",
+          "url": "http://52.41.28.168/nldsu/teststage/t594_hd_pc.m3u8?cpId=MSG&x-t=abc"
+        },
+        {
+          "name": "Local test stream (DASH)(as 23)",
+          "url": "http://172.16.0.63/nldsu/teststage/t594_hd_pc.mpd?cpId=POC&x-t=xxx"
+        },
+        {
+          "name": "Local test stream pc(Dash)(as 108)",
+          "url": "http://172.16.0.63/nldsu/teststage/t594_hd_pc.mpd?cpId=POC&x-t=xxx"
+        },
+        {
+          "name": "Local test stream ipad(Dash)(as 108)",
+          "url": "http://172.16.0.63/nldsu/teststage/t594_hd_ipad.mpd?cpId=POC&x-t=xxx"
+        },
+        {
+          "name": "Amazon test stream (Dash)",
+          "url": "http://172.16.0.63/nldsu/teststage/t594_hd_pc.mpd?cpId=POC&x-t=xxx"
+        }
+      ]
+    },
+    {
+      "name": "Neulion Failover",
+      "submenu": [
+        {
+          "name": "Live clear stream(Dash:9980)",
+          "url": "http://172.16.0.131:9980/failover/8505_9505/clear/teststage/t594_hd_ipad.mpd"
+        },
+        {
+          "name": "Live clear stream (HLS:9980)",
+          "url": "http://172.16.0.131:9980/failover/8505_9505/clear/teststage/t594_hd_ipad.m3u8"
+        }
+      ]
+    },
+    {
+      "name": "Neulion LTE",
+      "submenu": [
+        {
+          "name": "Live LTE",
+          "url": "http://172.16.0.108:4505/clear/t594_hd_ipad.m3u8"
+        }
+      ]
+    },
+    {
+      "name": "Neulion push mode",
+      "submenu": [
+        {
+          "name": "Live push mode",
+          "url": "http://172.16.0.107:8899/upload/clear/teststage/t594_hd/master.m3u8"
+        }
+      ]
+    },
+    {
+      "name": "Neulion DASH",
+      "submenu": [
+        {
+          "name": "Live nonenc duration=26h    800/400kbps",
+          "url": "http://172.16.0.187:8300/common_web/live/t3_hd.mpd"
+        },
+        {
+          "name": "Live nonenc maxbitrate=3000kbps/720P",
+          "url": "http://172.16.0.187:8300/HD_web/live/t3_hd.mpd"
+        },
+        {
+          "name": "http://172.16.0.188:8300/vod/cars_sub/cars_sub.mp4.mpd",
+          "url": "http://172.16.0.188:8300/vod/cars_sub/cars_sub.mp4.mpd"
+        },
+        {
+          "name": "CC",
+          "url": "http://172.16.0.187:8300/vod/cctest.mp4.mpd"
+        },
+        {
+          "name": "CC & subtitles",
+          "url": "http://172.16.0.188:8300/vod/cctest/cctest.mp4.mpd"
+        },
+        {
+          "name": "NOT start from 0",
+          "url": "http://172.16.0.187:8300/vod/was_hd_800_smoothed1.mp4.mpd"
+        },
+        {
+          "name": "audio only",
+          "url": "http://172.16.0.187:8300/vod_overall/wild_hd_raw_audioonly.mp4.mpd"
+        },
+        {
+          "name": "subtitle/multiaudio/720P/4500bps/snap",
+          "url": "http://172.16.0.187:8300/vod_overall/wild_hd_raw.mp4.mpd"
+        },
+        {
+          "name": "dragontv: 包含转场信息",
+          "url": "http://172.16.0.187:8300/dragontv/dragontv.mpd"
+        },
+        {
+          "name": "http://172.16.0.187:8300/vod/1min_encoder.mp4.mpd",
+          "url": "http://172.16.0.187:8300/vod/1min_encoder.mp4.mpd"
+        },
+        {
+          "name": "http://172.16.0.187:8300/vod/30sec_football.mp4.mpd",
+          "url": "http://172.16.0.187:8300/vod/30sec_football.mp4.mpd"
+        },
+        {
+          "name": "http://172.16.0.187:8300/vod/4min_cctv5_720p_0.mp4.mpd",
+          "url": "http://172.16.0.187:8300/vod/4min_cctv5_720p_0.mp4.mpd"
+        },
+        {
+          "name": "http://172.16.0.187:8300/ENC/stream1.mpd",
+          "url": "http://172.16.0.187:8300/ENC/stream1.mpd"
+        },
+        {
+          "name": "http://172.16.0.187:8300/ENC/stream2.mpd",
+          "url": "http://172.16.0.187:8300/ENC/stream2.mpd"
+        },
+        {
+          "name": "http://172.16.0.187:8300/playclear/stream3.mpd",
+          "url": "http://172.16.0.187:8300/playclear/stream3.mpd"
+        },
+        {
+          "name": "multi-cdns-in-mpd as4.2 vod",
+          "url": "http://172.16.0.188:8300/vod/IFramePer2Sec/chicago/chicago.mp4.mpd"
+        },
+        {
+          "name": "multi-cdns-in-mpd as4.2 live(subtitle)",
+          "url": "http://172.16.0.188:8300/live/subtitle/subtitle.mpd"
+        },
+        {
+          "name": "multi-cdns-in-mpd as4.2 live",
+          "url": "http://172.16.0.188:8300/live/dragontv.mpd"
+        },
+        {
+          "name": "multi-cdns-in-mpd as4.2 live(additional audio)",
+          "url": "http://172.16.0.188:8300/live/nlds/u/live/as/a_simul_stream.mpd"
+        }
+      ]
+    },
+    {
+      "name": "VOD (HLS)",
+      "submenu": [
+        {
+          "url": "https://d2zihajmogu5jn.cloudfront.net/tears-of-steel/playlist.m3u8",
+          "name": "https://d2zihajmogu5jn.cloudfront.net/tears-of-steel/playlist.m3u8"
+        },
+        {
+          "url": "https://d2zihajmogu5jn.cloudfront.net/big-buck-bunny/master.m3u8",
+          "name": "https://d2zihajmogu5jn.cloudfront.net/big-buck-bunny/master.m3u8"
+        },
+        {
+          "url": "https://d2zihajmogu5jn.cloudfront.net/sintel/master.m3u8",
+          "name": "https://d2zihajmogu5jn.cloudfront.net/sintel/master.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/test_001/stream.m3u8",
+          "name": "http://streambox.fr/playlists/test_001/stream.m3u8"
+        },
+        {
+          "url": "http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8",
+          "name": "http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_002/test.m3u8",
+          "name": "http://streambox.fr/playlists/issue_002/test.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_003/index.m3u8",
+          "name": "http://streambox.fr/playlists/issue_003/index.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_004_1/index.m3u8",
+          "name": "http://streambox.fr/playlists/issue_004_1/index.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_004_2/index.m3u8",
+          "name": "http://streambox.fr/playlists/issue_004_2/index.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_005/index.m3u8",
+          "name": "http://streambox.fr/playlists/issue_005/index.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_006/sample.m3u8",
+          "name": "http://streambox.fr/playlists/issue_006/sample.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_010/list.m3u8",
+          "name": "http://streambox.fr/playlists/issue_010/list.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_012/playlist.m3u8",
+          "name": "http://streambox.fr/playlists/issue_012/playlist.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_020/new/test.m3u8",
+          "name": "http://streambox.fr/playlists/issue_020/new/test.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_026/stream_multi.m3u8",
+          "name": "http://streambox.fr/playlists/issue_026/stream_multi.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_026/stream_cell_16x9_440k.m3u8",
+          "name": "http://streambox.fr/playlists/issue_026/stream_cell_16x9_440k.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_066/prog_index.m3u8",
+          "name": "http://streambox.fr/playlists/issue_066/prog_index.m3u8"
+        },
+        {
+          "url": "http://streambox.fr/playlists/issue_067/stream.m3u8",
+          "name": "http://streambox.fr/playlists/issue_067/stream.m3u8"
+        },
+        {
+          "url": "http://www.streambox.fr/playlists/x31e0e7/x31e0e7.m3u8",
+          "name": "http://www.streambox.fr/playlists/x31e0e7/x31e0e7.m3u8"
+        },
+        {
+          "url": "http://www.streambox.fr/playlists/x31jrg1/x31jrg1.m3u8",
+          "name": "http://www.streambox.fr/playlists/x31jrg1/x31jrg1.m3u8"
+        },
+        {
+          "url": "http://wms.shared.streamshow.it/carinatv/carinatv/playlist.m3u8",
+          "name": "http://wms.shared.streamshow.it/carinatv/carinatv/playlist.m3u8"
+        }
+      ]
+    },
+    {
+      "name": "Featured (HLS)",
+      "submenu": [
+        {
+          "name": "nasa live stream",
+          "url": "http://nasatv-lh.akamaihd.net/i/NASA_101@319270/master.m3u8"
+        },
+        {
+          "name": "metadata 1 TXXX",
+          "url": "http://playertest.longtailvideo.com/adaptive/wowzaid3/playlist.m3u8"
+        },
+        {
+          "name": "metadata nielsen PRIV",
+          "url": "http://www.nielseninternet.com/NielsenConsumer/prog_index.m3u8"
+        },
+        {
+          "name": "metadata 2 TDEN",
+          "url": "http://tweedekamerlive.download.kpnstreaming.nl/plenairezaal/4500/prog_index.m3u8"
+        },
+        {
+          "name": "multi-audio",
+          "url": "https://www.radiantmediaplayer.com/media/rmp-segment/bbb-maudio/playlist.m3u8"
+        },
+        {
+          "name": "CEA-608 captions 1",
+          "url": "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8"
+        },
+        {
+          "name": "CEA-608 captions 2",
+          "url": "http://playertest.longtailvideo.com/adaptive/captions/playlist.m3u8"
+        },
+        {
+          "name": "4K",
+          "url": "http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8"
+        },
+        {
+          "name": "thumbnail",
+          "url": "http://172.16.0.107:8506/clear/teststage/t594_hd.m3u8"
+        },
+        {
+          "name": "thumbnail && multiaudio && multi-cdn && vod",
+          "url": "http://172.16.0.188:8300/vod/IFramePer2Sec/wild_hd_raw/wild_hd_raw.mp4.m3u8"
+        }
+      ]
+    },
+    {
+      "name": "VOD (DASH)",
+      "submenu": [
+        {
+          "url": "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1/client_manifest-events.mpd",
+          "name": "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1/client_manifest-events.mpd"
+        },
+        {
+          "url": "http://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd",
+          "name": "http://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"
+        },
+        {
+          "url": "http://storage.googleapis.com/shaka-demo-assets/sintel/dash.mpd",
+          "name": "http://storage.googleapis.com/shaka-demo-assets/sintel/dash.mpd"
+        },
+        {
+          "url": "http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-only/dash.mpd",
+          "name": "http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-only/dash.mpd"
+        },
+        {
+          "url": "http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd",
+          "name": "http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd"
+        },
+        {
+          "url": "http://storage.googleapis.com/shaka-demo-assets/heliocentrism/heliocentrism.mpd",
+          "name": "http://storage.googleapis.com/shaka-demo-assets/heliocentrism/heliocentrism.mpd"
+        },
+        {
+          "url": "http://storage.googleapis.com/shaka-demo-assets/tos-ttml/dash.mpd",
+          "name": "http://storage.googleapis.com/shaka-demo-assets/tos-ttml/dash.mpd"
+        },
+        {
+          "url": "http://storage.googleapis.com/shaka-demo-assets/tos-pto-webvtt/dash.mpd",
+          "name": "http://storage.googleapis.com/shaka-demo-assets/tos-pto-webvtt/dash.mpd"
+        },
+        {
+          "url": "http://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-manifest.mpd",
+          "name": "http://yt-dash-mse-test.commondatastorage.googleapis.com/media/car-20120827-manifest.mpd"
+        },
+        {
+          "url": "http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-ru.ism/.mpd",
+          "name": "http://demo.unified-streaming.com/video/tears-of-steel/tears-of-steel-ru.ism/.mpd"
+        },
+        {
+          "url": "http://dash.edgesuite.net/dash264/TestCases/1c/qualcomm/2/MultiRate.mpd",
+          "name": "http://dash.edgesuite.net/dash264/TestCases/1c/qualcomm/2/MultiRate.mpd"
+        },
+        {
+          "url": "http://wowzaec2demo.streamlock.net/live/bigbuckbunny/manifest_mpm4sav_mvtime.mpd",
+          "name": "http://wowzaec2demo.streamlock.net/live/bigbuckbunny/manifest_mpm4sav_mvtime.mpd"
+        },
+        {
+          "url": "http://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd",
+          "name": "http://bitdash-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd"
+        },
+        {
+          "url": "http://video.wmspanel.com/local/raw/BigBuckBunny_320x180.mp4/manifest.mpd",
+          "name": "http://video.wmspanel.com/local/raw/BigBuckBunny_320x180.mp4/manifest.mpd"
+        },
+        {
+          "url": "http://amssamples.streaming.mediaservices.windows.net/91492735-c523-432b-ba01-faba6c2206a2/AzureMediaServicesPromo.ism/manifest(format=mpd-time-csf)",
+          "name": "http://amssamples.streaming.mediaservices.windows.net/91492735-c523-432b-ba01-faba6c2206a2/AzureMediaServicesPromo.ism/manifest(format=mpd-time-csf)"
+        },
+        {
+          "url": "http://ams-samplescdn.streaming.mediaservices.windows.net/11196e3d-2f40-4835-9a4d-fc52751b0323/TearsOfSteel_WAMEH264SmoothStreaming720p.ism/manifest(format=mpd-time-csf)",
+          "name": "http://ams-samplescdn.streaming.mediaservices.windows.net/11196e3d-2f40-4835-9a4d-fc52751b0323/TearsOfSteel_WAMEH264SmoothStreaming720p.ism/manifest(format=mpd-time-csf)"
+        },
+        {
+          "url": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-live/mp4-live-mpd-AV-BS.mpd",
+          "name": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-live/mp4-live-mpd-AV-BS.mpd"
+        },
+        {
+          "url": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-live-periods/mp4-live-periods-mpd.mpd",
+          "name": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-live-periods/mp4-live-periods-mpd.mpd"
+        },
+        {
+          "url": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-main-single/mp4-main-single-mpd-AV-NBS.mpd",
+          "name": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-main-single/mp4-main-single-mpd-AV-NBS.mpd"
+        },
+        {
+          "url": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-main-multi/mp4-main-multi-mpd-AV-BS.mpd",
+          "name": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-main-multi/mp4-main-multi-mpd-AV-BS.mpd"
+        },
+        {
+          "url": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-onDemand/mp4-onDemand-mpd-AV.mpd",
+          "name": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-onDemand/mp4-onDemand-mpd-AV.mpd"
+        },
+        {
+          "url": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-main-ogop/mp4-main-ogop-mpd-AV-BS.mpd",
+          "name": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-main-ogop/mp4-main-ogop-mpd-AV-BS.mpd"
+        },
+        {
+          "url": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-full-gdr/mp4-full-gdr-mpd-AV-BS.mpd",
+          "name": "http://download.tsi.telecom-paristech.fr/gpac/DASH_CONFORMANCE/TelecomParisTech/mp4-full-gdr/mp4-full-gdr-mpd-AV-BS.mpd"
+        }
+      ]
+    },
+    {
+      "name": "Featured (DASH)",
+      "submenu": [
+        {
+          "name": "akamai live stream",
+          "url": "http://24x7dash-i.akamaihd.net/dash/live/900080/dash-demo/dash.mpd"
+        },
+        {
+          "name": "subtitles 1",
+          "url": "http://storage.googleapis.com/shaka-demo-assets/sintel-mp4-wvtt/dash.mpd"
+        },
+        {
+          "name": "subtitles 2",
+          "url": "http://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"
+        },
+        {
+          "name": "subtitles 3",
+          "url": "http://w01.quickmedia.tv/mbr/x/manbeast/manbeast.smil/manifest.mpd"
+        },
+        {
+          "name": "VOD CEA-608",
+          "url": "https://vm2.dashif.org/dash/vod/testpic_2s/cea608.mpd"
+        },
+        {
+          "name": "Live CEA-608",
+          "url": "https://vm2.dashif.org/livesim/testpic_2s/cea608.mpd"
+        },
+        {
+          "name": "VOD CEA-608 + TTML",
+          "url": "https://vm2.dashif.org/dash/vod/testpic_2s/cea608_and_segs.mpd"
+        },
+        {
+          "name": "Live CEA-608 + TTML",
+          "url": "https://vm2.dashif.org/livesim/testpic_2s/cea608_and_segs.mpd"
+        }
+      ]
+    }
+  ]
+}

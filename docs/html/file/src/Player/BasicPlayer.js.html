@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Player/BasicPlayer.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Player/BasicPlayer.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { AdaptivePlayer } from &apos;../AdaptivePlayer&apos;
+import { PlayerBase } from &apos;./PlayerBase&apos;
+import * as UrlUtil from &apos;../Utils/Url&apos;
+import { ID3 } from &apos;../Media/ID3&apos;
+import { FakeEvent } from &apos;../Utils/FakeEvent&apos;;
+import { Settings } from &apos;../config&apos;;
+import { NLError } from &apos;../Media/NLError&apos;;
+import HlsPlaylistParser from &apos;../Media/HlsPlaylistParser&apos;;
+import { NLTrack } from &apos;../Media/NLTrack&apos;;
+import { FairPlayDRM } from &apos;../Media/FairPlay/FairPlayDRM&apos;
+import { EventManager } from &apos;../Manager/EventManager&apos;
+import * as TimeRangeUtil from &apos;../Utils/TimeRange&apos;;
+
+export default class BasicPlayer extends PlayerBase {
+  constructor(video, parent) {
+    super(video, parent);
+
+    this._url = &apos;&apos;;
+
+    this._drmConfig = null;
+    this._ccConfig = { label: &apos;English&apos;, language: &apos;en&apos; };
+    this._drmManager = null; // For HLS FairPlay
+    this._startTime = null;
+    this._seekToStartTime = false;
+
+    this.type = AdaptivePlayer.PlayerType.NATIVE;
+    this.streamType = AdaptivePlayer.StreamType.HTTP_VIDEO;
+
+    this._useExternalM3U8Parser = Settings.BASICPLAYER.USE_EXTERNAL_M3U8_PARSER;
+    this._hlsPlaylistParser = null;
+
+    this._gapToLiveEdge = 0; // in seconds
+    this._gapToDVREnd = 0; // in seconds
+    this._dvrDuration = null;
+
+    this._thumbnailsStreams = [];
+    this._thumbnailImagesCb = null;
+
+    this._advertisements = [];
+    this._emptyAdvertisements = [];
+    this._adBeginTime = null;
+    this._playlistUpdateTimer = null;
+    this._timeToleranceMs = 200;
+    this._adStatistics = {};
+    this._lastAdvertise = null;
+
+    this._timeline = {
+        init: false,
+        targetDuration: 0,
+        absStart: 0,
+        curAbsStart: 0,
+        curAbsEnd: 0,
+        timeRanges: []
+    };
+
+    this._levelResquestIndex = 0;
+    this._levelResponseIndex = 0;
+    this._lastUpdateTime = 0;
+
+    this._seekEnded = true;
+    this._state = &apos;stop&apos;;
+    this.vodType = &apos;vod&apos;;
+
+    this._thumbnailTimeScale = 1000;
+
+    this.print(AdaptivePlayer.LogLevel.INFO, &apos;BasicPlayer&apos;, &apos;Instance created!&apos;);
+  }
+
+  destroy() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;destroy called!&apos;);
+
+    this.unload();
+
+    // destroy FairPlay handler
+    if (this._drmManager) {
+      this._drmManager.destroy();
+    }
+
+    return Promise.resolve();
+  }
+
+  configure(config) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;configure called!&apos;);
+
+    this._config = config;
+    if (config) {
+      if (config.useExternalM3U8Parser) {
+        this._useExternalM3U8Parser = config.useExternalM3U8Parser;
+      }
+      if (config.drm) {
+        this._drmConfig = config.drm;
+      }
+
+      if (config.preferredAudioLanguage) {
+        this._config.preferredAudioLanguage = config.preferredAudioLanguage.toLowerCase();
+      }
+      if (config.preferredTextLanguage) {
+        this._config.preferredTextLanguage = config.preferredTextLanguage.toLowerCase();
+      }
+
+      if (this._config.closedCaption) {
+        if (this._config.closedCaption.label) {
+          this._ccConfig.label = config.closedCaption.label;
+        }
+        if (this._config.closedCaption.language) {
+          this._ccConfig.language = config.closedCaption.language;
+        }
+      }
+    }
+  }
+
+  load(url, startTime) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;load called!&apos;);
+
+    this._url = url;
+    if (UrlUtil.getExtension(url) === &apos;m3u8&apos; || UrlUtil.getExtension(url) === &apos;m3u&apos;) {
+      this.streamType = AdaptivePlayer.StreamType.HLS;
+    } else {
+      this.streamType = AdaptivePlayer.StreamType.HTTP_VIDEO;
+    }
+
+    if (this.streamType === AdaptivePlayer.StreamType.HLS) {
+      // get #EXT-X-PROGRAM-DATE-TIME
+      // Need to check it anyway, can&apos;t tell live or vod at this momont
+      // in case of vod, will return (0, 0)
+      // One-time token not supported
+      if (this._useExternalM3U8Parser) {
+        this._hlsPlaylistParser = new HlsPlaylistParser();
+        this._hlsPlaylistParser.setErrorCb(this._onError.bind(this));
+        this._hlsPlaylistParser.setPlayHeadCB(this._onPlayHeadTimeCallback.bind(this));
+        this._hlsPlaylistParser.setThumbnailCb(this._onThumbnailCallback.bind(this));
+        this._hlsPlaylistParser.setThumbnailImageCb(this._onThumbnailImageCallback.bind(this));
+        this._hlsPlaylistParser.setAdStitchCb(this._onAdsInfosCallback.bind(this));
+        this._hlsPlaylistParser.loadPlaylist(url, { type: &apos;master&apos; });
+      }
+
+      // drm manager
+      if (this._drmConfig &amp;&amp;
+        this._drmConfig.fairplay &amp;&amp;
+        this._drmConfig.fairplay.server &amp;&amp;
+        this._drmConfig.fairplay.serverCertificate) {
+        if (!this._drmManager) {
+          this._drmManager = new FairPlayDRM();
+        }
+        if (this._drmManager) {
+          this._drmManager.configure(
+            this._drmConfig.fairplay.server,
+            this._drmConfig.fairplay.serverCertificate,
+            this._drmConfig.params);
+          this._drmManager.init(this._video, this._onError.bind(this));
+        }
+      }
+    }
+
+    this._eventManager = new EventManager();
+
+    // for ID3 extraction
+    if (this._video.textTracks) { // IE9 don&apos;t have textTracks
+      if (this._video.textTracks.addEventListener) {
+        this._eventManager.listen(this._video.textTracks, &apos;addtrack&apos;, this._onTextTrackAdded.bind(this));
+      } else {
+        // the safari native way
+        this._video.textTracks.onaddtrack = this._onTextTrackAdded.bind(this);
+      }
+    }
+
+    // For basic player ProfileChange triggered by loadedmetadata on IE11 (without video.onresize)
+    if (AdaptivePlayer.browserType.match(/IE/i) !== null) {
+      this._eventManager.listen(this._video, &apos;loadedmetadata&apos;, function (evt) {
+        this.notifyProfileChanged({
+          id: 0,
+          videoHeight: evt.target.videoHeight,
+          videoWidth: evt.target.videoWidth
+        })
+      }.bind(this));
+    }
+
+    // https://jira.neulion.com/browse/NFL-854
+    let playbackUrl = url;
+    if (!startTime || startTime &lt; 0) {
+      startTime = 0;
+    }
+
+    if (startTime &gt; 0) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;load called set startTime=&apos; + startTime);
+      if (AdaptivePlayer.browserType.match(/.*Safari.*/i) === null) {
+        playbackUrl = url + &apos;#t=&apos; + startTime;
+        this._startTime = startTime;
+        this._eventManager.listen(this._video, &apos;loadedmetadata&apos;, function () {
+          this._seekToStartTime = true;
+          this.currentTime = this._startTime;
+          // best practices of https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
+          let promise = this._video.play();
+          if (promise != null) {
+            promise.then(function () {
+              // Autoplay started!
+              this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;auto play started!&apos;);
+              this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.AutoPlayStatus, { details: { autoplay: true } }));
+            }.bind(this)).catch(function () {
+              // Autoplay was prevented.
+              // Show a &quot;Play&quot; button so that user can start playback.
+              this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;auto play prevented!&apos;);
+              this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.AutoPlayStatus, { details: { autoplay: false } }));
+            }.bind(this));
+          }
+        }.bind(this));
+      } else {
+        this._startTime = startTime;
+        this._eventManager.listen(this._video, &apos;loadedmetadata&apos;, function () {
+          this._video.currentTime = startTime;
+        }.bind(this));
+      }
+      this._video.pause();
+    }
+    this._video.src = playbackUrl;
+    // For autoplay on mobile safari
+    // if (this._video.autoplay)
+    //  (this._video.play() || nopromise).catch(function () { });
+
+    return Promise.resolve();
+  }
+
+  isLive() {
+    return (this._video.duration === Infinity);
+  }
+
+  gotoLive() {
+    if (this.isLive()) {
+      let relEndLimit = this._getRelEndLimit();
+      let endLimit = TimeRangeUtil.relTimeToAbsTime(relEndLimit, this._timeline.timeRanges, this._timeline.absStart);
+      if (endLimit &gt; this.currentTime) {
+        this.currentTime = endLimit;
+      }
+    }
+  }
+
+  unload() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;unload called!&apos;);
+
+    this._useExternalM3U8Parser = Settings.BASICPLAYER.USE_EXTERNAL_M3U8_PARSER;
+    this._hlsPlaylistParser = null;
+    this._gapToLiveEdge = 0;
+    this._gapToDVREnd = 0;
+    this._startTime = null;
+    this._seekToStartTime = false;
+    this._thumbnailsStreams = [];
+    this._thumbnailImagesCb = null;
+
+    if (this._playlistUpdateTimer) {
+      clearTimeout(this._playlistUpdateTimer);
+      this._playlistUpdateTimer = null;
+    }
+    this._timeToleranceMs = 200;
+    this._advertisements = [];
+    this._emptyAdvertisements = [];
+    this._adBeginTime = null;
+    this._adStatistics = {};
+    this._lastAdvertise = null;
+    this._adTimer = null;
+    this.vodType = &apos;vod&apos;;
+
+    this._timeline = {
+        init: false,
+        targetDuration: 0,
+        absStart: 0,
+        curAbsStart: 0,
+        curAbsEnd: 0,
+        timeRanges: []
+    };
+
+    this._state = &apos;stop&apos;;
+
+    this._levelResquestIndex = 0;
+    this._levelResponseIndex = 0;
+    this._lastUpdateTime = 0;
+    this._thumbnailTimeScale = 1000;
+
+    if (this._eventManager) {
+      this._eventManager.destroy();
+    }
+
+    if (this._drmManager) {
+      this._drmManager.reset();
+    }
+
+    if (!this._video.textTracks) { // For IE9
+      return;
+    }
+
+    // stop video playback
+    if (this._video.textTracks.removeEventListener) {
+      this._video.textTracks.removeEventListener(&apos;addtrack&apos;, this._onTextTrackAdded.bind(this));
+    } else {
+      this._video.textTracks.onaddtrack = null;
+    }
+
+    for (let i = 0; i &lt; this._video.textTracks.length; i++) {
+      let track = this._video.textTracks[i];
+      if (track.kind === &apos;metadata&apos;) {
+        // the safari native way
+        track.oncuechange = null;
+      }
+    }
+
+    if (this._video &amp;&amp; this._video.src !== &apos;&apos; &amp;&amp; this._video.readyState &gt;= 2) {
+      this._video.currentTime = 0;
+      this._video.src = &apos;&apos;;
+    }
+
+    return Promise.resolve();
+  }
+
+  audioTracks() {
+    let tracks = [];
+    if (this._video.audioTracks) {
+      for (let i = 0; i &lt; this._video.audioTracks.length; i++) {
+        let base = this._video.audioTracks[i];
+        if (base.label !== &apos;&apos; || base.language !== &apos;&apos;) {
+          tracks.push(new NLTrack(AdaptivePlayer.Kind.AUDIO, base, AdaptivePlayer.PlayerType.NATIVE, {
+            id: i,
+            player: this._video
+          }));
+        }
+      }
+    }
+    return tracks;
+  }
+
+  ccTracks() {
+    let ccTracks = [];
+    for (let i = 0; i &lt; this._video.textTracks.length; i++) {
+      let base = this._video.textTracks[i];
+      if (/* base.mode !== &apos;disabled&apos; &amp;&amp; */ (base.kind === &apos;captions&apos; || base.kind === &apos;subtitles&apos;) &amp;&amp;
+        base.label !== Settings.DASHPLAYER.DEFAULT_SUBTITLE_TRACK_NAME) {
+        ccTracks.push(base);
+      }
+    }
+    return ccTracks;
+  }
+
+  textTracks() {
+    let tracks = [];
+    for (let i = 0; i &lt; this._video.textTracks.length; i++) {
+      let base = this._video.textTracks[i];
+      if ((base.kind === &apos;captions&apos; || base.kind === &apos;subtitles&apos;) &amp;&amp;
+          /* base.mode !== &apos;disabled&apos; &amp;&amp; */
+          base.label !== Settings.DASHPLAYER.DEFAULT_SUBTITLE_TRACK_NAME &amp;&amp; 
+          base.hashId == null /* not tracks created by hls.js */) {
+        tracks.push(new NLTrack(AdaptivePlayer.Kind.TEXT, base, AdaptivePlayer.PlayerType.NATIVE, {
+          id: i,
+          player: this,
+          ccInfos: (this._hlsPlaylistParser ? this._hlsPlaylistParser.getHlsCC() : null)
+        }));
+      }
+    }
+    return tracks;
+  }
+
+  selectTrack(track) {
+    if (track) {
+      track.active = true;
+      if (track.kind === &apos;TEXT&apos;) {
+        let tracks = this._video.textTracks;
+        for (let i = 0; i &lt; tracks.length; i++) {
+          if (tracks[i].mode !== &apos;disabled&apos;) {
+            tracks[i].mode = &apos;hidden&apos;;
+          }
+        }
+        track.base.mode = &apos;showing&apos;;
+      } else if (track.kind === &apos;AUDIO&apos;) {
+        let tracks = this._video.audioTracks;
+        for (let i = 0; i &lt; tracks.length; i++) {
+          tracks[i].enabled = false;
+        }
+        track.base.enabled = true;
+      }
+    }
+  }
+
+  getThumbnailStreams() {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;getThumbnailStreams!&apos;);
+    let thumbnails = [];
+    if (this._hlsPlaylistParser) {
+      for (let i = 0; i &lt; this._thumbnailsStreams.length; i++) {
+        let thumbnail = {
+          id: this._thumbnailsStreams[i].id,
+          width: this._thumbnailsStreams[i].width,
+          height: this._thumbnailsStreams[i].height
+        }
+        thumbnails.push(thumbnail);
+      }
+    }
+    return thumbnails;
+  }
+
+  getThumbnailStreamImages(streamid, time, thumbnailsCb) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;getThumbnailStreamImages!&apos;);
+    if (this._hlsPlaylistParser) {
+      if (this._thumbnailImagesCb == null) {
+        this._thumbnailImagesCb = thumbnailsCb;
+      }
+
+      let stream = this._thumbnailsStreams[streamid];
+      if (stream) {
+        let absStart = 0;
+        if (this.isCVodStream()) {
+          time += this._timeline.absStart;
+          absStart = this._timeline.absStart;
+        }
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;getThumbnailStreamImages: time=&apos; + time + &apos; absStart=&apos; + absStart);
+        if (this.isLive()) {
+          this._hlsPlaylistParser.loadPlaylist(stream.uri, { 
+            type: &apos;thumbnail&apos;, 
+            index: streamid, 
+            time: time, 
+            baseTime: 0, 
+            requestTime: new Date().getTime()
+          });
+        } else if (this.isCVodStream()) {
+          if (stream.vttCueSegments == null) {
+            this._hlsPlaylistParser.loadPlaylist(stream.uri, {
+              type: &apos;thumbnail&apos;, 
+              index: streamid, 
+              time: time, 
+              baseTime: absStart, 
+              requestTime: new Date().getTime()
+            });
+          } else {
+            this._loadVtt(Number(streamid), time);
+          }
+        } else {
+          // is vod
+          if (stream.vttCueSegments == null) {
+            this._hlsPlaylistParser.loadPlaylist(stream.uri, {
+              type: &apos;thumbnail&apos;, 
+              index: streamid, 
+              time: time, 
+              baseTime: 0, 
+              requestTime: new Date().getTime()
+            });
+          } else {
+            this._loadVtt(Number(streamid), time);
+          }
+        } 
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;time=&apos; + time + &apos; absStart=&apos; + absStart);
+      }
+    }
+  }
+
+  notifyPlayStarted() {
+    this._state = &apos;canplay&apos;;
+
+    if (this._timeline &amp;&amp; this._timeline.timeRanges.length &gt; 0 &amp;&amp; this._timeline.absStart &gt; 0) {
+      let range = {
+        start: this._timeline.absStart,
+        end: this._timeline.timeRanges[this._timeline.timeRanges.length - 1].end,
+        ranges: this._timeline.timeRanges
+      };
+      this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.SeekRangeChange, {
+        details: range,
+        data: range
+      }));
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;Fired SeekRangeChange for CVOD: &apos; + &apos;[&apos; + JSON.stringify(range) + &apos;]&apos;);
+    }
+
+    // select preferred language
+    if (this._config.preferredAudioLanguage) {
+      let foundPreferredAudio = this.audioTracks().filter(function(track) {
+        return track.language === this._config.preferredAudioLanguage;
+      }.bind(this));
+      if (foundPreferredAudio &amp;&amp; foundPreferredAudio.length &gt; 0 &amp;&amp; !foundPreferredAudio[0].active) {
+        this.selectTrack(foundPreferredAudio[0]);
+      }
+    }
+    if (this._config.preferredTextLanguage) {
+      let foundPreferredText = this.textTracks().filter(function (track) {
+        return track.language === this._config.preferredTextLanguage;
+      }.bind(this));
+      if (foundPreferredText &amp;&amp; foundPreferredText.length &gt; 0 &amp;&amp; !foundPreferredText[0].active) {
+        this.selectTrack(foundPreferredText[0]);
+      }
+    }
+  }
+
+  get currentTime() {
+    let relCurrentTime = this._video.currentTime;
+    let absTime = TimeRangeUtil.relTimeToAbsTime(relCurrentTime, this._timeline.timeRanges, this._timeline.absStart);
+    if (this.isLive()) {
+      if (this._timeline &amp;&amp; this._timeline.curAbsStart &amp;&amp; this._timeline.curAbsEnd) {
+        if (relCurrentTime === absTime) {
+          let relEndLimit = TimeRangeUtil.absTimeToRelTime(this._timeline.curAbsEnd, this._timeline.timeRanges, this._timeline.absStart);
+          if (relCurrentTime &gt; relEndLimit) {
+            absTime = this._timeline.curAbsEnd;
+          }
+        }
+      }
+    } else {
+      if (this.vodType === &apos;cvod&apos;) {
+        absTime = this._video.currentTime;
+      }
+    }
+    return absTime;
+  }
+
+  set currentTime(value) {
+    // this._printTimeline();
+    let relTime = TimeRangeUtil.absTimeToRelTime(value, this._timeline.timeRanges, this._timeline.absStart);
+    if (relTime === -1 || this.vodType === &apos;cvod&apos;) {
+      relTime = value;
+    }
+    this._video.currentTime = relTime;
+
+    let tries = 0;
+    let recheck = function() {
+      this._seekEnded = false;
+      if (!this._video) {
+        this._seekEnded = true;
+        return;
+      }
+      if (tries++ &gt;= 1 /* 10 */) {
+        this._seekEnded = true;
+        return;
+      }
+      if (Math.abs(this._video.currentTime - relTime) &gt; 2.0) {
+        this._video.currentTime = relTime;
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;retry times=&apos; + tries + &apos; currentTime=&apos; + this._video.currentTime + &apos; relTime=&apos; + relTime);
+        setTimeout(recheck, 100);
+      } else {
+        this._seekEnded = true;
+      }
+    }.bind(this);
+    this._seekEnded = false;
+    setTimeout(recheck, 100);
+    if (this._video) {
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;get time in set=&apos; + this._video.currentTime);
+    }
+  }
+
+  setThumbnailTimeScale(timeScale) {
+    this._thumbnailTimeScale = timeScale;
+  }
+  
+  isCVodStream() {
+    let cvod = false;
+    if (!this.isLive() &amp;&amp; this._timeline.absStart !== 0) {
+      cvod = true;
+    }
+    return cvod;
+  }
+
+  _onError(e) {
+    // Error.DRM is error, while Error.M3U8 is warning
+    let mediaError = e.error;
+    let level = mediaError.code &gt;= 6000 ? NLError.SeverityLevel.Warning : NLError.SeverityLevel.Fatal;
+    let errorCode = 0;
+    let url = this._url;
+    switch (mediaError.code) {
+      case NLError.Basic.M3U8.MANIFEST_LOAD_ERROR.code:
+      case NLError.Basic.M3U8.MANIFEST_PARSING_ERROR.code:
+      case NLError.Basic.M3U8.GET_PLAYHEADTIME_FAILED.code:
+        errorCode = NLError.Code.Get_Primary_Manifest_Failed + (e.code ? e.code : NLError.NetworkDetailCode.Content_Error);
+        if (e.code) {
+          if (e.code === 404) { // not found
+            level = NLError.SeverityLevel.Fatal;
+            errorCode = NLError.Code.Get_Primary_Manifest_Failed + NLError.NetworkDetailCode.Http_Error;
+            mediaError.message = &apos;404 from external parser&apos;;
+          } else if (e.code === 0) { // browser reject
+            level = NLError.SeverityLevel.Fatal;
+            errorCode = NLError.Code.Get_Primary_Manifest_Failed + NLError.NetworkDetailCode.Connect_Failed;
+            mediaError.message = &apos;connection error from external parser&apos;;
+          } else if (e.code === 403) { // 3rd party cookie block
+            level = NLError.SeverityLevel.Warning;
+            errorCode = NLError.Code.Get_Primary_Manifest_Failed + NLError.NetworkDetailCode.Connect_Failed;
+            mediaError.message = &apos;connection error from external parser&apos;;
+            this._basic_externalParser_403_found = true;
+          }
+        }
+        break;
+
+      case NLError.Basic.M3U8.GET_THUMBNAIL_FAILED.code:
+      case NLError.Basic.M3U8.GET_VTT_FAILED.code:
+      case NLError.Basic.M3U8.PARSE_VTT_FAILED.code:
+        errorCode = NLError.Code.Get_Single_Bitrate_Manifest_Failed;
+        if (e.code) {
+          if (e.code === 404) { // not found
+            level = NLError.SeverityLevel.Warning;
+            errorCode += NLError.NetworkDetailCode.Http_Error;
+            mediaError.message = &apos;404 from external parser&apos;;
+          } else if (e.code === 0) { // browser reject
+            level = NLError.SeverityLevel.Warning;
+            errorCode += NLError.NetworkDetailCode.Connect_Failed;
+            mediaError.message = &apos;connection error from external parser&apos;;
+          } else if (e.code === 403) { // 3rd party cookie block
+            level = NLError.SeverityLevel.Warning;
+            errorCode += NLError.NetworkDetailCode.Connect_Failed;
+            mediaError.message = &apos;connection error from external parser&apos;;
+            this._basic_externalParser_403_found = true;
+          } else {
+            errorCode += e.code;
+          }
+        } else {
+          errorCode += NLError.NetworkDetailCode.Content_Error;
+        }
+        break;
+
+      case NLError.Basic.DRM.NOT_SUPPORTED.code:
+        errorCode = NLError.Code.DRM_Not_Supported;
+        break;
+
+      case NLError.Basic.DRM.INVALID_PARAMS.code:
+      case NLError.Basic.DRM.KEY_SESSION_CREATE_ERROR.code:
+      case NLError.Basic.DRM.CERTIFICATE_ERROR.code:
+      case NLError.Basic.DRM.CERTIFICATE_OVERFLOW_ERROR.code:
+        errorCode = NLError.Code.DRM_Init_Failed;
+        break;
+
+      case NLError.Basic.DRM.LICENSE_ERROR.code:
+      case NLError.Basic.DRM.KEY_ERROR.code:
+        errorCode = NLError.Code.Get_Key_License_Failed + (e.code ? e.code : NLError.NetworkDetailCode.Content_Error);
+        break;
+
+      default:
+        break;
+    }
+
+    let errorInfo = NLError.create(errorCode, level, url, mediaError.message);
+    this._statisticManager.reportError(errorInfo);
+    level = mediaError.code &gt;= 6000 ? AdaptivePlayer.LogLevel.WARNING : AdaptivePlayer.LogLevel.ERROR;
+    this.print(level, &apos;BasicPlayer&apos;, &apos;Fired streaming error: &apos; + mediaError.message);
+  }
+
+  _onTimeUpdate(event) {
+    // seek range changed event for live stream
+    if (this.isLive()) {
+      if (Date.now() - this._lastUpdateTime &gt; 250) {
+        let range = {
+          start: this._timeline.curAbsStart,
+          end: this._timeline.curAbsEnd,
+          ranges: this._timeline.curTimeRanges
+        };
+        this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.SeekRangeChange, {
+          data: range,
+          details: range
+        }));
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;Fired SeekRangeChange: &apos; + &apos;[&apos; + JSON.stringify(range) + &apos;]&apos;);
+        this._lastUpdateTime = Date.now();
+      }
+    }
+    if (AdaptivePlayer.browserType.match(/.*Safari.*/i) !== null &amp;&amp; !this._seekToStartTime &amp;&amp;
+      this._startTime &amp;&amp; this._startTime &gt; 0) {
+      if (!this.isLive() || (this.isLive() &amp;&amp; this._timeline.init &amp;&amp; this._state === &apos;canplay&apos;)) {
+        this._seekToStartTime = true;
+        this.currentTime = this._startTime;
+        // this._video.play();
+      }
+    }
+    return Promise.resolve();
+  }
+
+  _onTextTrackAdded(addTrackEvent) {
+    // textTracks function is smart enough to return the shim&apos;d or native implementation
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;addtrack triggered!&apos;);
+    // a textTrack typically of kind &apos;metadata&apos; or &apos;captions&apos;
+    if (addTrackEvent.track.kind === &apos;metadata&apos;) {
+      let track = addTrackEvent.track;
+      track.mode = &apos;hidden&apos;;
+
+      if (track.addEventListener) {
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;register cuechange event!&apos;);
+        // the shim&apos;d (doc&apos;d standard) way
+        track.addEventListener(&apos;cuechange&apos;, this._cuechange.bind(this));
+      } else {
+        // the safari native way
+        track.oncuechange = this._cuechange.bind(this);
+      }
+    }
+  }
+
+  _onplaylistUpdateTimer() {
+    if (this._hlsPlaylistParser) {
+      let url = this._hlsPlaylistParser.getLevelUrl();
+      if (url) {
+        this._levelResquestIndex += 1;
+        this._hlsPlaylistParser.loadPlaylist(url, {
+          type: &apos;level&apos;, 
+          index: this._levelResquestIndex
+        });
+      }
+    }
+  }
+
+  _onPlayHeadTimeCallback(manifest, index) {
+    if (manifest &amp;&amp; manifest.endList) {
+      if (manifest.dateTimeStrings.length === 0) {
+        // just return in case of VOD and there are no programe date time
+        this.vodType = &apos;vod&apos;;
+        return;
+      } else {
+        // NeuLion CVOD case
+        // need to get program time to mapping local time to absolute time for thumbnail
+        if (this.vodType === &apos;cvod&apos;) {
+          // already got enough information, just ignore
+          return;
+        }
+        this.vodType = &apos;cvod&apos;;
+      }
+    }
+    if (index !== null &amp;&amp; index &lt; this._levelResponseIndex) {
+      return;
+    }
+    this._levelResponseIndex = index;
+
+    this._mergeProgrameTime(manifest);
+
+    if (this.vodType === &apos;cvod&apos;) {
+      // For CVOD case, just need to update once
+      this._onplaylistUpdateTimer();
+    } else {
+      if (this._playlistUpdateTimer == null) {
+        // refresh playlist every targetDuration/2, or 1 seconds in case of not defined
+        let intervalDuration = 1000;
+        if (manifest &amp;&amp; manifest.targetDuration &amp;&amp; (manifest.targetDuration &gt; 2)) {
+          intervalDuration = manifest.targetDuration * 1000 / 2;
+        }
+        this._playlistUpdateTimer = setInterval(this._onplaylistUpdateTimer.bind(this), intervalDuration);
+      }
+    }
+  }
+
+  _mergeProgrameTime(manifest) {
+    let dateRanges = manifest.dateRanges;
+    let timeline = this._timeline;
+    let targetDurationInM3u = (manifest &amp;&amp; manifest.targetDuration) ? manifest.targetDuration : 0;
+    let playlistDurationInM3u = (manifest.dateTimeObjects.length &gt; 0) ? manifest.playlistDuration : 0;
+
+    TimeRangeUtil.mergeProgrameTime(timeline, dateRanges, targetDurationInM3u, playlistDurationInM3u);
+
+    // this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;Print dateRange in playlist&apos;);
+    // for (let i = 0; i &lt; dateRanges.length; i++) {
+    //   this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;begin=&apos; + dateRanges[i].begin + &apos; end=&apos; + dateRanges[i].end);
+    // }
+    // this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;Print timeline&apos;);
+    // for (let i = 0; i &lt; timeRanges.length; i++) {
+    //   this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;begin=&apos; + timeRanges[i].begin + &apos; end=&apos; + timeRanges[i].end);
+    // }
+  }
+
+  _getRelStartLimit() {
+    return TimeRangeUtil.absTimeToRelTime(this._timeline.curAbsStart, this._timeline.timeRanges, this._timeline.absStart);
+  }
+
+  _getRelEndLimit() {
+    let playlistEnd = TimeRangeUtil.absTimeToRelTime(this._timeline.curAbsEnd, this._timeline.timeRanges, this._timeline.absStart) - 2 * this._timeline.targetDuration;
+    let end = playlistEnd;
+    if (this._video.currentTime &gt; end) {
+      // let bufferedEnd = this._getBufferedEndLimit();
+      end = this._video.currentTime;
+      // if (bufferedEnd &gt; end) {
+      //   end = bufferedEnd;
+      // }
+    }
+    return end;
+  }
+
+  _getBufferedEndLimit() {
+    let max = -1;
+    for (let i = this._video.buffered.length - 1; i &gt;= 0; i--) {
+      if (this._video.buffered.end(i) &gt; max) {
+        max = this._video.buffered.end(i);
+      }
+    }
+    return max;
+  }
+
+  _printTimeline() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;Print timeline:&apos;);
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;\tabsStart=&apos; + this._timeline.absStart + &apos; curAbsStart=&apos; + this._timeline.curAbsStart + &apos; curAbsEnd=&apos; + this._timeline.curAbsEnd);
+    for (let i = this._timeline.timeRanges.length - 1; i &gt;= 0; i--) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;\t\t begin=&apos; + this._timeline.timeRanges[i].begin + &apos; end=&apos; + this._timeline.timeRanges[i].end);
+    }
+  }
+
+  _onThumbnailCallback(thumbnails, parser, userdata) {
+    if (thumbnails.length &gt; 0 &amp;&amp; this._thumbnailsStreams.length &lt;= 0) {
+      // This is MBR parser.
+      this._thumbnailsStreams = thumbnails;
+    } else {
+      // Parse thumbnail playlist
+      if (parser != null &amp;&amp; parser.manifest != null &amp;&amp; userdata != null) {
+        let index = userdata.index;
+        if (this._thumbnailsStreams.length &gt; 0 &amp;&amp; index != null) {
+          let stream = this._thumbnailsStreams[index];
+          if (stream) {
+            if (this.isLive() || stream.vttCueSegments == null) {
+              if (this.isLive() &amp;&amp; stream.vttCueSegments) {
+                stream.vttCueSegments = null;
+              }
+              if (parser.manifest &amp;&amp; parser.manifest.segments) {
+                stream.vttCueSegments = parser.manifest.segments;
+                // ------------------------------------------------
+                // live/dvr/cvod:
+                //    startTime: abs time from epoch
+                //    endTime: abs time from epoch
+                // vod:
+                //    startTime: time from 0
+                //    endTime: time from 0
+              }
+            }
+            if (userdata.time) {
+              this._loadVtt(index, userdata.time);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  _loadVtt(streamid, time) {
+    let cueVtt = this._findVtt(Number(streamid), time);
+    if (cueVtt) {
+      let url = this._hlsPlaylistParser.getAbsUrl(cueVtt.uri);
+      let regex = new RegExp(&apos;.*Time=(\\d*)\\.vtt&apos;);
+      let match = regex.exec(url);
+      let baseTime = 0;
+      if (match != null) {
+        baseTime = Number(match[1]) / this._thumbnailTimeScale;
+      }
+      this._hlsPlaylistParser.loadVtts(url, {
+        type: &apos;vtts&apos;, 
+        index: Number(streamid), 
+        time: time, 
+        baseTime: baseTime, 
+        requestTime: new Date().getTime() 
+      });
+        // this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;_loadVtt: url=&apos; + url + &apos; time=&apos; + time);
+    }
+  }
+
+  _findVtt(index, time) {
+    let cueVtt = null;
+    let square = Infinity;
+    if (index &gt;= 0 &amp;&amp; this._thumbnailsStreams.length &gt; 0 &amp;&amp; index &lt; this._thumbnailsStreams.length) {
+      let stream = this._thumbnailsStreams[index];
+      let find = false;
+      if (stream &amp;&amp; stream.vttCueSegments) {
+        stream.vttCueSegments.forEach(function(element) {
+          if ((element.beginTime &lt;= time) &amp;&amp; (element.endTime &gt;= time)) {
+            cueVtt = element;
+            find = true;
+            return cueVtt;
+          }
+        });
+        if (find === false) {
+          stream.vttCueSegments.forEach(function(squeElem) {
+              let minSquare = Math.pow(squeElem.beginTime - time, 2);
+              let maxSquare = Math.pow(squeElem.endTime - time, 2);
+              let difference = Math.sqrt(minSquare + maxSquare);
+              if (square &gt; difference) {
+                square = difference;
+                cueVtt = squeElem;
+              }
+          });
+        }
+      }
+    }
+    return cueVtt;
+  }
+
+  _onThumbnailImageCallback(thumbnails, requestTime) {
+    if (this._thumbnailImagesCb &amp;&amp; thumbnails &amp;&amp; thumbnails.images.length &gt; 0) {
+      if (this.isCVodStream()) {
+        let cvodThumbnails = {
+          &apos;images&apos;: [],
+          &apos;baseTime&apos;: thumbnails.baseTime,
+          &apos;requestTime&apos;: thumbnails.requestTime - this._timeline.absStart,
+          &apos;streamId&apos;: thumbnails.streamId
+        };
+        for (let i = 0; i &lt; thumbnails.images.length; i++) {
+          if ((thumbnails.images[i].endTime - this._timeline.absStart) &gt;= 0) {
+            if ((thumbnails.images[i].startTime - this._timeline.absStart) &gt;= 0) {
+              thumbnails.images[i].startTime -= this._timeline.absStart;
+              thumbnails.images[i].endTime -= this._timeline.absStart;
+            } else {
+              thumbnails.images[i].startTime = 0;
+              thumbnails.images[i].endTime -= this._timeline.absStart;
+            }
+            cvodThumbnails.images.push(thumbnails.images[i]);
+          }
+        }
+
+        this._thumbnailImagesCb(cvodThumbnails);
+      } else {
+        this._thumbnailImagesCb(thumbnails);
+      }
+    }
+  }
+
+  _onAdsInfosCallback(adsInfos) {
+      this._mergeAdlist(adsInfos);
+  }
+
+  _mergeAdlist(adsInfos) {
+    let beginTime = adsInfos.firstTsBeginTime;
+    let adlist = adsInfos.adTracks;
+    let adEmptyList = adsInfos.adEmptyTracks;
+    let isolateSlotEnd = adsInfos.isolateSlotEnd;
+    let isolateStitchEnd = adsInfos.isolateStitchEnd;
+
+    this._setAdSegmentPremier(beginTime);
+    this._expireAdlist(beginTime);
+
+    do {
+      if (isolateStitchEnd.isolate &amp;&amp; this._advertisements.length &gt; 0) {
+        if (this._advertisements[this._advertisements.length - 1].timeline.timeStitchEnd === null) {
+          this._advertisements[this._advertisements.length - 1].timeline.timeStitchEnd = isolateStitchEnd.timeStitchEnd;
+          this._advertisements[this._advertisements.length - 1].lastInStitch = true;
+        }
+      }
+      if (adlist.length === 0 || adlist[0].id === null || adlist[0].getTrackBeginTime() === null) {
+        break;
+      }
+
+      if (this._advertisements.length === 0) {
+        this._advertisements = this._advertisements.concat(adlist);
+        break;
+      }
+
+      let firstSegWithNew = adlist[0];
+      /**
+       * Can not use binary search.
+       *  1. ad id will repeat
+       *  2. range of first ad will change in adstitch m3u8 with time expire.
+       */
+      // let targetSeg = this._binarySearchBegin(firstSegWithNew);
+      let searchInfo = this._searchAdBegin(firstSegWithNew);
+
+      // this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;mergeAdlist(Before merge): new adlist length=&apos; + adlist.length);
+      // this._printAdlist(&apos;_mergeAdlist: before merge. New Ad list&apos;, adlist, false);
+
+      // this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;mergeAdlist(Before merge): length=&apos; + this._advertisements.length);
+      // this._printAdlist(&apos;_mergeAdlist: before merge. Local Ad list&apos;, this._advertisements, false);
+
+      if (searchInfo.find === false) {
+        this.print(AdaptivePlayer.LogLevel.WARNING, &apos;BasicPlayer&apos;, &apos;mergeAdlist(Search): not find&apos;);
+        if (firstSegWithNew.getTrackBeginTime() &lt;= this._advertisements[0].getTrackBeginTime()) {
+          if (firstSegWithNew.getTrackBeginTime() &lt; this._advertisements[0].getTrackBeginTime()) {
+            this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;mergeAdlist: merge error. m3u8 loop&apos;);
+          }
+          this._expireAdlist(-1);
+        } else {
+          if (this._advertisements.length &gt; 0) {
+            let lastSeg = this._advertisements[this._advertisements.length - 1];
+            if (lastSeg.getTrackEndTime()) {
+              if (lastSeg.getTrackEndTime() &lt; firstSegWithNew.getTrackBeginTime()) {
+                this.print(AdaptivePlayer.LogLevel.WARNING, &apos;BasicPlayer&apos;, &apos;mergeAdlist: large gap when m3u8 update&apos;);
+              } else {
+                this.print(AdaptivePlayer.LogLevel.WARNING, &apos;BasicPlayer&apos;, &apos;mergeAdlist: assert(code error in no find branch)&apos;);
+                this._expireAdlist(-1);
+              }
+            } else {
+              this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;mergeAdlist: meet a long time advertisement, time than dvrduration&apos;);
+              if (isolateSlotEnd.isolate) {
+                lastSeg.setTrackEndTime(isolateSlotEnd.timeSlotEnd);
+              } else {
+                lastSeg.setTrackEndTime(firstSegWithNew.getTrackBeginTime());
+              }
+            }
+          }
+        }
+
+        this._advertisements = this._advertisements.concat(adlist);
+      } else {
+        let targetSeg = searchInfo.targetSeg;
+        let dateBegin = null;
+        let dateEnd = null;
+        if (targetSeg.getTrackBeginTime()) {
+          dateBegin = new Date();
+          dateBegin.setTime(targetSeg.getTrackBeginTime() * 1000);
+        }
+        if (targetSeg.getTrackEndTime()) {
+          dateEnd = new Date();
+          dateEnd.setTime(targetSeg.getTrackEndTime() * 1000);
+        }
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;mergeAdlist(Search): i=&apos; + searchInfo.index + &apos;, id=&apos; + targetSeg.id +
+          &apos;, timeBegin=&apos; + targetSeg.getTrackBeginTime() + &apos;(&apos; + (dateBegin ? dateBegin.toString() : dateBegin) +
+          &apos;), endTime=&apos; + targetSeg.getTrackEndTime() + &apos;(&apos; + (dateEnd ? dateEnd.toString() : dateEnd) + &apos;)&apos;);
+
+        let mergeHead = false;
+        for (let i = searchInfo.index; i &lt; this._advertisements.length; i++) {
+          if (adlist.length &gt; 0) {
+            if (adlist[0].id !== this._advertisements[i].id) {
+              this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;mergeAdlist: assert(id must same)&apos;);
+              break;
+            }
+            if (mergeHead === false) {
+              if (adlist[0].getTrackBeginTime() &gt; this._advertisements[i].getTrackBeginTime()) {
+                adlist[0].setTrackBeginTime(this._advertisements[i].getTrackBeginTime());
+              }
+              mergeHead = true;
+            }
+            if (adlist[0].getTrackBeginTime() === this._advertisements[i].getTrackBeginTime()) {
+              this._advertisements[i].merge(adlist[0]);
+              adlist.shift();
+            } else {
+              this.print(AdaptivePlayer.LogLevel.WARNING, &apos;BasicPlayer&apos;, &apos;mergeAdlist: assert(code error in find branch)&apos;);
+              break;
+            }
+          }
+        }
+        if (adlist.length &gt; 0) {
+          this._advertisements = this._advertisements.concat(adlist);
+        }
+      }
+
+      this.print(AdaptivePlayer.LogLevel.WARNING, &apos;BasicPlayer&apos;, &apos;---- mergeAdlist(After merge): length=&apos; + this._advertisements.length + &apos;----------&apos;);
+      this._printAdlist(&apos;_mergeAdlist: After merge. local Ad list=&apos;, this._advertisements, false);
+
+      break;
+    } while (0);
+
+    this._updateAdRanges();
+
+    this._emptyAdvertisements = [];
+    this._emptyAdvertisements = this._emptyAdvertisements.concat(adEmptyList);
+    this._noticeEmptySlice();
+
+    adlist = [];
+  }
+
+  _noticeEmptySlice() {
+    if (this._emptyAdvertisements.length &gt; 0) {
+      let emtypAdvertisements = [];
+      this._emptyAdvertisements.forEach(function(item) {
+        let urls = [];
+        if (item.noticeSlices.slotImpression.length &gt; 0) {
+          urls = urls.concat(item.noticeSlices.slotImpression);
+        }
+        if (item.noticeSlices.slotEnd.length &gt; 0) {
+          urls = urls.concat(item.noticeSlices.slotEnd);
+        }
+        emtypAdvertisements.push({
+          type: &apos;hls&apos;,
+          time: item.timeline.timeEnd, // seconds
+          urls: urls
+        });
+      });
+      this._eventHandler.dispatchEvent(new FakeEvent(&apos;emptyAdPost&apos;, emtypAdvertisements));
+    }
+  }
+
+  _updateAdRanges() {
+    if (this._advertisements.length &gt; 0) {
+      let adRanges = [];
+      this._advertisements.forEach(function(item) {
+        if (item.id) {
+          adRanges.push({
+            id: item.id,
+            start: item.timeline.timeBegin,
+            end: item.timeline.timeEnd });
+        }
+      });
+
+      this._eventHandler._onAdRangesUpdate(adRanges);
+    }
+  }
+
+  _setAdSegmentPremier(beginTime) {
+    this._adBeginTime = beginTime;
+  }
+
+  _expireAdlist(beginTime) {
+    if (beginTime !== -1) {
+      let index = 0;
+      for (let i = this._advertisements.length - 1; i &gt;= 0; i--) {
+        if (this._advertisements[i].getTrackEndTime() &amp;&amp; this._advertisements[i].getTrackEndTime() &lt; this._adBeginTime) {
+          index = i;
+          break;
+        }
+      }
+      // keep a track because we cannot know the stitch end time.
+      index = index - 3;
+      if (index &gt;= 0) {
+        this._advertisements.splice(0, index);
+      }
+    } else {
+      this._advertisements = [];
+    }
+  }
+
+  _searchAdBegin(firstSegWithNew) {
+    let result = { find: false, targetSeg: null, index: -1 };
+    let diff = Number.MAX_VALUE;
+    for (let i = this._advertisements.length - 1; i &gt;= 0; i--) {
+      let seg = this._advertisements[i];
+      if (firstSegWithNew.id === seg.id &amp;&amp; firstSegWithNew.getTrackBeginTime() &gt;= seg.getTrackBeginTime()) {
+        if ((seg.getTrackEndTime() === null) || (seg.getTrackEndTime() &amp;&amp; firstSegWithNew.getTrackEndTime())) {
+          if ((firstSegWithNew.getTrackBeginTime() - seg.getTrackBeginTime()) &lt; diff) {
+            diff = firstSegWithNew.getTrackBeginTime() - seg.getTrackBeginTime();
+            result.find = true;
+            result.targetSeg = this._advertisements[i];
+            result.index = i;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  _printAdlist(prefix, advertisements, skip) {
+    if (skip &amp;&amp; advertisements.length &lt;= 0) {
+      return;
+    }
+
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, prefix);
+    for (let i = 0; i &lt; advertisements.length; i++) {
+      let dateBegin = null;
+      let dateEnd = null;
+      if (advertisements[i].getTrackBeginTime()) {
+        dateBegin = new Date();
+        dateBegin.setTime(advertisements[i].getTrackBeginTime() * 1000);
+      }
+      if (advertisements[i].getTrackEndTime()) {
+        dateEnd = new Date();
+        dateEnd.setTime(advertisements[i].getTrackEndTime() * 1000);
+      }
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, prefix + &apos;\tadId=&apos; + advertisements[i].id +
+        &apos;, timeBegin=&apos; + advertisements[i].getTrackBeginTime() + &apos;(&apos; + (dateBegin ? dateBegin.toString() : dateBegin) +
+        &apos;), endTime=&apos; + advertisements[i].getTrackEndTime() + &apos;(&apos; + (dateEnd ? dateEnd.toString() : dateEnd) + &apos;)&apos;);
+    }
+  }
+
+  _findAdvertisement(geob, cueStartTime) {
+    let advertise = null;
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+      &apos;trace ad.&apos; + &apos;_findAdvertisement: adId=&apos; + geob.id + &apos;, adType=&apos; + geob.cueType + &apos;, adTime=&apos; + cueStartTime);
+    this._printAdlist(&apos;_findAdvertisement&apos;, this._advertisements, true);
+    let tolerance = (this._timeToleranceMs / 1000).toFixed(2);
+    for (let i = this._advertisements.length - 1; i &gt;= 0; i--) {
+      let advertisement = this._advertisements[i];
+      if (geob.cueType === &apos;PreStart&apos;) {
+        // do nothing
+      } else if (geob.cueType === &apos;PostStop&apos; || geob.cueType === &apos;stop&apos;) {
+        if (advertisement.getTrackEndTime() == null) {
+          continue;
+        }
+        let minPostStopBeginTime = advertisement.getTrackEndTime() - tolerance;
+        if (minPostStopBeginTime &lt;= cueStartTime &amp;&amp; advertisement.hasHitStarted() &amp;&amp; (!advertisement.hasHitCompleted())) {
+          advertise = advertisement;
+          if (geob.id == null) {
+            this.print(AdaptivePlayer.LogLevel.WARNING, &apos;BasicPlayer&apos;,
+             &apos;trace ad.&apos; + &apos;_findAdvertisement: stream stop miss. fake stop message&apos;);
+          } else {
+            this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+             &apos;trace ad.&apos; + &apos;_findAdvertisement: Receive stream stop.&apos;);
+          }
+          break;
+        }
+      } else {
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+          &apos;_findAdvertisement:&apos; + &apos;, playerCurrentTime=&apos; + this.currentTime +
+          &apos;, videoCurrentTime=&apos; + this._video.currentTime);
+        if (advertisement.hitAdTrack(geob.id, cueStartTime, tolerance)) {
+          advertise = advertisement;
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;BasicPlayer&apos;, &apos;_findAdvertisement: tarckId=&apos; + geob.id);
+          this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+            &apos;_findAdvertisement: min=&apos; + advertisement.getTrackBeginTime() +
+            &apos; , max=&apos; + ((advertisement.getTrackEndTime() === null) ? null : (advertisement.getTrackEndTime() + tolerance)) +
+            &apos;, cueStartTime=&apos; + cueStartTime + &apos;, trackId=&apos; + advertisement.id + &apos;, cueId=&apos; + geob.id +
+            &apos;, beginOffset=&apos; + (advertisement.getTrackBeginTime() - cueStartTime) +
+            &apos;, endOffset=&apos; + ((advertisement.getTrackEndTime() === null) ? null : (advertisement.getTrackEndTime() - cueStartTime)) +
+            &apos;, playerCurrentTime=&apos; + this.currentTime + &apos;, cueType=&apos; + geob.cueType);
+          break;
+        }
+      }
+    }
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+      &apos;trace ad.&apos; + &apos;_findAdvertisement: leave _findAdvertisement. tarckId=&apos; + (advertise ? advertise.id : null));
+    return advertise;
+  }
+
+  _cuechange(cueChangeEvent) {
+    let gotCues = cueChangeEvent.currentTarget;
+
+    // fires as we progress through cues; nb the flash player shim double-fires this a frame apart
+    let _theCue = null;
+    // safari is helpful and populates &apos;activeCues&apos;
+    if (gotCues.activeCues.length) {
+      _theCue = gotCues.activeCues[0];
+    } else {
+      // otherwise, we try detect the active cue, working backwards because in the LIVE scenario cues are being appended
+      // disabled, because we just use basicplayer on safari only, or may trigger twice for a cue
+      /*
+      for(let i=gotCues.cues.length; i--; i&gt;0) {
+          if(gotCues.cues[i].startTime&lt;=this._video.currentTime){
+              _theCue = gotCues.cues[i];
+              break;
+          }
+      }
+      */
+    }
+
+    if (_theCue != null) {
+      // this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;Got ID3: &apos; + &apos;[&apos; + JSON.stringify(_theCue) + &apos;]&apos;);
+      let id3 = null;
+      let validAd = false;
+      let geob = null;
+      if (AdaptivePlayer.browserType === &apos;Edge&apos;) {
+        // edge
+        let bufferArray = new Uint8Array(_theCue.data);
+        id3 = new ID3(bufferArray);
+        if (id3._dict &amp;&amp; id3._dict[&apos;key&apos;] &amp;&amp; id3._dict[&apos;key&apos;] === &apos;GEOB&apos; &amp;&amp; this._isValidAdMetadata(id3._dict)) {
+          this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;currentTime=&apos; + this._video.currentTime +
+            &apos;startTime=&apos; + _theCue.startTime + &apos; endTime=&apos; + _theCue.endTime +
+            &apos;cueType=&apos; + id3._dict.cueType + &apos; id=&apos; + id3._dict.id);
+          validAd = true;
+          geob = id3._dict;
+        }
+      } else {
+        // safari
+        id3 = _theCue.value[&apos;data&apos;][&apos;ad-list&apos;] ? _theCue.value[&apos;data&apos;][&apos;ad-list&apos;][0] : _theCue.value;
+        if (this._isValidAdMetadata(id3)) {
+          validAd = true;
+          geob = id3;
+        }
+      }
+      let cueStartTime = TimeRangeUtil.relTimeToAbsTime(_theCue.startTime ? _theCue.startTime : 0, this._timeline.timeRanges, this._timeline.absStart);
+      if (cueStartTime) {
+        _theCue.startTime = cueStartTime;
+        _theCue.endTime = cueStartTime;
+        _theCue.startTime = _theCue.endTime = cueStartTime;
+        this._cuepointManager.onNativeID3(_theCue);
+
+        // If has multi-programdata, is still right?
+        if (validAd &amp;&amp; geob) {
+          this._addAdvertiseCues(cueStartTime, geob);
+        }
+      }
+    }
+  }
+
+  /**
+   * geob: {
+   *     cueType: string,
+   *     duration: number,
+   *     id: string,
+   *     timeLeft: number
+   *   }
+   */
+  _addAdvertiseCues(cueStartTime, geob) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;trace ad.&apos; + &apos;_addAdvertiseCues: geobId=&apos; + geob.id +
+      &apos;, cueType=&apos; + geob.cueType + &apos;, duration=&apos; + geob.duration + &apos;, timeLeft=&apos; + geob.timeLeft +
+      &apos;, cueStartTime=&apos; + cueStartTime);
+
+    let track = this._findAdvertisement(geob, cueStartTime);
+    this.forceEndLastAd(geob, cueStartTime, track);
+    if (track) {
+      let adEvents = this._addCueForTrigger(track, cueStartTime, geob);
+      this._printAdEvent(adEvents);
+      do {
+        if (adEvents.end !== &apos;multitude&apos;) {
+          break;
+        }
+        adEvents = this._addCueForTrigger(track, cueStartTime, geob);
+        this._printAdEvent(adEvents);
+      } while (true);
+      this._lastAdvertise = track;
+      if (geob.cueType === &apos;keep&apos;) {
+        this._createAdTimer();
+      }
+    }
+  }
+
+  forceEndLastAd(geob, cueStartTime, track) {
+    if (this._lastAdvertise) {
+      if ((track == null) || (track &amp;&amp; this._lastAdvertise.id !== track.id) || (geob.cueType === &apos;stop&apos; &amp;&amp; geob.id == null)) {
+        let adEvents = this._lastAdvertise.forceEndAdvertisement(cueStartTime);
+        if (adEvents.stage === 1) {
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;trace ad.&apos; + &apos;BasicPlayer&apos;,
+            &apos;forceEndLastAd: fake stop msg. id=&apos; + this._lastAdvertise.id);
+          this._uploadAdStop(this._lastAdvertise.id);
+          if (adEvents.eventAd.length &gt; 0) {
+            this._postAdvertisement(geob, adEvents);
+          }
+          this._addAdStatistics(this._lastAdvertise.id, adEvents);
+          this._lastAdvertise = null;
+        }
+      }
+    }
+  }
+
+  _printAdEvent(adEvent) {
+    if (adEvent) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+                  &apos;clearAd=&apos; + adEvent.clearAd +
+                  &apos; stage=&apos; + adEvent.stage +
+                  &apos; end=&apos; + adEvent.end +
+                  &apos; defaultClickAd.length=&apos; + adEvent.defaultClickAd.length +
+                  &apos; trackClickAd.length=&apos; + adEvent.trackClickAd.length +
+                  &apos; clickAd.length=&apos; + adEvent.clickAd.length +
+                  &apos; eventAd.length=&apos; + adEvent.eventAd.length);
+      for (let i = adEvent.eventAd.length - 1; i &gt;= 0; i--) {
+         this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;type=&apos; + adEvent.eventAd[i].type +
+            &apos; urls.length&apos; + adEvent.eventAd[i].urls.length);
+      }
+    }
+  }
+
+  /* adList
+   *    {
+   *       clearAd: false,             // clear click ad
+   *       eventAd: [{type: string,
+   *                  urls: []}],      // start/keep/stop
+   *       defaultClickAd: [],         // ad send when clicked
+   *       trackClickAd: [],           // ad pop when clicked
+   *       clickAd: [],
+   *       stage:   number,
+   *       end: string                 // &apos;multitude&apos;/&apos;single&apos;/&apos;unknown&apos;
+   *    }
+   */
+  _addCueForTrigger(track, cueStartTime, geob) {
+    let adList = track.getNotices(track.id, cueStartTime, geob, (this._timeToleranceMs / 1000).toFixed(2));
+    if (adList.stage !== -1) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+          &apos;trace ad.&apos; + &apos;_cuechange: stage=&apos; + adList.stage +
+          &apos;, notice length=&apos; + adList.eventAd.length);
+
+      if (adList.stage === 0) {
+        this._uploadAdStart(track.id, adList);
+      }
+      if (adList.stage === 1) {
+        this._uploadAdStop(track.id);
+      }
+
+      if (adList.eventAd.length &gt; 0) {
+        this._postAdvertisement(geob, adList);
+      }
+      this._addAdStatistics(track.id, adList);
+    }
+
+    return adList;
+  }
+
+  _addAdStatistics(id, adList) {
+    if (adList.stage !== -1 &amp;&amp; id) {
+      if (this._adStatistics[id] == null) {
+        this._adStatistics[id] = {
+          id: id,
+          startPostNum: 0,
+          firstQuartiledPostNum: 0,
+          midPostNum: 0,
+          thirdQuartiledPostNum: 0,
+          endPostNum: 0,
+          postedEndPostNum: 0,
+
+          startTriggerNum: 0,
+          firstQuartiledTriggerNum: 0,
+          midTriggerNum: 0,
+          thirdQuartiledTriggerNum: 0,
+          endTriggerNum: 0,
+          postedEndTriggerNum: 0
+        };
+      }
+      Object.keys(adList.eventAd).forEach(function(key) {
+        this._addNumber(this._adStatistics[id], adList.stage, adList.eventAd[key].urls.length);
+      }.bind(this));
+    }
+  }
+
+  _printAdStatistics() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+      &apos;_printAdStatistics: adLength=&apos; + Object.keys(this._adStatistics).length);
+    Object.keys(this._adStatistics).forEach(function (key) {
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+        &apos;adId=&apos;, this._adStatistics[key].id);
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+        &apos;Post startPostNum=&apos; + this._adStatistics[key].startPostNum +
+        &apos; firstQuartiled=&apos; + this._adStatistics[key].firstQuartiledPostNum +
+        &apos; midPostNum=&apos; + this._adStatistics[key].midPostNum +
+        &apos; thirdQuartiledPostNum=&apos; + this._adStatistics[key].thirdQuartiledPostNum +
+        &apos; endPostNum=&apos; + this._adStatistics[key].endPostNum +
+        &apos; postedEndPostNum=&apos; + this._adStatistics[key].postedEndPostNum);
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;,
+        &apos;Trigger startPostNum=&apos; + this._adStatistics[key].startTriggerNum +
+        &apos; firstQuartiled=&apos; + this._adStatistics[key].firstQuartiledTriggerNum +
+        &apos; midTriggerNum=&apos; + this._adStatistics[key].midTriggerNum +
+        &apos; thirdQuartiledTriggerNum=&apos; + this._adStatistics[key].thirdQuartiledTriggerNum +
+        &apos; endTriggerNum=&apos; + this._adStatistics[key].endTriggerNum +
+        &apos; postedEndTriggerNum=&apos; + this._adStatistics[key].postedEndTriggerNum);
+    }.bind(this));
+  }
+
+  _addNumber(adStatistic, stage, number) {
+    if (stage === 0) {
+      adStatistic.startPostNum += number;
+      adStatistic.startTriggerNum += 1;
+    }
+    if (stage === 0.25) {
+      adStatistic.firstQuartiledPostNum += number;
+      adStatistic.firstQuartiledTriggerNum += 1;
+    }
+    if (stage === 0.5) {
+      adStatistic.midPostNum += number;
+      adStatistic.midTriggerNum += 1;
+    }
+    if (stage === 0.75) {
+      adStatistic.thirdQuartiledPostNum += number;
+      adStatistic.thirdQuartiledTriggerNum += 1;
+    }
+    if (stage === 1) {
+      adStatistic.endPostNum += number;
+      adStatistic.endTriggerNum += 1;
+    }
+  }
+
+  _uploadAdStart(id, adList) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;trace ad.&apos; + &apos;_uploadAdStart: adId=&apos; + id);
+    let ads = {
+      adid: id,
+      urls: []
+    };
+
+    adList.defaultClickAd.forEach(function (item) {
+      ads.urls.push({ type: &apos;defaultClick&apos;, url: item });
+    });
+
+    adList.trackClickAd.forEach(function (item) {
+      ads.urls.push({ type: &apos;trackClick&apos;, url: item });
+    });
+
+    adList.clickAd.forEach(function (item) {
+      ads.urls.push({ type: &apos;click&apos;, url: item });
+    });
+
+    let adStartEvent = {
+      type: &apos;ADSTART&apos;,
+      data: ads
+    };
+    this._eventHandler._onAdvertisement(adStartEvent);
+  }
+
+  _uploadAdStop(id) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;BasicPlayer&apos;, &apos;trace ad.&apos; + &apos;_uploadAdStop: adId=&apos; + id);
+    let adStopEvent = {
+      type: &apos;ADEND&apos;,
+      data: { adid: id }
+    };
+    this._eventHandler._onAdvertisement(adStopEvent);
+    this._clearAdTimer();
+  }
+
+  _createAdTimer() {
+    this._clearAdTimer();
+    this._adTimer = window.setTimeout(this._uploadAdStopCb.bind(this), 1500);
+  }
+
+  _uploadAdStopCb() {
+    if (this._lastAdvertise) {
+      this.print(AdaptivePlayer.LogLevel.WARNING, &apos;BasicPlayer&apos;, &apos;trace ad.&apos; + &apos;ad timeout fake stop: adId=&apos; + this._lastAdvertise.id);
+      this._uploadAdStop(this._lastAdvertise.id);
+    }
+  }
+
+  _clearAdTimer() {
+    if (this._adTimer) {
+      window.clearTimeout(this._adTimer);
+      this._adTimer = null;
+    }
+  }
+
+  _postAdvertisement(geob, adList) {
+    let adPostEvent = {
+      type: &apos;ADPOST&apos;,
+      data: { adid: geob.id, urls: [] }
+    };
+    for (let j = 0; j &lt; adList.eventAd.length; j++) {
+      adList.eventAd[j].urls.forEach(function (item) {
+        adPostEvent.data.urls.push({
+          type: adList.eventAd[j].type,
+          url: item
+        });
+      });
+      this._eventHandler._onAdvertisement(adPostEvent);
+    }
+  }
+
+  _isValidAdMetadata(info) {
+    let isAd = false;
+    if (info[&apos;cueType&apos;]) {
+      if (info[&apos;id&apos;]) {
+        // id only in vod file, and add by converter.
+        if ((info[&apos;cueType&apos;] === &apos;start&apos; || info[&apos;cueType&apos;] === &apos;stop&apos; || info[&apos;cueType&apos;] === &apos;keep&apos;)) {
+          if (typeof (info[&apos;duration&apos;]) !== &apos;undefined&apos; &amp;&amp; typeof (info[&apos;timeLeft&apos;]) !== &apos;undefined&apos;) {
+            isAd = true;
+          }
+        }        
+      }
+      if (info[&apos;cueType&apos;] === &apos;PreStart&apos; || info[&apos;cueType&apos;] === &apos;PostStop&apos; || info[&apos;cueType&apos;] === &apos;stop&apos;) {
+        // After as4.3, no longer have &apos;poststop&apos; .
+        // And with as3, don&apos;t check id because no id.
+        isAd = true;
+      }
+    }
+    return isAd;
+  }
+}
+
+BasicPlayer.version = &apos;v2.0.0&apos;;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

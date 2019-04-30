@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Player/WebRTCPlayer.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Player/WebRTCPlayer.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { AdaptivePlayer } from &apos;../AdaptivePlayer&apos;;
+import { PlayerBase } from &apos;./PlayerBase&apos;
+import { EventManager } from &apos;../Manager/EventManager&apos;;
+import { Settings } from &apos;../config&apos;;
+import { NLTrack } from &apos;../Media/NLTrack&apos;;
+import { FakeEvent } from &apos;../Utils/FakeEvent&apos;;
+import { NLError } from &apos;../Media/NLError&apos;;
+
+export default class WebRTCPlayer extends PlayerBase {
+  constructor(video, parent) {
+    super(video, parent);
+
+    this._tracks = [];
+    this._bitrate = 0;
+
+    this._config = {};
+
+    this.type = AdaptivePlayer.PlayerType.WEBRTC;
+    this.streamType = AdaptivePlayer.StreamType.WEBRTC;
+
+    this._wsCodeNormalClosed = Settings.WEBRTCPLAYER.WS_NORMAL_CLOSE;
+
+    // register events from Shaka
+    // manage events of video element
+    this._eventManager = new EventManager();
+  }
+
+  configure(config) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;configure called!&apos;);
+    this._config = {
+      iceServers: Settings.WEBRTCPLAYER.DEFAULT_ICE_SERVERS,
+      abr: { enabled: true }
+    };
+    if (config.iceServers) {
+      this._config.iceServers = config.iceServers;
+    }
+    this._config.abr = config.abr;
+  }
+
+  load(url, startTime) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;load called!&apos;);
+    this._url = url;
+    if (this._websocket) {
+      this._websocket.close(this._wsCodeNormalClosed);
+    } else {
+      this._websocket = new WebSocket(this._url);
+      this._eventManager.listen(this._websocket, &apos;open&apos;, this._onWSOpened.bind(this));
+      this._eventManager.listen(this._websocket, &apos;message&apos;, this._onWSMessage.bind(this));
+      this._eventManager.listen(this._websocket, &apos;close&apos;, this._onWSClose.bind(this));
+      this._eventManager.listen(this._websocket, &apos;error&apos;, this._onWSError.bind(this));
+    }
+  }
+
+  isLive() {
+    return (this._video.duration === Infinity);
+  }
+
+  unload() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;unload called!&apos;);
+    if (this._eventManager) {
+      this._eventManager.removeAll();
+    }
+    if (this._peer_connection) {
+      this._peer_connection.close();
+    }
+    if (this._video.captureStream) {
+      this._video.captureStream().getTracks().forEach(function (track) { track.stop(); });
+    }
+
+    this._video.srcObject = null;
+    this._url = &apos;&apos;;
+    this._current_bw = 0;
+    this._bitrate = 0;
+    this._tracks = [];
+
+    return Promise.resolve();
+  }
+
+  destroy() {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;destroy called!&apos;);
+
+    this.unload();
+
+    if (this._eventManager) {
+      this._eventManager.destroy();
+    }
+    return Promise.resolve();
+  }
+
+  getStats() {
+    return {
+      bytesLoaded: NaN,
+      bandwidth: this._current_bw / 1000,
+      bitrate: this._bitrate / 1000,
+      switchInfo: NaN,
+      switchHistory: NaN,
+      isAutoSwitch: !!this._config.abr.enabled,
+      livePointOffest: -1
+    };
+  }
+
+  videoTracks() {
+    return this._tracks;
+  }
+
+  selectTrack(track) {
+    if (track) {
+      let node = {};
+      node.type = &apos;user_bitrate&apos;;
+      node.payload = {};
+      node.payload.bitrate = parseInt(track.bandwidth / 1000);
+      let jsonString = JSON.stringify(node);
+
+      this._websocket.send(jsonString);
+
+      this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;auto quality switch status changed to manual&apos;);
+
+      this._bitrate = parseInt(track.base);
+
+      this._config.abr.enabled = false;
+    }
+  }
+
+  setAdaptation(value) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;auto quality switch status changed to auto&apos;);
+    this._config.abr.enabled = value;
+    if (value) {
+      let node = {};
+      node.type = &apos;user_bitrate&apos;;
+      node.payload = {};
+      node.payload.bitrate = parseInt(0);
+      let jsonString = JSON.stringify(node);
+
+      this._websocket.send(jsonString);
+    }
+  }
+
+  notifyProfileChanged(data) {
+    // notify profile change
+    for (let i = 0; i &lt; this._tracks.length; i++) {
+      this._tracks[i].active = false;
+      if (this._tracks[i].bandwidth === this._bitrate) {
+        this._tracks[i].active = true;
+        let newData = {
+          id: i,
+          videoWidth: data.videoWidth,
+          videoHeight: data.videoHeight
+        };
+        this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.ProfileChange, {
+          details: newData
+        }));
+        this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;Fired ProfileChange: &apos; + JSON.stringify(newData));
+      }
+    }
+  }
+
+  _onWSOpened(event) {
+    this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;ws opened&apos;);
+
+    this._peer_connection = new RTCPeerConnection(this._config);
+    this._peer_connection.ontrack = function (event) { // Never called in chrome 61
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;track added&apos;);
+    }.bind(this);
+
+    this._peer_connection.onaddstream = function (event) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;stream added&apos;);
+      this._video.srcObject = event.stream;
+    }.bind(this);
+  }
+
+  _onWSMessage(msg) {
+    this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;message : &apos; + msg.data);
+
+    let data = JSON.parse(msg.data);
+
+    switch (data.type) {
+      case &apos;offer&apos;: 
+        this._peer_connection.setRemoteDescription({ type: &apos;offer&apos;, sdp: data.payload });
+
+        this._peer_connection.onicecandidate = function (event) {
+          if (event.candidate) {
+            this._websocket.send(JSON.stringify({ type: &apos;ice&apos;, payload: event.candidate }));
+          }
+        }.bind(this);
+
+        this._peer_connection.createAnswer().then(function (answer) {
+          this._peer_connection.setLocalDescription(answer);
+
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;answer : &apos; + JSON.stringify(answer));
+
+          this._websocket.send(JSON.stringify({ type: &apos;answer&apos;, payload: answer }));
+        }.bind(this));
+        break;
+
+      case &apos;ice&apos;: 
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;ice candidate : &apos; + JSON.stringify(data.payload));
+        this._peer_connection.addIceCandidate(new RTCIceCandidate(data.payload)).catch(function (e) {
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;add ice failed &apos; + e);
+          this._onError(e);
+        });
+        break;
+
+      case &apos;available_qualities&apos;: {
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;available qualities: &apos; + JSON.stringify(data.bitrates));
+
+        let bitrates = data.bitrates;
+        this._tracks = [];
+        for (let i = 0; i &lt; bitrates.length; i++) {
+          this._tracks.push(new NLTrack(&apos;VIDEO&apos;, bitrates[i].bitrate * 1000, AdaptivePlayer.PlayerType.WEBRTC, i, this));
+          this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;available qualities : &apos; + JSON.stringify(bitrates[i].bitrate + &apos; Kbit&apos;));
+        }
+
+        this._websocket.send(JSON.stringify({ type: &apos;hello&apos; }));
+
+        this._bitrate = bitrates[0].bitrate * 1000;
+      }
+        break;
+
+      case &apos;current_net_bw&apos;: 
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;Current Network Bandwidth: &apos; + data.bitrate + &apos;Kbit&apos;);
+        this._current_bw = data.bitrate * 1000;
+        break;
+
+      case &apos;current_quality&apos;: 
+        this.print(AdaptivePlayer.LogLevel.TRACE, &apos;WebRTCPlayer&apos;, &apos;current quality: &apos; + JSON.stringify(data.bitrate));
+        this._bitrate = data.bitrate * 1000;
+        break;
+    }
+  }
+
+  _onWSClose(evt) {
+    if (evt.code === WebRTCPlayer.WS_NORMAL_CLOSE) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;ws closed&apos;);
+    } else {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;ws connection error&apos;);
+      this._onError(evt);
+    }
+    this._websocket = null;
+  }
+
+  _onWSError(evt) {
+    if (this._websocket.readyState === 1) {
+      this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;WebRTCPlayer&apos;, &apos;ws normal error: &apos; + evt.type);
+    }
+  }
+
+  _onError(e) {
+    let level = NLError.SeverityLevel.Fatal;
+    let errorCode = NLError.Code.Get_Primary_Manifest_Failed + NLError.NetworkDetailCode.Connect_Failed;
+    let url = this._url;
+    let message = &apos;WebRTC closeEvent &apos;;
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
+    // TODO: Need more test to set correct errorCode
+    if (e.code === 1000) { // Normal Closure
+      // ;
+    } else if (e.code === 1001) { //	Going Away 
+      message += &apos;Going Away&apos;;
+    } else if (e.code === 1002) { // Protocol Error
+      message += &apos;Protocol Error&apos;;
+    } else if (e.code === 1003) { //	Unsupported Data 
+      message += &apos;Protocol Error&apos;;
+    } else if (e.code === 1004) { // 
+      message += &apos;Protocol Error&apos;;
+    } else if (e.code === 1005) { //	No Status Recvd 
+      message += &apos;No Status Recvd&apos;;
+    } else if (e.code === 1006) { // Abnormal Closure
+      message += &apos;Abnormal Closure&apos;;
+    } else if (e.code === 1007) { //	Invalid frame payload data 
+      message += &apos;Invalid frame payload data&apos;;
+    } else if (e.code === 1008) { //	Policy Violation
+      message += &apos;Policy Violation&apos;;
+    } else if (e.code === 1009) { // Message too big
+      message += &apos;Message too big&apos;;
+    } else if (e.code === 1010) { //	Missing Extension
+      message += &apos;Missing Extension&apos;;
+    } else if (e.code === 1011) { // Internal Error
+      message += &apos;Internal Error&apos;;
+    } else if (e.code === 1012) { //	Service Restart 
+      message += &apos;Service Restart &apos;;
+    } else if (e.code === 1013) { //	Try Again Later
+      message += &apos;Try Again Later&apos;;
+    } else if (e.code === 1014) { // Bad Gateway
+      message += &apos;Bad Gateway&apos;;
+    } else if (e.code === 1015) { //	TLS Handshake
+      message += &apos;TLS Handshake&apos;;
+    } else { //	Not defined yet 
+      return;
+    }
+
+    let errorInfo = NLError.create(errorCode, level, url, message, e.code);
+    this._statisticManager.reportError(errorInfo);
+    this.print(AdaptivePlayer.LogLevel.ERROR, &apos;WebRTCPlayer&apos;, &apos;Fired streaming error: &apos; + message);
+  }
+}
+
+WebRTCPlayer.version = &apos;v0.0.1&apos;;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

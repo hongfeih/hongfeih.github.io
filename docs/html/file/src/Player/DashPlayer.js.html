@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Player/DashPlayer.js | eshtml5player</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="HTML5 Adaptive Player"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eshtml5player"><meta property="twitter:description" content="HTML5 Adaptive Player"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/AdaptivePlayer.js~AdaptivePlayer.html">AdaptivePlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Settings">Settings</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Cuepoint">Cuepoint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Statistics">Statistics</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailImage">ThumbnailImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ThumbnailStream">ThumbnailStream</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#manager">Manager</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/CuepointManager.js~CuepointManager.html">CuepointManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/DebugPanel.js~DebugPanel.html">DebugPanel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/EventManager.js~EventManager.html">EventManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/MultiviewsManager.js~MultiviewsManager.html">MultiviewsManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StateManager.js~StateManager.html">StateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Manager/StatisticManager.js~StatisticManager.html">StatisticManager</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media">Media</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/CCExtractor.js~CCExtractor.html">CCExtractor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/HlsPlaylistParser.js~HlsPlaylistParser.html">HlsPlaylistParser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/ID3.js~ID3.html">ID3</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/NLError.js~NLError.html">NLError</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-MakeCues">MakeCues</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-NLTrack">NLTrack</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#media-fairplay">Media/FairPlay</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/FairPlayDRM.js~FairPlayDRM.html">FairPlayDRM</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/KeySessionManager.js~KeySessionManager.html">KeySessionManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Media/FairPlay/ServerCertificateManager.js~ServerCertificateManager.html">ServerCertificateManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-concatInitDataIdAndCertificate">concatInitDataIdAndCertificate</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extractContentId">extractContentId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-parseLicense">parseLicense</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#player">Player</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/BasicPlayer.js~BasicPlayer.html">BasicPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/DashPlayer.js~DashPlayer.html">DashPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/HlsPlayer.js~HlsPlayer.html">HlsPlayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/PlayerBase.js~PlayerBase.html">PlayerBase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Player/WebRTCPlayer.js~WebRTCPlayer.html">WebRTCPlayer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#utils">Utils</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEvent.js~FakeEvent.html">FakeEvent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/FakeEventTarget.js~FakeEventTarget.html">FakeEventTarget</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Log.js~LogUtil.html">LogUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Utils/MultiMap.js~MultiMap.html">MultiMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-find">find</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getKeyByValue">getKeyByValue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isEmpty">isEmpty</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeObject">mergeObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-generateUUID">generateUUID</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDeviceId">getDeviceId</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probePlatformSupport">probePlatformSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-probeWebRTCSupport">probeWebRTCSupport</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-arrayToString">arrayToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64DecodeUint8Array">base64DecodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-base64EncodeUint8Array">base64EncodeUint8Array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-endsWith">endsWith</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatBytes">formatBytes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-formatSeconds">formatSeconds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-hexStringToArray">hexStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToArray">stringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-toDateString">toDateString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-utf8ArrayToStr">utf8ArrayToStr</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-absTimeToRelTime">absTimeToRelTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getAbsSafeTime">getAbsSafeTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeProgrameTime">mergeProgrameTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-relTimeToAbsTime">relTimeToAbsTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-vacancyTime">vacancyTime</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-detectPlayerType">detectPlayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getExtension">getExtension</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getPath">getPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-isAbsoluteUrl">isAbsoluteUrl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-validateURL">validateURL</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-canPlayNative">canPlayNative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-extensionToCanPlayType">extensionToCanPlayType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getHashNameOfTrack">getHashNameOfTrack</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHR">createXHR</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createXHREx">createXHREx</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithIframe">sendWithIframe</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-sendWithScript">sendWithScript</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Player/DashPlayer.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import * as ShakaPlayer from &apos;../../3rd/shaka-player/dist/shaka-player.compiled&apos;
+import { AdaptivePlayer } from &apos;../AdaptivePlayer&apos;
+import { PlayerBase } from &apos;./PlayerBase&apos;
+import * as ObjectUtil from &apos;../Utils/Object&apos;
+import * as StringUtil from &apos;../Utils/String&apos;
+import { FakeEvent } from &apos;../Utils/FakeEvent&apos;;
+import { EventManager } from &apos;../Manager/EventManager&apos;;
+import { NLError } from &apos;../Media/NLError&apos;;
+import { NLTrack } from &apos;../Media/NLTrack&apos;;
+import * as UrlUtil from &apos;../Utils/Url&apos;
+import * as VideoUtil from &apos;../Utils/Video&apos;;
+import { Settings } from &apos;../config&apos;
+import * as CuesUtil from &apos;../Media/Cues&apos;
+import { CCExtractor } from &apos;../Media/CCExtractor&apos;
+import * as PlatformUtil from &apos;../Utils/Platform&apos;;
+
+let ShakaInner = typeof shaka === &apos;undefined&apos; ? ShakaPlayer : shaka;
+export default class DashPlayer extends PlayerBase {
+	constructor(video, parent) {
+		super(video, parent);
+
+		// Promise (for IE11) and other polyfills...
+		ShakaInner.polyfill.installAll();
+
+		this._url = &apos;&apos;;
+
+		this._player = null;
+		this._playerConfig = {};
+		this._config = {};
+		this._ccTrack = null;
+		this._ccExtractor = null;
+
+		this._sentSeekRangeForCVODOnce = false;
+
+		this.type = AdaptivePlayer.PlayerType.SHAKA;
+		this.streamType = AdaptivePlayer.StreamType.DASH;
+
+		this.print(AdaptivePlayer.LogLevel.INFO, &apos;DashPlayer&apos;, &apos;Instance created!&apos;);
+	}
+
+	destroy() {
+		return this.unload().then(function () {
+			this.print(AdaptivePlayer.LogLevel.INFO, &apos;DashPlayer&apos;, &apos;Instance destroyed!&apos;);
+		}.bind(this));
+	}
+
+	configure(config) {
+		this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;configure called!&apos;);
+
+		// the proper value set by experience.
+		let retryParameters = {
+			timeout: 10000, // timeout in ms, after which we abort a request; 0 means never; default value;
+			maxAttempts: 3, // the maximum number of requests before we fail; three times covers CDN 3s 404 cache.
+			baseDelay: 1000, // the base delay in ms between retries; default value.
+			backoffFactor: 1.5, // the multiplicative backoff factor between retries; 1000, 1000*1.3, 1000*1.3*1.3
+			fuzzFactor: 0.5 // the fuzz factor to apply to each retry delay; default value;
+		};
+		this._playerConfig = ({
+			abr: {},
+			manifest: {
+				retryParameters: retryParameters,
+				dash: {}
+			},
+			streaming: {},
+			closedCaption: {
+				label: &apos;English&apos;,
+				language: &apos;en&apos;
+			},
+			debugConfig: {}
+		});
+		if (config) {
+			if (!!config.debug &amp;&amp; ShakaInner.log) {
+				ShakaInner.log.setLevel(ShakaInner.log.Level.DEBUG);
+			}
+			if (config.drm) {
+				this._playerConfig.drm = this._convertDRMConfig(config.drm);
+			}
+			if (config.abr) {
+				if (!isNaN(config.abr.enabled)) {
+					this._playerConfig.abr.enabled = config.abr.enabled;
+				}
+				if (config.abr.startBandwidth) {
+					this._playerConfig.abr.defaultBandwidthEstimate = config.abr.startBandwidth;
+				}
+				if (config.abr.startBitrate) {
+					this._playerConfig.abr.startBitrate = config.abr.startBitrate;
+				}
+				// For NDP-2545 Player - Bitrates not going higher when auto is selected.
+				// can be set in app 
+				if (config.abr.bandwidthUpgradeTarget) {
+					this._playerConfig.abr.bandwidthUpgradeTarget = config.abr.bandwidthUpgradeTarget;
+				}
+				if (config.abr.bandwidthDowngradeTarget) {
+					this._playerConfig.abr.bandwidthDowngradeTarget = config.abr.bandwidthDowngradeTarget;
+				}
+			}
+			if (config.streaming) {
+				this._playerConfig.streaming = config.streaming;
+				if (config.streaming.bufferingGoal == null) {
+					this._playerConfig.streaming.bufferingGoal = 5; // default 5s
+				}
+				if (config.streaming.bufferBehind == null) {
+					this._playerConfig.streaming.bufferBehind = 5; // default 5s
+				}
+				this._playerConfig.streaming.retryParameters = retryParameters;
+				if (config.streaming.neulionGapDealing == null) {
+					this._playerConfig.streaming.neulionGapDealing = false;
+				}
+				if (!isNaN(config.streaming.safeEdgeEndSize)) {
+					this._playerConfig.streaming.safeEdgeEndSize = config.streaming.safeEdgeEndSize;
+				}
+				if (!isNaN(config.streaming.safeEdgeBeginSize)) {
+					this._playerConfig.streaming.safeEdgeBeginSize = config.streaming.safeEdgeBeginSize;
+				}
+			}
+			if (config.preferredAudioLanguage) {
+				this._playerConfig.preferredAudioLanguage = config.preferredAudioLanguage;
+			}
+			if (config.preferredTextLanguage) {
+				this._playerConfig.preferredTextLanguage = config.preferredTextLanguage;
+			}
+			if (config.closedCaption) {
+				this._playerConfig.closedCaption = config.closedCaption;
+			}
+			if (config.debugConfig) {
+				if (config.debugConfig.gapTolerance) {
+					this._playerConfig.debugConfig.gapTolerance = config.debugConfig.gapTolerance;
+					if (isNaN(config.debugConfig.gapTolerance.firefox)) {
+						this._playerConfig.debugConfig.gapTolerance.firefox = 0.02;
+					}
+					if (isNaN(config.debugConfig.gapTolerance.ie)) {
+						this._playerConfig.debugConfig.gapTolerance.ie = 0.02;
+					}
+					if (isNaN(config.debugConfig.gapTolerance.edge)) {
+						this._playerConfig.debugConfig.gapTolerance.edge = 0.02;
+					}
+					if (isNaN(config.debugConfig.gapTolerance.chrome)) {
+						this._playerConfig.debugConfig.gapTolerance.chrome = 0.03;
+					}
+					if (isNaN(config.debugConfig.gapTolerance.safari)) {
+						this._playerConfig.debugConfig.gapTolerance.safari = 0.02;
+					}
+					if (isNaN(config.debugConfig.gapTolerance.others)) {
+						this._playerConfig.debugConfig.gapTolerance.others = 0.02;
+					}
+				}
+			}
+		}
+
+		this._config = config;
+	}
+
+	load(url, startTime) {
+		this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;load called!&apos;);
+
+		this._emptyAdvertisementList = [];
+
+		this._player = new ShakaInner.Player(this._video);
+
+		this._sentSeekRangeForCVODOnce = false;
+		this._ccExtractor = new CCExtractor(this._onClosedCaption.bind(this));
+
+		// register events from Shaka
+		// manage events of video element
+		this._eventManager = new EventManager();
+		this._eventManager.listen(this._player, &apos;error&apos;/* ShakaInner.Player.ErrorEvent */, this._onShakaError.bind(this));
+		this._eventManager.listen(this._player, &apos;buffering&apos;/* ShakaInner.Player.BufferingEvent */, this._onShakaBufferingEvent.bind(this));
+		this._eventManager.listen(this._player, &apos;trackschanged&apos;/* ShakaInner.Player.TracksChangedEvent */, this._onShakaTracksChanged.bind(this));
+		this._eventManager.listen(this._player, &apos;periodschanged&apos;/* ShakaInner.Player.TracksChangedEvent */, this._onShakaPeriodsChanged.bind(this));
+		this._eventManager.listen(this._player, &apos;closedcaption&apos;/* ShakaInner.Player.TracksChangedEvent */, this._onClosedCaption.bind(this));
+		this._eventManager.listen(this._player, &apos;emsg&apos;/* ShakaInner.Player.EmsgEvent */, this._onEMSG.bind(this));
+		this._eventManager.listen(this._player, &apos;advertisement&apos;/* ShakaInner.Player.AdEvent|AdEventPost */, this._onAdvertisement.bind(this));
+		this._eventManager.listen(this._player, &apos;emptyAdPost&apos;/* ShakaInner.Player.EmptyAdEventPost */, this._onEmptyAdvertisement.bind(this));
+		this._eventManager.listen(this._player, &apos;adRangeUpdate&apos;/* ShakaInner.Player.AdRangesUpdate */, this._onAdRangesUpdate.bind(this));
+		this._eventManager.listen(this._player, &apos;adaptation&apos;/* ShakaInner.Player.AdaptationEven */, this._onAdaptation.bind(this));
+
+		// register events
+		[&apos;loading&apos;, // ShakaInner.Player.LoadingEvent
+			&apos;unloading&apos; // ShakaInner.Player.UnloadingEvent
+			// &apos;texttrackvisibility&apos; // ShakaInner.Player.TextTrackVisibilityEvent
+			// &apos;trackschanged&apos;, // ShakaInner.Player.TracksChangedEvent
+			// &apos;adaptation&apos;, // ShakaInner.Player.AdaptationEvent
+		].forEach(function (event) {
+			this._eventManager.listen(this._player, event, this._onShakaEvent.bind(this));
+		}.bind(this))
+
+		// for closed caption
+		this._eventManager.listen(this._video, &apos;loadeddata&apos;, function () {
+			if (this._eventManager == null) {
+				return;
+			}
+			this._eventManager.listen(this._video, &apos;seeking&apos;, function () {
+				// reset cc extractor
+				this._ccExtractor.resetData();
+				this._clearCConReset();
+			}.bind(this));
+			this._eventManager.listen(this._video, &apos;seeked&apos;, function () {
+				// reenable subtitle track
+				this._reEnableSubtitleTrack();
+			}.bind(this));
+		}.bind(this));
+
+		try {
+			if (AdaptivePlayer.browserType === &apos;IE&apos; ||
+				AdaptivePlayer.browserType === &apos;Edge&apos;) {
+				ShakaInner.dash.DashParser.setCustomConfig({
+					&apos;isPlayReady&apos;: true
+				});
+			}
+		} catch (e) {
+			this.print(AdaptivePlayer.LogLevel.ERROR, &apos;DashPlayer&apos;, &apos;register NeuLion Plugin error!&apos;);
+			return Promise.reject(new Error(&apos;register NeuLion Plugin error!&apos;));
+		}
+
+		// register filter for crediencials setup and license request
+		this._player.getNetworkingEngine().registerRequestFilter(this._onLicenseHttpRequest.bind(this));
+
+		let registerResponseFilter = true;
+		if (this._config &amp;&amp; typeof this._config.dashCC === &apos;boolean&apos; &amp;&amp; !this._config.dashCC) {
+			registerResponseFilter = false;
+		}
+		if (registerResponseFilter) {
+			this._player.getNetworkingEngine().registerResponseFilter(this._onSegmentResponse.bind(this));
+		}
+
+		this._url = url;
+
+		if (!ObjectUtil.isEmpty(this._playerConfig)) {
+			this._player.configure(this._playerConfig);
+		}
+
+		// load with start time
+		return this._player.load(url, startTime).then(function () {
+			// This runs if the asynchronous load is successful.
+			this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;The video has now been loaded!&apos;);
+			if (this._video.paused &amp;&amp; this._video.autoplay) {
+				// While the manifest is being loaded in parallel, go ahead and ask the video
+				// to play.  This can help with autoplay on Android, since Android requires
+				// user interaction to play a video and this function is called from a click
+				// event.  This seems to work only because Shaka Player has already created a
+				// MediaSource object and set video.src.
+				this._video.play();
+			}
+
+			// Fix #44574
+			// Add cc track when find CC tag like &lt;Accessibility schemeIdUri=&quot;urn:scte:dash:cc:cea-608:2015&quot; value=&quot;CC1=eng&quot;/&gt;
+			if (this._player.getCCInfos() !== &apos;&apos;) {
+				if (this._ccTrack == null) {
+					this._addCCTrack();
+				}
+			}
+		}.bind(this)).catch(this._onShakaError.bind(this)); // onShakaError is executed if the asynchronous load fails.
+	}
+
+	unload() {
+		this.print(AdaptivePlayer.LogLevel.INFO, &apos;DashPlayer&apos;, &apos;unload called!&apos;);
+
+		if (this._eventManager) {
+			this._eventManager.destroy();
+		}
+		if (this._player) {
+			this._player.unload();
+
+			if (this._ccTrack) {
+				// remove text tracks
+				this._clearCConReset();
+				this._ccTrack.mode = &apos;disabled&apos;;
+				this._ccTrack.hashId = null;
+				this._ccTrack = null;
+			}
+
+			// use this._player.getManifestUri() to detect player destroyed or not
+			if (this._player.getManifestUri() != null) {
+				// clear subtitle after unload
+				// for firefox workaround: https://github.com/google/shaka-player/issues/1583
+				if (this._player.setTextTrackVisibility != null) {
+					this._player.setTextTrackVisibility(false);
+				}
+				return this._player.destroy();
+			}				
+		}
+		return Promise.resolve();
+	}
+
+	videoTracks() {
+		if (!this._player) {
+			return;
+		}
+
+		let tracks = [];
+		let variantTracks = this._player.getVariantTracks();
+		if (variantTracks.length === 0) {
+			tracks = this._video.videoTracks;
+		} else {
+			let activeTracks = variantTracks.filter(function (track) {
+				return track.active === true;
+			});
+			let selectedTrack = activeTracks[0];
+
+			variantTracks.forEach(function (track, index) {
+				if (track.audioId === selectedTrack.audioId) {
+					tracks.push(new NLTrack(AdaptivePlayer.Kind.VIDEO, track, AdaptivePlayer.PlayerType.SHAKA, {
+						id: index,
+						player: this
+					}));
+				}
+			}.bind(this));
+		}
+		// sort by bandwidth
+		tracks.sort(function (a, b) {
+			return a.bandwidth - b.bandwidth;
+		});
+		return tracks;
+	}
+
+	audioTracks() {
+		if (!this._player) {
+			return;
+		}
+
+		let tracks = [];
+		let variantTracks = this._player.getVariantTracks();
+		if (variantTracks.length === 0) {
+			tracks = this._video.audioTracks;
+		} else {
+			let activeTracks = variantTracks.filter(function (track) {
+				return track.active === true;
+			});
+			let selectedTrack = activeTracks[0];
+			let audioTracks = variantTracks.filter(function (track) {
+				return track.videoId === selectedTrack.videoId;
+			});
+			audioTracks.forEach(function (track, index) {
+				tracks.push(new NLTrack(AdaptivePlayer.Kind.AUDIO, track, AdaptivePlayer.PlayerType.SHAKA, {
+					id: index,
+					player: this
+				}));
+			}.bind(this));
+		}
+
+		return tracks;
+	}
+
+	textTracks() {
+		if (!this._player) {
+			return;
+		}
+
+		let tracks = [];
+
+		// Ignore captions and subtitle tracks from shaka player
+		// cause not fully support yet
+		let nativeTextTracks = this._video.textTracks;
+		let nativeActive = false;
+		if (nativeTextTracks) {
+			for (let i = 0; i &lt; nativeTextTracks.length; i++) {
+				let track = nativeTextTracks[i];
+				if (track.mode !== &apos;disabled&apos; &amp;&amp;
+					(track.kind === &apos;captions&apos; || track.kind === &apos;subtitles&apos;) &amp;&amp;
+					track.label !== Settings.DASHPLAYER.DEFAULT_SUBTITLE_TRACK_NAME &amp;&amp;
+					track.hashId !== null) {
+					if (track.mode === &apos;showing&apos;) {
+						nativeActive = true;
+					}
+					// process cc infos
+					let ccInfos = {};
+					let ccString = this._player.getCCInfos();
+					if (ccString !== &apos;&apos;) {
+						let items = ccString.split(&apos;;&apos;); 
+						items.forEach(function (item) { 
+							let vars = item.split(&apos;=&apos;); 
+							ccInfos[vars[0]] = { name: vars[1], lang: &apos;en&apos; }; 
+						});	
+					}
+					tracks.push(new NLTrack(AdaptivePlayer.Kind.TEXT, track, AdaptivePlayer.PlayerType.NATIVE, {
+						id: i,
+						player: this._video,
+						ccInfos: ccInfos
+					}));
+				}
+			}
+		}
+
+		let textTracks = this._player.getTextTracks();
+		if (textTracks) {
+			textTracks.forEach(function (track, index) {
+				// show subtitle when preferred language found
+				if (!nativeActive &amp;&amp; 
+						this._playerConfig.preferredTextLanguage === track.language &amp;&amp; 
+						track.active &amp;&amp; 
+						!this._player.isTextTrackVisible()) {
+					this._player.setTextTrackVisibility(true);
+				}
+				tracks.push(new NLTrack(AdaptivePlayer.Kind.TEXT, track, AdaptivePlayer.PlayerType.SHAKA, {
+					id: index,
+					player: this,
+					flag: this._player.isTextTrackVisible()
+				}));
+			}.bind(this));
+		}
+
+		return tracks;
+	}
+
+	ccTracks() {
+		let ccTracks = [];
+		for (let i = this._video.textTracks.length - 1; i &gt;= 0; i--) {
+			let base = this._video.textTracks[i];
+			if (base.label === Settings.DASHPLAYER.DEFAULT_SUBTITLE_TRACK_NAME ||
+				(base.label === this._playerConfig.closedCaption.label &amp;&amp; base.mode !== &apos;disabled&apos;)) {
+				ccTracks.push(base);
+			}
+		}
+		return ccTracks;
+	}
+
+	setTextTrackVisibility(enabled) {
+		this._player.setTextTrackVisibility(enabled);
+	}
+
+	selectTrack(track, optClearBuffer) {
+		if (track) {
+			/* By default, clear buffer when switching audios/subtitles
+					Not clear buffer when switching between bitrates
+			*/
+			if (optClearBuffer == null) {
+				if (track.kind === &apos;AUDIO&apos; || track.kind === &apos;TEXT&apos;) {
+					optClearBuffer = true;
+				} else if (track.kind === &apos;VIDEO&apos;) {
+					optClearBuffer = true;
+				}
+			}
+
+			if (track.kind === &apos;AUDIO&apos;) {
+				/** find correct track 
+				 * In case of 
+				 */	
+				let currentAudioTracks = this.audioTracks();
+				let matchAudioTracks = currentAudioTracks.filter(function(item) {
+					return track.base.audioId === item.base.audioId;
+				})
+				if (matchAudioTracks.length &gt; 0) {
+					// use newly updated track
+					if (track.id !== matchAudioTracks[0].id) {
+						this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;selectTrack(A): &apos; + track.id + &apos;-&gt;&apos; + matchAudioTracks[0].id);
+					}
+					track = matchAudioTracks[0];
+				}
+				// only do select when track not active
+				if (track.active) return; 
+
+				// this._player.configure({ abr: { enabled: false } });
+        this._player.selectAudioLanguage(track.base.language, track.base.displayName);
+				this._player.selectVariantTrack(track.base, !!optClearBuffer);
+			} else if (track.kind === &apos;VIDEO&apos;) {
+				/** find correct track */
+				let currentVideoTracks = this.videoTracks();
+				let matchVideoTracks = currentVideoTracks.filter(function (item) {
+					return track.base.videoId === item.base.videoId;
+				})
+				if (matchVideoTracks.length &gt; 0) {
+					// use newly updated track
+					if (track.id !== matchVideoTracks[0].id) {
+						this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;selectTrack(V): &apos; + track.id + &apos;-&gt;&apos; + matchVideoTracks[0].id);
+					}
+					track = matchVideoTracks[0];
+				} 
+				// only do select when track not active
+				if (track.active) return;
+
+				this._player.configure({ abr: { enabled: false } });
+				this._player.selectVariantTrack(track.base, !!optClearBuffer);
+				this._onAdaptation({ from: &apos;manual select&apos; });
+
+				// reset init segment to null for new level cc parsing
+				this._ccExtractor.resetInitSegment();
+
+				/** audio tracks had been updated
+				 * fire track changed event to upper layer to rebuild toolbar
+				 */
+				this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.TrackChange, { 
+					details: { 
+						type: AdaptivePlayer.Kind.AUDIO, 
+						tracks: this.audioTracks() 
+					}
+				}));
+				// Reset CC
+				this._clearCConReset();
+			} else if (track.kind === &apos;TEXT&apos;) {
+				if (track.type === AdaptivePlayer.PlayerType.SHAKA) {
+					// hide cc tracks if any
+					this.textTracks().forEach(function(track) {
+						if (track.type === AdaptivePlayer.PlayerType.NATIVE) {
+							track.base.mode = &apos;hidden&apos;;
+						}
+					});
+					// set only when not visible
+					if (!this._player.isTextTrackVisible()) {
+						this.setTextTrackVisibility(true);
+					}
+					this._player.selectTextTrack(track.base);
+				} else if (track.type === AdaptivePlayer.PlayerType.NATIVE) {
+					track.base.mode = &apos;showing&apos;;
+					// hide shaka text track
+					if (this._player.isTextTrackVisible()) {
+						this.setTextTrackVisibility(false);
+					}
+				}
+				this._eventHandler.dispatchEvent(
+					new FakeEvent(AdaptivePlayer.EventType.TrackChange, { details: { type: AdaptivePlayer.Kind.TEXT, tracks: this.textTracks() } }));
+			}
+		}
+	}
+
+	getStats() {
+		if (!this._player) {
+			return {
+				bytesLoaded: NaN,
+				bitrate: NaN,
+				bandwidth: NaN,
+				switchInfo: NaN,
+				isAutoSwitch: true,
+				livePointOffest: -1
+			};
+		}
+
+		let bytesLoaded = 0;
+		let estimatedBandwidth = 0;
+		let streamBandwidth = 0;
+		let switchHistory = [];
+		let innerStat = this._player.getStats();
+		let playerConfig = this._player.getConfiguration();
+		let isAutoSwitch;
+		let switchInfo;
+		let livePointOffest;
+		let currentCdnIndex = -1;
+		if (innerStat) {
+			bytesLoaded = innerStat.bytesLoaded;
+			streamBandwidth = Math.floor(innerStat.streamBandwidth / 1000);
+			isAutoSwitch = playerConfig.abr.enabled;
+			estimatedBandwidth = innerStat.estimatedBandwidth ? innerStat.estimatedBandwidth : 0;
+			estimatedBandwidth = Math.floor(estimatedBandwidth / 1000);
+			switchHistory = innerStat.switchHistory ? innerStat.switchHistory : null;
+			livePointOffest = innerStat.livePointOffest ? innerStat.livePointOffest : -1;
+			currentCdnIndex = innerStat.currentCdnIndex;
+			if (switchHistory &amp;&amp; switchHistory.length &gt; 0) {
+				let to; let from; let adaption; let timestamp;
+				for (let i = switchHistory.length - 1; i &gt;= 0; i--) {
+					if (switchHistory[i].type === &apos;variant&apos;) {
+						if (to == null) {
+							let current = this._player.getVariantTracks().filter(function (track) { return track.id === switchHistory[i].id; });
+							if (current.length &gt; 0) {
+								to = (current[0].videoBandwidth || current[0].bandwidth);
+							}
+							adaption = switchHistory[i].fromAdaptation;
+							timestamp = switchHistory[i].timestamp;
+							continue;
+						} else if (to != null &amp;&amp; from == null &amp;&amp; timestamp !== switchHistory[i].timestamp) {
+							let current = this._player.getVariantTracks().filter(function (track) { return track.id === switchHistory[i].id; });
+							if (current.length &gt; 0) {
+								from = (current[0].videoBandwidth || current[0].bandwidth);
+							}
+							break;
+						}
+					}
+				}
+				switchInfo = { &apos;from&apos;: from, &apos;to&apos;: to, &apos;fromAdaptation&apos;: adaption };
+			}
+		}
+
+		let data = {
+			bytesLoaded: bytesLoaded,
+			currentCdnIndex: currentCdnIndex,
+			bitrate: streamBandwidth,
+			bandwidth: estimatedBandwidth,
+			switchInfo: switchInfo,
+			switchHistory: switchHistory,
+			isAutoSwitch: isAutoSwitch,
+			livePointOffest: livePointOffest
+		};
+		this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;getStats return: &apos; + JSON.stringify(data));
+		return data;
+	}
+
+	isLive() {
+		if (this._player) {
+			return this._player.isLive();
+		}
+		return false;
+	}
+
+	gotoLive() {
+		if (this._player &amp;&amp; this._player.isLive()) {
+			let range = this._player.seekRange();
+			this._video.currentTime = range.end; // - AdaptivePlayer.RANGE_GAP;
+		}
+	}
+
+	static support(callback) {
+		let nothingSupport = {
+			&apos;manifest&apos;: {},
+			&apos;media&apos;: {},
+			&apos;drm&apos;: {},
+			&apos;offline&apos;: false
+		};
+		try {
+			if (!ShakaInner.Player.isBrowserSupported()) {
+				callback(nothingSupport);
+			} else {
+				ShakaInner.Player.probeSupport().then(function (support) {
+					callback(support);
+				});
+			}
+		} catch (e) {
+			// ;
+		}
+	}
+
+	setAdaptation(value) {
+		if (this._player.getConfiguration()) {
+			let config = this._player.getConfiguration();
+			config.abr.enabled = value;
+			this._player.configure(config);
+		}
+	}
+
+	getThumbnailStreams() {
+		this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;getThumbnailStreams!&apos;);
+		if (this._player &amp;&amp; this._player.getThumbnailStreams) {
+			return this._player.getThumbnailStreams();
+		}
+	}
+
+	getThumbnailStreamImages(streamid, time, thumbnailsCb) {
+		this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;getThumbnailStreamImages!&apos;);
+		if (this._player &amp;&amp; this._player.getThumbnailStreamImages) {
+      let requestBaseTime = 0;
+			if (!this.isLive()) {
+				// CVOD case
+				let periodSections = this._player.getPeriodSections();
+        if (periodSections &amp;&amp; periodSections.length &gt; 0) {
+          requestBaseTime = Math.max(periodSections[0].start, periodSections[0].maxStart);
+        }
+			}
+			this._player.getThumbnailStreamImages(streamid, time, requestBaseTime, thumbnailsCb);
+		}
+	}
+
+	get currentTime() {
+		let absTime = this._video.currentTime;
+		return absTime;
+	}
+
+	set currentTime(value) {
+		this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;Seek to &apos; + value);
+		let range = this._player.seekRange();
+		if (value &gt; range.end) {
+			value = range.end;
+		} else if (value &lt; range.start) {
+			value = range.start;
+		}
+		this._video.currentTime = value;
+	}
+
+	notifyPlayStarted() { 
+		// notify text track change
+		// as shaka reuses textTrack for subtitle, video will not trigger addTextTrack when 2nd time playback
+		this._eventHandler.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.TrackChange, { details: { type: AdaptivePlayer.Kind.TEXT, tracks: this.textTracks() } }));
+
+		let periodSections = this._player.getPeriodSections();
+		if (!this.isLive() &amp;&amp; !this._sentSeekRangeForCVODOnce &amp;&amp; periodSections &amp;&amp; periodSections.length &gt; 0) {
+			this._sentSeekRangeForCVODOnce = true;
+			let ranges = [];
+			periodSections.forEach(function (item) {
+				let begin = Math.max(item.start, item.maxStart);
+				ranges.push({ id: item.id, begin: begin, end: item.minEnd });
+			});
+			let start = Math.max(periodSections[0].start, periodSections[0].maxStart);
+			if (periodSections.length &gt; 0 &amp;&amp; start &gt; 0) {
+				let newRange = {
+					start: start,
+					end: periodSections[periodSections.length - 1].minEnd,
+					ranges: ranges
+				};
+				this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.SeekRangeChange, {
+					data: newRange,
+					details: newRange
+				}));
+				this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;Fired SeekRangeChange of CVOD: &apos; + &apos;[&apos; + JSON.stringify(newRange) + &apos;]&apos;);
+			}
+		}
+	}
+
+	notifyProfileChanged(data) {
+		// not trigger, use _onAdaptation instead
+	}
+
+	_onTimeUpdate(event) {
+		// seek range changed event for live stream
+		if (this.isLive()) {
+			let range = this._player.seekRange();
+			let gap = this.currentTime - this._video.currentTime;
+			let ranges = [];
+			let periodSections = this._player.getPeriodSections();
+			if (periodSections &amp;&amp; periodSections.length &gt; 0) {
+				periodSections.forEach(function (item) {
+					let begin = Math.max(item.start, item.maxStart);
+					ranges.push({ id: item.id, begin: begin, end: item.minEnd });
+				});
+			}
+			let newRange = {
+				start: range.start + gap,
+				end: range.end + gap,
+				ranges: ranges
+			};
+			this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.SeekRangeChange, {
+				data: newRange, // will be deprecated later
+				details: newRange
+			}));
+			this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;Fired SeekRangeChange: &apos; + &apos;[&apos; + JSON.stringify(newRange) + &apos;]&apos;);
+		}
+	}
+
+	_onShakaError(event) {
+		let errorDetail = event.detail || event;
+		if (!errorDetail.hasOwnProperty(&apos;category&apos;) || !errorDetail.hasOwnProperty(&apos;code&apos;)) {
+			this.print(AdaptivePlayer.LogLevel.Error, &apos;DashPlayer&apos;, &apos;Unknown Error Format! &apos;);
+			return;
+		}
+
+		let errorCode = 0;
+		let errorLevel = NLError.SeverityLevel.All;
+		let url = this._url;
+
+		switch (errorDetail.category) {
+			case ShakaInner.util.Error.Category.NETWORK: {
+				url = errorDetail.data[0];
+				if (!UrlUtil.validateURL(url)) {
+					errorCode = NLError.Code.Get_Primary_Manifest_Failed + NLError.NetworkDetailCode.Connect_Failed;
+					errorLevel = NLError.SeverityLevel.Fatal;
+					break;
+				}
+
+				let extensionType = UrlUtil.getExtension(url);
+				if (extensionType === &apos;mpd&apos;) {
+					let isLive = this.isLive();
+					errorCode = NLError.Code.Get_Primary_Manifest_Failed;
+					errorLevel = isLive ? NLError.SeverityLevel.Warning : NLError.SeverityLevel.Fatal;
+				} else if (extensionType === &apos;m3u8&apos; || extensionType === &apos;m3u&apos;) {
+					let isMBR = this._url === url;
+					errorCode = isMBR ? NLError.Code.Get_Primary_Manifest_Failed : NLError.Code.Get_Single_Bitrate_Manifest_Failed;
+					errorLevel = NLError.SeverityLevel.Warning;
+				} else {
+					errorCode = NLError.Code.Get_Chunk_Failed;
+					errorLevel = NLError.SeverityLevel.Warning;
+				}
+
+				let networkCode = 0;
+				switch (errorDetail.code) {
+					case ShakaInner.util.Error.Code.UNSUPPORTED_SCHEME:
+					case ShakaInner.util.Error.Code.MALFORMED_DATA_URI:
+					case ShakaInner.util.Error.Code.UNKNOWN_DATA_URI_ENCODING:
+					case ShakaInner.util.Error.Code.HTTP_ERROR:
+						networkCode = NLError.NetworkDetailCode.Connect_Failed;
+						break;
+					case ShakaInner.util.Error.Code.BAD_HTTP_STATUS:
+						networkCode = errorDetail.data[1];
+						break;
+					case ShakaInner.util.Error.Code.TIMEOUT:
+						networkCode = NLError.NetworkDetailCode.Timeout;
+						break;
+					default:
+						break;
+				}
+				errorCode += networkCode;
+			}
+				break;
+			case ShakaInner.util.Error.Category.TEXT:
+				errorCode = NLError.Code.Get_Chunk_Failed + NLError.NetworkDetailCode.Content_Error;
+				errorLevel = NLError.SeverityLevel.Warning;
+				break;
+			case ShakaInner.util.Error.Category.MEDIA:
+				break;
+			case ShakaInner.util.Error.Category.STREAMING:
+				switch (errorDetail.code) {
+					case ShakaInner.util.Error.Code.UNABLE_TO_GUESS_MANIFEST_TYPE:
+					case ShakaInner.util.Error.Code.DASH_INVALID_XML:
+					case ShakaInner.util.Error.Code.DASH_EMPTY_PERIOD:
+					case ShakaInner.util.Error.Code.DASH_UNSUPPORTED_CONTAINER:
+					case ShakaInner.util.Error.Code.DASH_NO_COMMON_KEY_SYSTEM:
+					case ShakaInner.util.Error.Code.DASH_MULTIPLE_KEY_IDS_NOT_SUPPORTED:
+					case ShakaInner.util.Error.Code.DASH_CONFLICTING_KEY_IDS:
+					case ShakaInner.util.Error.Code.UNPLAYABLE_PERIOD:
+					case ShakaInner.util.Error.Code.RESTRICTIONS_CANNOT_BE_MET: {
+						errorCode = NLError.Code.Playback_Generic_Error;
+						errorLevel = NLError.SeverityLevel.Warning;
+					}
+				}
+				break;
+			case ShakaInner.util.Error.Category.MANIFEST:
+				errorCode = NLError.Code.Get_Primary_Manifest_Failed + NLError.NetworkDetailCode.Content_Error;
+				errorLevel = NLError.SeverityLevel.Warning;
+				break;
+
+			case ShakaInner.util.Error.Category.DRM:
+				errorLevel = NLError.SeverityLevel.Fatal;
+				switch (errorDetail.code) {
+					// manifest config error
+					case ShakaInner.util.Error.Code.NO_RECOGNIZED_KEY_SYSTEMS:
+					case ShakaInner.util.Error.Code.ENCRYPTED_CONTENT_WITHOUT_DRM_INFO:
+						errorCode = NLError.Code.Get_Primary_Manifest_Failed + NLError.NetworkDetailCode.Content_Error;
+						break;
+					// DRM_Not_Supported
+					case ShakaInner.util.Error.Code.REQUESTED_KEY_SYSTEM_CONFIG_UNAVAILABLE:
+						errorCode = NLError.Code.DRM_Not_Supported;
+						break;
+					// DRM_Init_Failed
+					case ShakaInner.util.Error.Code.NO_LICENSE_SERVER_GIVEN:
+					case ShakaInner.util.Error.Code.FAILED_TO_CREATE_CDM:
+					case ShakaInner.util.Error.Code.FAILED_TO_ATTACH_TO_VIDEO:
+					case ShakaInner.util.Error.Code.FAILED_TO_CREATE_SESSION:
+					case ShakaInner.util.Error.Code.INVALID_SERVER_CERTIFICATE:
+					case ShakaInner.util.Error.Code.FAILED_TO_GENERATE_LICENSE_REQUEST:
+						errorCode = NLError.Code.DRM_Init_Failed;
+						break;
+
+					case ShakaInner.util.Error.Code.LICENSE_REQUEST_FAILED: {
+						errorCode = NLError.Code.Get_Key_License_Failed;
+						let licenseErrorDetail = errorDetail.data[0];
+						if (!licenseErrorDetail) {
+							break;
+						}
+						url = licenseErrorDetail.data[0];
+						if (!UrlUtil.validateURL(url)) {
+							errorCode = NLError.Code.Get_Key_License_Failed + NLError.NetworkDetailCode.Connect_Failed;
+							break;
+						}
+
+						if (licenseErrorDetail.category === ShakaInner.util.Error.Category.NETWORK) {
+							let networkCode = 0;
+							switch (licenseErrorDetail.code) {
+								case ShakaInner.util.Error.Code.UNSUPPORTED_SCHEME:
+								case ShakaInner.util.Error.Code.MALFORMED_DATA_URI:
+								case ShakaInner.util.Error.Code.UNKNOWN_DATA_URI_ENCODING:
+								case ShakaInner.util.Error.Code.HTTP_ERROR:
+									networkCode = NLError.NetworkDetailCode.Connect_Failed;
+									break;
+								case ShakaInner.util.Error.Code.BAD_HTTP_STATUS:
+									networkCode = licenseErrorDetail.data[1];
+									break;
+								case ShakaInner.util.Error.Code.TIMEOUT:
+									networkCode = NLError.NetworkDetailCode.Timeout;
+									break;
+								default:
+									break;
+							}
+							errorCode += networkCode;
+						}
+					}
+						break;
+					case ShakaInner.util.Error.Code.LICENSE_RESPONSE_REJECTED:
+						errorCode = NLError.Code.Get_Key_License_Failed + NLError.NetworkDetailCode.Content_Error;
+						break;
+					case ShakaInner.util.Error.Code.EXPIRED:
+						errorCode = NLError.Code.DRM_Module_Error_License_Expired;
+						break;
+					default:
+						break;
+				}
+				break;
+			/*
+			 LOAD_INTERRUPTED	7000	number	The call to Player.load() was interrupted by a call to Player.unload() or another call to Player.load().
+			 * */
+			case ShakaInner.util.Error.Category.PLAYER:
+			default:
+				break;
+		}
+
+		// VOD can&apos;t recover after retry times
+		// A critical error that the library cannot recover from
+		// Need to report as Fatal error
+		if (errorDetail.severity === ShakaInner.util.Error.Severity.CRITICAL) {
+			errorLevel = NLError.SeverityLevel.Fatal;
+		}
+
+		let nativeErrMsg = ObjectUtil.getKeyByValue(ShakaInner.util.Error.Category, errorDetail.category) + &apos; &apos; +
+			ObjectUtil.getKeyByValue(ShakaInner.util.Error.Code, errorDetail.code);
+		this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;shaka Error: [&apos; + url + &apos;, &apos; + nativeErrMsg + &apos;]&apos;);
+		let errorInfo = NLError.create(errorCode, errorLevel, url, nativeErrMsg, errorDetail.code);
+		this._statisticManager.reportError(errorInfo);
+	}
+
+	_onShakaBufferingEvent(event) {
+		this._eventHandler.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.Buffering, {
+				newState: event.buffering ? &apos;pause&apos; : &apos;playing&apos;
+			}));
+
+		this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;Fired Buffering event: &apos; + event.type + &apos;[&apos; + event + &apos;]&apos;);
+	}
+
+	_onShakaTracksChanged(event) {
+		this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;Fired TracksChange: &apos; + event.type + &apos;[&apos; + event + &apos;]&apos;);
+	}
+
+	_onShakaPeriodsChanged(event) {
+		this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;Fired PeriodsChanged: &apos; + event.type + &apos;[&apos; + event + &apos;]&apos;);
+		this._eventHandler.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.TrackChange, { 
+				details: { 
+					type: AdaptivePlayer.Kind.TEXT, 
+					tracks: this.textTracks() 
+				}, 
+				// Add .data to send multiple trackChanges in one event
+				data: [
+					{ type: AdaptivePlayer.Kind.VIDEO, tracks: this.videoTracks() },
+					{ type: AdaptivePlayer.Kind.AUDIO, tracks: this.audioTracks() },
+					{ type: AdaptivePlayer.Kind.TEXT, tracks: this.textTracks() }
+				]
+			}));
+	}
+
+	_addCCTrack() {
+		this._ccTrack = this._video.addTextTrack(&apos;captions&apos;, this._playerConfig.closedCaption.label, this._playerConfig.closedCaption.language);
+		this._ccTrack.mode = &apos;hidden&apos;;
+		this._ccTrack.hashId = &apos;dash_cc_&apos; + PlatformUtil.generateUUID();
+
+		// fire text track changed event to upper layer to rebuild toolbar
+		this._eventHandler.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.TrackChange, { details: { type: AdaptivePlayer.Kind.TEXT, tracks: this.textTracks() } }));
+		this._logger.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;Fired TracksChange&apos;);
+	}
+
+	_onClosedCaption(event) {
+		this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;_onClosedCaption &apos;);
+		this._logger.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;_onClosedCaption &apos;);
+
+		if (this._ccTrack == null) {
+			this._addCCTrack();
+		} 
+
+		CuesUtil.MakeCues(event, this._ccTrack);
+	}
+
+	_addCue (cue) {
+		if (!this._ccTrack) {
+			return;
+		}
+		// skip cues which overlap more than 50% with previously parsed time ranges
+		if (this._ccTrack.cues) {
+			for (let i = this._ccTrack.cues.length; i--;) {
+				let cue_ = this._ccTrack.cues[i];
+				// if (cue_.endTime &lt; cue.startTime) { break; }
+				let overlap = Math.min(cue_.endTime, cue.endTime) - Math.max(cue_.startTime, cue.startTime);
+				if (overlap &gt;= 0 &amp;&amp; (overlap / (cue.endTime - cue.startTime)) &gt; 0.5) {
+					this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;Discard cue[&apos; + cue.startTime + &apos;/&apos; + cue.endTime + &apos;: &apos; + cue.text);
+					return;
+				}
+			}
+		}
+		this._ccTrack.addCue(cue);
+	}
+
+	_onEMSG(event) {
+		if (!event.detail || !event.detail.messageData) {
+			return;
+		}
+		let sample = {
+			pts: 0,
+			data: null,
+			dict: null
+		};
+		sample.pts = event.detail.startTime;
+		let emsgData = StringUtil.utf8ArrayToStr(event.detail.messageData);
+		let parser = new DOMParser();
+		let xmlDoc = parser.parseFromString(emsgData, &apos;application/xml&apos;);
+		let privateCommand = xmlDoc.getElementsByTagName(&apos;PrivateCommand&apos;);
+		if (privateCommand.length &gt; 0) {
+			let id3HexStr = privateCommand[0].getAttribute(&apos;PrivateBytes&apos;);
+			sample.data = new Uint8Array(StringUtil.hexStringToArray(id3HexStr));
+		}
+
+		this._cuepointManager.onID3(sample);
+	}
+
+	_onShakaEvent(event) {
+		this._eventHandler.dispatchEvent(
+			new FakeEvent(AdaptivePlayer.EventType.StreamingEvent, {
+				details: {
+					from: &apos;DashPlayer&apos;,
+					data: { type: event.type }
+				}
+			}));
+		// this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;Fired streaming event: &apos; + event.type + &apos;[&apos; + JSON.stringify(event) + &apos;]&apos;);
+		this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;Fired streaming event: &apos; + &apos;[&apos; + event.type + &apos;]&apos;);
+	}
+
+	_onAdaptation(event) {
+		let tracks = this.videoTracks();
+		tracks.forEach(function (track) {
+			if (!track.active || (track.id === this._activeVideoTrackId)) return;
+			this._activeVideoTrackId = track.id;
+			let data = {
+				id: track.id,
+				videoWidth: track.width,
+				videoHeight: track.height,
+				details: {
+					id: track.id,
+					videoWidth: track.width,
+					videoHeight: track.height
+				}
+			}
+			this._eventHandler.dispatchEvent(new FakeEvent(AdaptivePlayer.EventType.ProfileChange, data));
+			this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;Fired ProfileChange: &apos; + JSON.stringify(data));
+
+			// fire trackChange event to refresh audio tracks
+			this._eventHandler.dispatchEvent(
+				new FakeEvent(AdaptivePlayer.EventType.TrackChange, { details: { type: AdaptivePlayer.Kind.VIDEO, tracks: this.videoTracks() } }));
+		}.bind(this));
+	}
+
+	_onAdvertisement(event) {
+		this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;_onAdvertisement&apos;);
+		/*
+		detail: shaka.util.AdUploadMsg
+		{
+			adId: &apos;&apos;,
+			uploadType: &apos;ADSTART&apos;/&apos;ADEND&apos;/&apos;ADPOST&apos;,
+			urls: []  // {name:&apos;defaultClick/trackClick, url:&apos;http://...&apos;}
+		} */
+		if (event &amp;&amp; event.detail) {
+			this.print(AdaptivePlayer.LogLevel.WARNING, &apos;DashPlayer&apos;, &apos;_onAdvertisement: &apos; + JSON.stringify(event.detail));
+			let upload = {
+				type: event.detail.uploadType,
+				data: {
+					adid: event.detail.adId,
+					urls: event.detail.urls
+				}
+			};
+			this._eventHandler._onAdvertisement(upload);
+		}
+	}
+
+	/**
+	 * empty advertisement
+	 *     event.detail: [{type: string, time: number, urls: Array[string]}]
+	 */
+	_onEmptyAdvertisement(event) {
+		if (event &amp;&amp; event.detail) {
+			this._eventHandler._onEmptyAdvertisement(event.detail);
+		}
+	}
+
+	/**
+	 * range
+	 *     event.detail: [{id: string, start: number, end: number}]
+	 */
+	_onAdRangesUpdate(event) {
+		if (event &amp;&amp; event.detail) {
+			this._eventHandler._onAdRangesUpdate(event.detail);
+		}
+	}
+
+	_readDrmInfo(result, info, isCustom, keySystem) {
+		if (!info) {
+			return;
+		}
+
+		if (!isCustom) {
+			result.servers[keySystem] = info.server;
+		} else {
+			let type = &apos;&apos;;
+			if (keySystem === &apos;com.widevine.alpha&apos;) {
+				type = &apos;widevine&apos;;
+			} else if (keySystem === &apos;com.microsoft.playready&apos;) {
+				type = &apos;playready&apos;;
+			} else if (keySystem === &apos;com.apple.fps.1_0&apos;) {
+				type = &apos;fairplay&apos;;
+			}
+
+			result.servers[keySystem] = info.server + &apos;/getlicense/&apos; + type;
+		}
+
+		// Requested by Saffron
+		// Enable a unique identifier within the CDM that is persistent even when the player closes down.
+		// Removed for Firefox 58/58.0.1
+		/*
+		if (keySystem === &apos;com.widevine.alpha&apos;) {
+				if (!result.advanced[keySystem]) {
+						result.advanced[keySystem] = {};
+				}
+				result.advanced[keySystem].persistentStateRequired = true;
+		}
+		*/
+		if (info.serverCertificate) {
+			if (!result.advanced[keySystem]) {
+				result.advanced[keySystem] = {};
+			}
+			result.advanced[keySystem].serverCertificate = info.serverCertificate;
+		}
+	}
+
+	_convertDRMConfig(config) {
+		let result = {
+			servers: {},
+			advanced: {}
+		};
+		if (!config) {
+			return result;
+		}
+
+		let isCustom = false;
+		if (config &amp;&amp; config.params &amp;&amp; config.params.saffron_license_server_used) {
+			isCustom = config.params.saffron_license_server_used;
+		}
+
+		this._readDrmInfo(result, config.widevine || config, isCustom, &apos;com.widevine.alpha&apos;);
+		this._readDrmInfo(result, config.playready || config, isCustom, &apos;com.microsoft.playready&apos;);
+		this._readDrmInfo(result, config.fairplay || config, isCustom, &apos;com.apple.fps.1_0&apos;);
+
+		return result;
+	}
+
+	_onLicenseHttpRequest(type, request) {
+		let predefinedUrlPatternAllowWithCredentialsForSegment = false;
+		this._config.withCredentialsFragmentPattern.forEach(function (item) {
+			if (request.uris[0].indexOf(item) !== -1) { // found it
+				predefinedUrlPatternAllowWithCredentialsForSegment = true;
+			}
+		});
+		if (this._config.withCredentials &amp;&amp; (
+			(type === ShakaInner.net.NetworkingEngine.RequestType.SEGMENT &amp;&amp; predefinedUrlPatternAllowWithCredentialsForSegment) ||
+			(type !== ShakaInner.net.NetworkingEngine.RequestType.SEGMENT))) {
+			// allow cookies to be sent cross-origin
+			request.allowCrossSiteCredentials = true;
+		}
+
+		if (this._config.headers) {
+			for (let k in this._config.headers) {
+				request.headers[k] = this._config.headers[k];
+			}
+		}
+
+		if (type === ShakaInner.net.NetworkingEngine.RequestType.LICENSE) {
+			this.print(AdaptivePlayer.LogLevel.DEBUG, &apos;DashPlayer&apos;, &apos;License request called!&apos;);
+
+			// Talk with Saffron license server
+			// NDP-925
+			// request.headers.CustomData = this._config.drm.params.token; 
+			request.headers.Authorization = this._config.drm.params.token;
+		}
+	}
+
+	_onSegmentResponse(type, response) {
+		this.print(AdaptivePlayer.LogLevel.TRACE, &apos;DashPlayer&apos;, &apos;_onSegmentResponse: &apos; + type + &apos;, uri=&apos; + response.uri);
+    // https://jira.neulion.com/browse/SKYUK-243
+    // Add try-catch to ignore DASH CC exception
+		try {
+			if (this._ccExtractor) {
+				if (type === ShakaInner.net.NetworkingEngine.RequestType.VIDEO_INIT) {
+					let periodSections = this._player.getPeriodSections();
+					let offsetTime = 0;
+					if (periodSections &amp;&amp; periodSections.length &gt; 0) {
+						offsetTime = Math.max(periodSections[0].start, periodSections[0].maxStart);
+					}
+					this._ccExtractor.appendInit(response.data, this.isLive(), offsetTime);
+				} else if (type === ShakaInner.net.NetworkingEngine.RequestType.VIDEO_SEGMENT) {
+					this._ccExtractor.appendSegment(response.data);
+				}
+			}
+		} catch (error) {
+			this.print(AdaptivePlayer.LogLevel.WARNING, &apos;DashPlayer&apos;, &apos;cc extractor and parser occured error: &apos; + error);
+		}
+	}
+
+	_reEnableSubtitleTrack() {
+		// hide cc tracks if any
+		let activeCCTrackLabel = null;
+		for (let i = 0; i &lt; this._video.textTracks.length; i++) {
+			let track = this._video.textTracks[i];
+			if (track.mode === &apos;showing&apos;) {
+				track.mode = &apos;hidden&apos;;
+				activeCCTrackLabel = VideoUtil.getHashNameOfTrack(track);
+			}
+		}
+		// show cc tracks if any
+		for (let i = 0; i &lt; this._video.textTracks.length; i++) {
+			let track = this._video.textTracks[i];
+			if (VideoUtil.getHashNameOfTrack(track) === activeCCTrackLabel) {
+				track.mode = &apos;showing&apos;;
+			}
+		}
+	}
+
+	_clearCConReset() {
+		if (AdaptivePlayer.browserType === &apos;IE&apos; || AdaptivePlayer.browserType === &apos;Edge&apos;) {
+			this._clearCC();
+		} else {
+			this._clearCCActiveCues();
+		}
+	}
+
+	_clearCCActiveCues() {
+		// clear cues
+		if (this._ccTrack &amp;&amp; this._ccTrack.activeCues &amp;&amp; this._ccTrack.activeCues.length &gt; 0) {
+			// remove text cues of CC
+			for (let j = this._ccTrack.activeCues.length - 1; j &gt;= 0; j--) {
+				try {
+					this._ccTrack.removeCue(this._ccTrack.activeCues[j]);
+				} catch (error) {
+					this.print(AdaptivePlayer.LogLevel.WARNING, &apos;DashPlayer&apos;, &apos;clear cc active cue exception: &apos; + error);
+				}
+			}
+		}
+	}
+
+	_clearCC() {
+		// clear cues
+		if (this._ccTrack &amp;&amp; this._ccTrack.cues &amp;&amp; this._ccTrack.cues.length &gt; 0) {
+			// remove text cues of CC
+			for (let j = this._ccTrack.cues.length - 1; j &gt;= 0; j--) {
+				try {
+					this._ccTrack.removeCue(this._ccTrack.cues[j]);
+				} catch (error) {
+					this.print(AdaptivePlayer.LogLevel.WARNING, &apos;DashPlayer&apos;, &apos;clear cc cue exception: &apos; + error);
+				}
+			}
+		}
+		this._clearCCActiveCues();
+	}
+}
+
+DashPlayer.version = ShakaInner.Player.version;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Manager/StateManager.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Manager/StateManager.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { EventManager } from './EventManager';
+import { Logger } from '../Utils/Logger'
+import { AdaptivePlayer } from '../AdaptivePlayer';
+
+/**
+ * class StateManager
+ */
+export class StateManager extends Logger {
+  constructor(parent, stateChangeCallback) {
+    super(parent._logger);
+
+    this._video = parent._video;
+    this._state = StateManager.State.IDLE;
+    this._playStarted = false;
+    this._inUserSeeking = false;
+    this._inSeeking = false;
+    this._bufferingTime = 0.0;
+    this._startBufferingTime = -1;
+    this._stateCallback = stateChangeCallback;
+
+    this._eventManager = new EventManager();
+  }
+
+  destroy() {
+    // this._clearTimer();
+    this._video = null;
+    this._player = null;
+    this._eventManager &amp;&amp; this._eventManager.removeAll();
+  }
+
+  _onLoadStart(event) {
+    // skip MEDIA_ELEMENT_ERROR: Empty src attribute
+    if (this._video.error &amp;&amp; this._video.error.code === 4) {
+      return; 
+    }
+    this._setState(StateManager.State.BUFFERING, { 'from': 'loadstart' });
+  }
+
+  // TODO:: Need to suppress the update.
+  _onTimeUpdate(event) {
+    if (this._video.playbackRate === 0 || this._inSeeking) {
+      return;
+    }
+    if (this._video.paused) {
+      this._setState(StateManager.State.PAUSED, { 'from': 'timeupdate' });
+    } else {
+      this._setState(StateManager.State.PLAYING, { 'from': 'timeupdate' });
+    }
+  }
+
+  _onCanPlayThrough(event) {
+    if (this._video.paused) {
+      this._setState(StateManager.State.PAUSED, { 'from': 'canplaythrough' });
+    } else {
+      this._setState(StateManager.State.PLAYING, { 'from': 'canplaythrough' });
+    }
+  }
+  _onPlaying(event) {
+    // this._setState(StateManager.State.BUFFERING, {'from': 'playing'});
+  }
+  _onPlay(event) {
+    this._setState(StateManager.State.STARTPLAY, { 'from': 'play' });
+  }
+  _onPause(event) {
+    this._setState(StateManager.State.PAUSED, { 'from': 'paused' });
+  }
+  _onEnded(event) {
+    this.reset({ reason: StateManager.ActionReason.COMPLETE });
+  }
+  _onAbort(event) {
+    // this.reset({ reason: StateManager.ActionReason.ABORT });
+  }
+  _onError(event) {
+    this.reset({ reason: StateManager.ActionReason.ERROR });
+  }
+  _onWaiting(event) {
+    this._setState(StateManager.State.BUFFERING, { 'from': 'waiting' });
+  }
+  _onStalled(event) {
+    this._setState(StateManager.State.BUFFERING, { 'from': 'stalled' });
+  }
+  _onRateChange(event) {
+    if (this._video.playbackRate === 0 &amp;&amp; this._playStarted) {
+      this._setState(StateManager.State.BUFFERING, { 'from': 'ratechange' });
+    }
+  }
+  _onSeeking(event) {
+    this._inSeeking = true;
+    this._setState(StateManager.State.SEEKING, { 'from': 'seeking' });
+  }
+  _onSeeked(event) {
+    this._inSeeking = false;
+    this._inUserSeeking = false;
+    this._setState(StateManager.State.BUFFERING, { 'from': 'seeked' });
+  }
+
+  // TODO:: Rename to reset
+  reset(details) {
+    this._setState(StateManager.State.IDLE, { from: details });
+
+    this._playStarted = false;
+    this._inUserSeeking = false;
+    this._startBufferingTime = -1;
+    this._bufferingTime = 0.0;
+
+    if (details.reason === StateManager.ActionReason.START) {
+      this._eventManager.listen(this._video, 'loadstart', this._onLoadStart.bind(this));
+      this._eventManager.listen(this._video, 'ended', this._onEnded.bind(this));
+      this._eventManager.listen(this._video, 'abort', this._onAbort.bind(this));
+      // this._eventManager.listen(this._video, 'error', this._onError.bind(this));
+
+      this._eventManager.listen(this._video, 'seeking', this._onSeeking.bind(this));
+      this._eventManager.listen(this._video, 'seeked', this._onSeeked.bind(this));
+
+      this._eventManager.listen(this._video, 'timeupdate', this._onTimeUpdate.bind(this));
+
+      this._eventManager.listen(this._video, 'waiting', this._onWaiting.bind(this));
+      // this._eventManager.listen(this._video, 'stalled', this._onStalled.bind(this));
+      this._eventManager.listen(this._video, 'ratechange', this._onRateChange.bind(this));
+
+      this._eventManager.listen(this._video, 'canplaythrough', this._onCanPlayThrough.bind(this));
+      // this._eventManager.listen(this._video, 'playing', this._onPlaying.bind(this));
+
+      this._eventManager.listen(this._video, 'play', this._onPlay.bind(this));
+      this._eventManager.listen(this._video, 'pause', this._onPause.bind(this));
+    } else if (details.reason === StateManager.ActionReason.ABORT || details.reason === StateManager.ActionReason.ERROR) {
+      this._eventManager.removeAll();
+    }
+  }
+
+  notifyUserSeek() {
+    this._inUserSeeking = true;
+  }
+
+  _setState(newState, details) {
+    if (newState === this._state) {
+      return;
+    }
+
+    let oldState = this._state;
+    // if (oldState == StateManager.State.SEEKING &amp;&amp; newState == StateManager.State.BUFFERING){
+    //     return;
+    // }
+    this._state = newState;
+
+    if (newState === StateManager.State.PLAYING) {
+      this._playStarted = true;
+      details = details || {};
+      details.playStart = true;
+      if (this._startBufferingTime > 0) {
+        this._bufferingTime += Date.now() - this._startBufferingTime;
+        this.print(AdaptivePlayer.LogLevel.DEBUG, 'StateManager', 'End Trigger BufferTime: ' + this._bufferingTime + ' from: ' + details.from);
+        this._startBufferingTime = -1;
+      }
+    } else if (newState === StateManager.State.BUFFERING || newState === StateManager.State.SEEKING) {
+      if (this._startBufferingTime &lt; 0) {
+        this._startBufferingTime = Date.now();
+        this.print(AdaptivePlayer.LogLevel.DEBUG, 'StateManager', 'Start Trigger BufferTime: ' + this._startBufferingTime + ' from: ' + details.from);
+      }
+    }
+    this._stateCallback(oldState, newState, details);
+    this.print(AdaptivePlayer.LogLevel.DEBUG, 'StateManager', 'Fired StateChange: ' + oldState + '->' + newState);
+  }
+
+  getState() {
+    return this._state;
+  }
+  getBufferingTime() {
+    return this._bufferingTime;
+  }
+}
+
+/**
+ * State
+ * @readonly
+ * @enum {string}
+ * @static
+ * @type StateManager.State
+ */
+StateManager.State = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  BUFFERING: 'buffering',
+  STARTPLAY: 'play',
+  PLAYING: 'playing',
+  PAUSED: 'paused',
+  SEEKING: 'seeking'
+};
+
+/**
+ * Reason of playback end
+ * @readonly
+ * @enum {string}
+ */
+StateManager.ActionReason = {
+  START: 'start',
+  ABORT: 'abort',
+  COMPLETE: 'complete',
+  ERROR: 'error'
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AdaptivePlayer.html">AdaptivePlayer</a></li><li><a href="EventManager.html">EventManager</a></li><li><a href="FakeEventTarget.html">FakeEventTarget</a></li><li><a href="LogUtil.html">LogUtil</a></li><li><a href="NLError.html">NLError</a></li><li><a href="StateManager.html">StateManager</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Basic_usage.html">Basic usage</a></li><li><a href="tutorial-Configuration.html">Configuration</a></li><li><a href="tutorial-Errors.html">Errors</a></li><li><a href="tutorial-Events.html">Events</a></li><li><a href="tutorial-Features.html">Features</a></li><li><a href="tutorial-Migrate_to_3.0.0.html">Migrate to 3.0.0</a></li></ul><h3>Global</h3><ul><li><a href="global.html#browserType">browserType</a></li><li><a href="global.html#coreVersion">coreVersion</a></li><li><a href="global.html#ErrorCode">ErrorCode</a></li><li><a href="global.html#ErrorDetailedCode">ErrorDetailedCode</a></li><li><a href="global.html#ErrorReportLevel">ErrorReportLevel</a></li><li><a href="global.html#EventType">EventType</a></li><li><a href="global.html#Kind">Kind</a></li><li><a href="global.html#LogLevel">LogLevel</a></li><li><a href="global.html#OS">OS</a></li><li><a href="global.html#PlayerType">PlayerType</a></li><li><a href="global.html#State">State</a></li><li><a href="global.html#StreamType">StreamType</a></li><li><a href="global.html#version">version</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 16 2019 18:24:40 GMT+0800 (GMT+08:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
